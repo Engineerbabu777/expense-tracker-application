@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router'
 import './App.css'
-import HomePage from './pages/HomePage'
+import HomePage from './pages/Home/HomePage'
 import { useContext } from 'react'
 import { AuthContext } from './states/Auth'
 import Login from './pages/Authentication/Login'
@@ -20,4 +20,4 @@ function App () {
   )
 }
 
-export default App
+export default App;
