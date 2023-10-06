@@ -2,8 +2,10 @@ import { GoArrowUpRight } from 'react-icons/go'
 import { TbWorld } from 'react-icons/tb'
 import { Link } from 'react-router-dom'
 import '../../styles/Authentication/Login/Main.css'
+import {FaLocationArrow} from 'react-icons/fa';
 
-export default function Login () {
+
+export default function ResetPassword () {
   return (
     <>
       <div
@@ -50,7 +52,7 @@ export default function Login () {
 
             {/* SIGNUP BUTTON! */}
             <Link
-              to='/login'
+              to='/register'
               className='header-sign-up-btn'
               style={{
                 backgroundColor: 'inherit',
@@ -60,25 +62,27 @@ export default function Login () {
                 cursor: 'pointer',
                 border: '1px solid #f5f2eb',
                 textDecoration: 'none',
-                color: 'black'
+                color: 'black',
+                fontWeight: '600'
               }}
             >
-              Log in
+              Sign up
             </Link>
 
             {/* DEVELOPER INFO! */}
             <button
               style={{
                 backgroundColor: '#aed6b3',
-                padding: '5px 12px',
+                padding: '5px 16px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '3px',
+                gap: '5px',
                 border: 'none',
                 borderRadius: '5px',
-                fontSize: '16px',
-                cursor: 'pointer'
+                fontSize: '14px',
+                cursor: 'pointer',
+                fontWeight: '600'
               }}
             >
               About
@@ -100,7 +104,7 @@ export default function Login () {
                 textAlign: 'center'
               }}
             >
-              Sign in
+              Reset Password
             </h1>
 
             {/* SMALL TEXT! */}
@@ -113,49 +117,24 @@ export default function Login () {
                 width: '240px'
               }}
             >
-              Hey, Enter your details to create your new account
+              Are you sure you are having an account?
             </h2>
 
-            {/* INPUTS! */}
-
-            <input
-              placeholder='Enter Your Full Name'
+            <p
               style={{
-                width: '100%',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                border: '1px solid #5D5D5D',
-                outline: 'none',
-                boxSizing: 'border-box'
+                fontSize: '14px',
+                textAlign: 'center',
+                marginBottom: '10px',
+                fontWeight: '500',
               }}
-            />
+            >
+              Enter your email and we will send you instructions, how to reset
+              your password
+            </p>
 
+            {/* INPUTS! */}
             <input
               placeholder='Enter Your Email'
-              style={{
-                width: '100%',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                border: '1px solid #5D5D5D',
-                outline: 'none',
-                boxSizing: 'border-box'
-              }}
-            />
-
-            <input
-              placeholder='Password'
-              style={{
-                width: '100%',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                border: '1px solid #5D5D5D',
-                outline: 'none',
-                boxSizing: 'border-box'
-              }}
-            />
-
-            <input
-              placeholder='Confirm Password'
               style={{
                 width: '100%',
                 padding: '8px 16px',
@@ -177,11 +156,16 @@ export default function Login () {
                 width: '100%',
                 color: '#fff',
                 fontWeight: '600',
-                marginTop: '30px',
-                cursor: 'pointer'
+                marginTop: '10px',
+                cursor: 'pointer',
+                display:'flex',
+                alignItems:'center',
+                gap:'7px',
+                justifyContent:'center',
               }}
             >
-              Sign up
+              Submit Reset Request
+              <FaLocationArrow style={{color:'white',height:'14px',width:"14px"}}/>
             </button>
 
             {/* REGISTER NOW! */}
@@ -195,16 +179,16 @@ export default function Login () {
                 marginTop: '10px'
               }}
             >
-              <p>Already have an account?</p>
+              <p>Ohh!! I don't have an account?</p>
               <Link
-                to={'/login'}
+                to={'/register'}
                 style={{
                   fontWeight: '700',
                   textDecoration: 'none',
                   color: 'black'
                 }}
               >
-                sign in
+                sign up
               </Link>
             </div>
             {/* </div> */}
