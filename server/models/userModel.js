@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
+
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,13 +16,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    username: {
-      type: String,
-      required: true
-    },
     image: {
       type: String,
-      required: true
+      default:'https://e7.pngegg.com/pngimages/146/551/png-clipart-user-login-mobile-phones-password-user-miscellaneous-blue.png'
     },
     resetPasswordToken: String,
     resetPasswordTime: Date
@@ -31,6 +28,5 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-userModel = mongoose?.models?.user || mongoose.model('user', userSchema)
+export const userModel = mongoose?.models?.user || mongoose.model('user', userSchema)
 
-module.exports = userModel

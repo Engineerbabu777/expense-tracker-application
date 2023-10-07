@@ -1,0 +1,9 @@
+/* !AUTH BODY CONTAINER STYLES!! */
+.auth-body-container {
+    display: flex;
+    border-radius: 17px;
+    gap: 5px;
+    padding: 30px;
+    justify-content: center;
+    width: 80vw;
+}

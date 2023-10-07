@@ -8,12 +8,12 @@ import Register from './pages/Authentication/Register'
 import ResetPassword from './pages/Authentication/Reset'
 
 function App () {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn, loadingState } = useContext(AuthContext)
 
   return (
     <>
       <Routes>
-        <Route path='/' element={isLoggedIn ? <HomePage /> : <Login />} />
+        <Route index element={(isLoggedIn) ? <HomePage /> : <Login />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
@@ -22,4 +22,4 @@ function App () {
   )
 }
 
-export default App;
+export default App

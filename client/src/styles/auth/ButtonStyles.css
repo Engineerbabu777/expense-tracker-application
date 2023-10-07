@@ -1,0 +1,14 @@
+/* !!BUTTON STYLES GOES HERE! */
+
+.btn {
+    background-color: #AED6B3;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    width: 100%;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 30px;
+    cursor: pointer;
+}

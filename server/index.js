@@ -1,10 +1,13 @@
-// OUR REQUIRED PACKAGES FOR PROJECT!
-const express = require('express')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const user = require('./controllers/userController')
-const cors = require('cors')
-const databaseConnect = require('./database')
+
+// IMPORTING OUR REQUIRED PACKAGES FOR PROJECT!
+
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import authRoutes from './routes/auth.js';
+import {databaseConnect} from './database.js';
+
 
 // CREATING EXPRESS SERVER APP!
 const app = express()
@@ -15,11 +18,12 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-// HANDLING ROUTES!
-app.use('/api/user', user)
+
+ //!! ROUTES START WITH /api/auth WILL BE HANDLED BY THIS ROUTE!)
+app.use('/api/auth', authRoutes)  //!! HERE WE ARE HANDLING AUTH ROUTES (LOGIN! /REGISTER! /RESET!)
 
 // CONNECTING WITH DATABASE!
-databaseConnect()
+databaseConnect();
 
 // RUNNING OUR SERVER APP!
 app.listen(4444, () => {

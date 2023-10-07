@@ -1,11 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose"
 
-const databaseConnect = () => {
+export const databaseConnect = () => {
     mongoose
   .connect(
-    'mongodb+srv://awaismumtaz0099:778677867786a..@cluster0.zxm1ozf.mongodb.net/expense'
+    'mongodb+srv://awaismumtaz0099:778677867786a..@cluster0.xyaegfu.mongodb.net/expense'
   )
   .then(() => console.log('Connected to MongoDB'))
 }
-
-module.exports = databaseConnect;

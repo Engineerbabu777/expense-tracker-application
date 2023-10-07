@@ -1,204 +1,104 @@
-import { GoArrowUpRight } from 'react-icons/go'
-import { TbWorld } from 'react-icons/tb'
-import { Link } from 'react-router-dom'
-import '../../styles/Authentication/Login/Main.css'
-import {FaLocationArrow} from 'react-icons/fa';
+import Input from '../../components/auth/Input'
+import { useState } from 'react'
+import Header from '../../components/auth/Header'
+import AuthContainer from '../../components/auth/Container'
+import TopHeadings from '../../components/auth/TopHeadings'
+import SideImageComponent from '../../components/auth/SideImageComponent'
+import Button from '../../components/auth/Button'
+import BottomNote from '../../components/auth/BottomNote'
+import MainBodyContainer from '../../components/auth/MainBodyContainer'
+import FormContainer from '../../components/auth/FormContainer'
 
+export default function Register () {
+  // HANDLE STATES!
+  const [loginState, setLoginState] = useState({
+    email: '',
+    error: '',
+    success: ''
+  })
 
-export default function ResetPassword () {
+  // ONCHANGE STATE! (WILL PUSH TO UTILS)
+  const onChangeStateHandler = event => {
+    setLoginState({
+      success: '',
+      error: '',
+      [event.target.name]: event.target.value // CHANGING TARGETING VALUE !
+    })
+  }
+
+  const handleReset = () => {
+    console.log('RESETTING...')
+    console.log(loginState.email)
+    try {
+      fetch('http://localhost:4444/api/auth/resetPassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json'
+        },
+        body: JSON.stringify({ email: loginState.email })
+      }).then(response =>
+        response.json().then(data => {
+          if (data.error) {
+            setLoginState({ ...loginState, error: data.message, success: '' })
+          }
+          if (data?.success) {
+            setLoginState({ ...loginState, success: data.message, error: '' })
+          }
+        })
+      )
+    } catch (error) {
+      console.log('EMAIL ERROR: ', error?.message)
+    }
+  }
+
   return (
     <>
-      <div
-        style={{
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: '#f5f2eb',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        {/* HEADER! */}
+      <AuthContainer>
+        <Header link={'register'} title={'Sign up'} />
 
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            borderBottom: '2px solid black',
-            height: '52px',
-            width: '100vw',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0 5px'
-          }}
-        >
-          <div className='login-logo'>Logo here</div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginRight: '10px',
-              justifyContent: 'end',
-              gap: '15px'
-            }}
-          >
-            {/* WORLD! */}
-            <TbWorld
-              style={{ width: '20px', height: '20px', color: '#000000' }}
+        <MainBodyContainer>
+          <FormContainer>
+            <TopHeadings
+              heading1={'Reset Password'}
+              heading2={'Are you sure you have already account?'}
+              heading3={
+                'Enter your email and we will send you instructions, how to reset your password'
+              }
             />
 
-            {/* SIGNUP BUTTON! */}
-            <Link
-              to='/register'
-              className='header-sign-up-btn'
-              style={{
-                backgroundColor: 'inherit',
-                fontSize: '16px',
-                padding: '5px 12px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                border: '1px solid #f5f2eb',
-                textDecoration: 'none',
-                color: 'black',
-                fontWeight: '600'
-              }}
-            >
-              Sign up
-            </Link>
-
-            {/* DEVELOPER INFO! */}
-            <button
-              style={{
-                backgroundColor: '#aed6b3',
-                padding: '5px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '5px',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '14px',
-                cursor: 'pointer',
-                fontWeight: '600'
-              }}
-            >
-              About
-              <GoArrowUpRight
-                style={{ width: '18px', height: '18px', color: '#000000' }}
-              />
-            </button>
-          </div>
-        </div>
-
-        {/* MAIN! */}
-        <div className='login-container'>
-          <div className='login-form-container'>
-            {/* HEADING! */}
-            <h1
-              style={{
-                fontSize: '22px',
-                fontWeight: '700',
-                textAlign: 'center'
-              }}
-            >
-              Reset Password
-            </h1>
-
-            {/* SMALL TEXT! */}
-            <h2
-              style={{
-                fontSize: '14px',
-                textAlign: 'center',
-                marginBottom: '10px',
-                fontWeight: '500',
-                width: '240px'
-              }}
-            >
-              Are you sure you are having an account?
-            </h2>
-
-            <p
-              style={{
-                fontSize: '14px',
-                textAlign: 'center',
-                marginBottom: '10px',
-                fontWeight: '500',
-              }}
-            >
-              Enter your email and we will send you instructions, how to reset
-              your password
-            </p>
-
-            {/* INPUTS! */}
-            <input
-              placeholder='Enter Your Email'
-              style={{
-                width: '100%',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                border: '1px solid #5D5D5D',
-                outline: 'none',
-                boxSizing: 'border-box'
-              }}
+            <Input
+              placeholder={'Enter Your Email'}
+              value={loginState.email}
+              onChange={onChangeStateHandler}
+              name={'email'}
+              type={'email'}
             />
 
-            {/* SIGN IN BUTTON! */}
-            <button
-              style={{
-                backgroundColor: '#AED6B3',
-                border: 'none',
-                outline: 'none',
-                borderRadius: '8px',
-                padding: '10px 16px',
-                width: '100%',
-                color: '#fff',
-                fontWeight: '600',
-                marginTop: '10px',
-                cursor: 'pointer',
-                display:'flex',
-                alignItems:'center',
-                gap:'7px',
-                justifyContent:'center',
-              }}
-            >
-              Submit Reset Request
-              <FaLocationArrow style={{color:'white',height:'14px',width:"14px"}}/>
-            </button>
+            {/* EMAIL SENT TEXT! */}
+            {loginState.success && (
+              <p style={{ fontSize: 13, color: 'green' }}>
+                Email has been sent. check out your email
+              </p>
+            )}
+            {/* EMAIL NOT FOUND! */}
+            {loginState.error && (
+              <p style={{ fontSize: 13, color: 'red' }}>
+                Email not found, try correct one
+              </p>
+            )}
 
-            {/* REGISTER NOW! */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '5px',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '12px',
-                marginTop: '10px'
-              }}
-            >
-              <p>Ohh!! I don't have an account?</p>
-              <Link
-                to={'/register'}
-                style={{
-                  fontWeight: '700',
-                  textDecoration: 'none',
-                  color: 'black'
-                }}
-              >
-                sign up
-              </Link>
-            </div>
-            {/* </div> */}
-          </div>
-          {/* IMAGE SIDE! */}
-          <div className='login-image-box'>
-            <img src='/auth.png' alt='img' className='login-image' />
-          </div>
-        </div>
-      </div>
+            <Button onClick={handleReset}>Submit Reset Request</Button>
+
+            <BottomNote
+              note={"Ohh! Don't have an account?"}
+              linkButton={'Sign Up'}
+              link={'register'}
+            />
+          </FormContainer>
+          <SideImageComponent />
+        </MainBodyContainer>
+      </AuthContainer>
     </>
   )
 }

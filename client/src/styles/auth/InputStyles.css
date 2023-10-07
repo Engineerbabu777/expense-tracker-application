@@ -1,0 +1,10 @@
+
+/* !!INPUT STYLES GO BELOW */
+.input-styles {
+    width: 100%;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #5D5D5D;
+    outline: none;
+    box-sizing: border-box;
+}
