@@ -1,8 +1,6 @@
+import nodemailer from 'nodemailer'
 
-import nodemailer from 'nodemailer';
-
-export const resetPasswordMail = async(email, token) => {
-
+export const resetPasswordMail = async (email, token) => {
   console.log('ENTRING')
   const transporter = nodemailer.createTransport({
     // CONFIGURATION!
@@ -23,11 +21,11 @@ export const resetPasswordMail = async(email, token) => {
 
   // SEND EMAIL!
   try {
-    console.log('Sending mail...');
-     const email = await transporter.sendMail(mailOptions);
-     console.log('mail sent');
-
+    console.log('Sending mail...')
+    const email = await transporter.sendMail(mailOptions)
+    console.log('mail sent')
+    console.log('Email Data', email)
   } catch (error) {
-    console.log('Error while sending email!');
+    console.log('Error while sending email!')
   }
 }

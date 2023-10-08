@@ -1,16 +1,22 @@
-import React, { useContext } from 'react'
-import { AuthContext } from '../../states/Auth'
-import { Navigate, useNavigation } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export default function HomePage () {
-  const { loadingState, isLoggedIn } = useContext(AuthContext)
 
-  if (loadingState) {
-    return 'loading...'
-  }
+  const [cookies] = useCookies([])
+  const navigate = useNavigate()
 
-  if (!isLoggedIn) {
-    return <Navigate to='/login' />
-  }
+  useEffect(() => {
+    const verifyCookie = async () => {
+      if (!cookies.authTokenExpense) {
+        navigate('/login')
+      }
+    }
+    verifyCookie()
+  }, [cookies, navigate])
+
+
+
   return <div>Home page</div>
 }

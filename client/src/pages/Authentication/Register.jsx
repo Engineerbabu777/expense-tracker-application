@@ -17,12 +17,15 @@ export default function Register () {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    error:'',
+    success:'',
+    loading: false,
   })
 
   // ONCHANGE STATE! (WILL PUSH TO UTILS)
   const onChangeStateHandler = event => {
-    setRegisterState({
+    setRegisterState({ success:'',error:'',
       ...registerState, // SPREADING PREVIOUS STATE !
       [event.target.name]: event.target.value // CHANGING TARGETING VALUE !
     })
@@ -36,7 +39,8 @@ export default function Register () {
         registerState.email,
         registerState.password,
         registerState.confirmPassword
-      )
+      );
+
 
       // PROCEEDED IF VALIDATOR IS OK!
       // MAKE A REQUEST!
@@ -47,7 +51,17 @@ export default function Register () {
           accept: 'application/json'
         },
         body: JSON.stringify(registerState)
-      }).then(response => response.json().then(data => console.log(data)))
+      }).then(response => response.json().then(data => {
+        if(data?.success){
+          console.log(data)
+
+          setRegisterState({...registerState,success:data.message});
+        }
+        if(data?.error){
+          console.log(data)
+          setRegisterState({...registerState,error:data.message});
+        }
+      }))
     } catch (error) {
       toast.error(`${error.message}`)
       console.log('ERROR-> ', error.message)
@@ -72,6 +86,7 @@ export default function Register () {
               value={registerState.name}
               name={'name'}
               type={'text'}
+              disabled={registerState.loading}
             />
             <Input
               placeholder={'Enter Your Email'}
@@ -79,6 +94,8 @@ export default function Register () {
               onChange={onChangeStateHandler}
               name={'email'}
               type={'email'}
+              disabled={registerState.loading}
+
             />
             <Input
               onChange={onChangeStateHandler}
@@ -86,6 +103,8 @@ export default function Register () {
               value={registerState.password}
               name={'password'}
               type={'password'}
+              disabled={registerState.loading}
+
             />
             <Input
               placeholder={'Enter Your Confirm Password'}
@@ -93,7 +112,22 @@ export default function Register () {
               onChange={onChangeStateHandler}
               name={'confirmPassword'}
               type={'password'}
+              disabled={registerState.loading}
+
             />
+
+             {/* EMAIL SENT TEXT! */}
+             {registerState?.success && (
+              <p style={{ fontSize: 13, color: 'green' }}>
+                {registerState?.success}
+              </p>
+            )}
+            {/* EMAIL NOT FOUND! */}
+            {registerState?.error && (
+              <p style={{ fontSize: 13, color: 'red' }}>
+                {registerState?.error}
+              </p>
+            )}
 
             <Button onClick={handleSubmit}>Sign Up</Button>
 

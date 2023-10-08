@@ -51,7 +51,7 @@ export const loginUser = async (req, res) => {
     console.log('User ', isUser)
 
     // IF USER NOT FOUND!
-    if (!isUser.email)
+    if (!isUser?.email)
       return res.status(404).json({ message: 'User not found!', error: true })
 
     // ELSE CHECK IS PASSWORDS MATCHED!
@@ -69,7 +69,11 @@ export const loginUser = async (req, res) => {
     console.log('TOKEN -> ', token)
 
     // RETURN SUCCESS RESPONSE!
-    res.cookie('token', token).status(200).json({
+    res.cookie("@authExpense", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
+    res.status(200).json({
       message: 'Login successful!',
       success: true,
       token,
@@ -96,12 +100,10 @@ export const resetPassword = async (req, res) => {
 
     console.log('2')
 
-
     // FIND IF EMAIL EXISTS!
     const user = await userModel.findOne({ email })
 
     console.log('3')
-
 
     // IF USER NOT EXISTS!
     if (!user?.email) {
@@ -117,8 +119,46 @@ export const resetPassword = async (req, res) => {
     // SEND MAIL TO EMAIL!
     await resetPasswordMail(email, token)
 
+    user.resetPasswordToken = token
+
+    await user.save()
+
     // IF USER EXISTS!
     res.status(200).json({ success: true, message: 'Email Sent!' })
+  } catch (error) {
+    res.status(504).json({ error: true, message: error?.message })
+  }
+}
+
+export const checkVerifyPasswordPage = async (req, res) => {
+  try {
+    // GET TOKEN!
+    const { token } = req.query
+
+    // CHECK FOR USER!
+    const user = await userModel.findOne({ resetPasswordToken: token })
+
+    // IF NO USER FOUND!
+    if (!user?.email) {
+      return res.status(404).json({ message: 'User not found!', error: true })
+    }
+
+    res.status(200).json({ success: true, message: 'User found!' })
+  } catch (error) {
+    res.json({ error: true, message: error.message })
+  }
+}
+
+export const newPassword = async (req, res) => {
+  try {
+    const { password, userId } = req.body
+
+    await userModel.findOneAndUpdate(
+      { _id: userId },
+      { password: password, resetPasswordToken: undefined }
+    )
+
+    res.status(200).json({ success: true, message: 'Password Changed!' })
   } catch (error) {
     res.status(504).json({ error: true, message: error?.message })
   }
