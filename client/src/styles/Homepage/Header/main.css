@@ -1,0 +1,57 @@
+/* MAIN CONTAINER STYLES! */
+.main-header-tag {
+    height: 60px;
+    background-color: #151515;
+    border-bottom: 1px solid #d2e0fb;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8%;
+}
+
+/* RIGHT SIDE LOGO STYLES! */
+.logo-box {
+    display: flex;
+    align-items: center;
+}
+
+.logo-box h1 {
+    color: white;
+    font-size: 22px;
+}
+
+/* RIGHT SIDE CONTAINER */
+.right-side-container-header {
+    display: flex;
+    flex: 1;
+    padding: 16px 0;
+    align-items: center;
+    gap: 10%;
+}
+
+/* MIDDLE INPUT STYLES! */
+
+/* LEFT SIDE ICONS STYLES! */
+
+.input-header::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #fff;
+}
+
+/* !! MEDIA QUERIES */
+
+@media (width <=670px) {
+
+    /* REMOVING THE HEADING OF HEADER!! */
+    .logo-box h1 {
+        display: none;
+    }
+
+    .right-side-container-header {
+        gap: 10px;
+    }
+
+    .main-header-tag {
+        gap: 4%;
+    }
+}
