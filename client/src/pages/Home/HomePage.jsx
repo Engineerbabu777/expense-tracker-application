@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/shared/Header/Header'
+import HomeLayout from '../../components/home/Layout'
+import LeftSide from '../../components/home/Left/Left'
+import RightSide from '../../components/home/Right/Right'
 
 export default function HomePage () {
   const [cookies] = useCookies([])
@@ -20,11 +23,25 @@ export default function HomePage () {
 
   return (
     <>
-      <div style={{backgroundColor:'#151515',height:'100vh',width:'100%',fontFamily:'Urbanist'}}>
+      <div
+        style={{
+          backgroundColor: '#151515',
+          height: '100%',
+          width: '100%',
+          fontFamily: 'Urbanist'
+        }}
+      >
         {/* HEADER FOR ALL PAGES! */}
         <Header />
 
         {/* LAYOUT! */}
+        <HomeLayout>
+          {/* LEFT SIDE BAR! */}
+          <LeftSide />
+
+          {/* RIGHT SIDE BAR! */}
+          <RightSide />
+        </HomeLayout>
       </div>
     </>
   )
