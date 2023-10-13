@@ -4,6 +4,7 @@
     height: 100%;
     width: 100%;
     color: #898989;
+    overflow: auto;
 }
 
 
@@ -29,6 +30,8 @@
     border-top-right-radius: 30px;
     overflow: hidden;
     cursor: pointer;
+    text-decoration: none;
+    color: #898989;
 
     &:hover {
         background: linear-gradient(to right, #6E38E0, #FF5F36);

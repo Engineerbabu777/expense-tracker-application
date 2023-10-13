@@ -6,7 +6,7 @@ import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
 import RightSide from '../../components/home/Right/Right'
 
-export default function HomePage () {
+export default function ManagementPage () {
   const [cookies] = useCookies([])
   const navigate = useNavigate()
 
@@ -41,8 +41,9 @@ export default function HomePage () {
           {/* LEFT SIDE BAR! */}
           <LeftSide />
 
-          {/* RIGHT SIDE BAR! */}
-          <RightSide />
+          {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
+          <div>Management Page</div>
+
         </HomeLayout>
       </div>
     </>

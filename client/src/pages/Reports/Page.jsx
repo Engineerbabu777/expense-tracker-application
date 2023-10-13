@@ -6,7 +6,7 @@ import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
 import RightSide from '../../components/home/Right/Right'
 
-export default function HomePage () {
+export default function ReportsPage () {
   const [cookies] = useCookies([])
   const navigate = useNavigate()
 
@@ -27,10 +27,9 @@ export default function HomePage () {
         style={{
           backgroundColor: '#151515',
           height: '100%',
-          width: "100%",
+          width: '100%',
           fontFamily: 'Urbanist',
-          overflow:'hidden',
-
+          overflow: 'hidden'
         }}
       >
         {/* HEADER FOR ALL PAGES! */}
@@ -41,8 +40,8 @@ export default function HomePage () {
           {/* LEFT SIDE BAR! */}
           <LeftSide />
 
-          {/* RIGHT SIDE BAR! */}
-          <RightSide />
+          {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
+          <div>Reports Page</div>
         </HomeLayout>
       </div>
     </>

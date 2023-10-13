@@ -1,0 +1,90 @@
+/* ! **************  ! */
+/* !!SHARED STYLES!! */
+/* OUTER BOX STYLES! */
+.boxStyles {
+    position: relative;
+    width: 32%;
+    height: 185px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #272829;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.inside-color-box {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-bottom-left-radius: 65px;
+    height: 50%;
+    width: 40%;
+    /* z-index: -1; */
+}
+
+
+/* !! DIFFERENT STYLES BASED ON BOXES!! */
+
+/* INCOME BOX! */
+.income-box {
+    border-left: 4px solid #00B85E;
+}
+
+.income-inside-color-box {
+    background: rgb(0, 184, 94, 0.7);
+    filter: blur(60px);
+    -o-filter: blur(60px);
+    -ms-filter: blur(60px);
+    -moz-filter: blur(60px);
+    -webkit-filter: blur(60px);
+}
+
+
+/* EXPENSES BOX! */
+.expense-box {
+    border-left: 4px solid red;
+
+}
+
+.expense-inside-color-box {
+    background: rgba(255, 0, 0, 0.7);
+
+    filter: blur(60px);
+    -o-filter: blur(60px);
+    -ms-filter: blur(60px);
+    -moz-filter: blur(60px);
+    -webkit-filter: blur(60px);
+}
+
+/* SAVING BOX! */
+.saving-box {
+    border-left: 4px solid skyblue;
+
+}
+
+.saving-inside-color-box {
+    background: rgba(0, 100, 200, 0.7);
+
+    filter: blur(60px);
+    -o-filter: blur(60px);
+    -ms-filter: blur(60px);
+    -moz-filter: blur(60px);
+    -webkit-filter: blur(60px);
+}
+
+
+/* !! MEDIA QUERIES! */
+
+/* ON MOBILE SCREENS(560px)! */
+@media (width <= 560px){
+  .boxStyles{
+    min-width: 90vw;
+  }
+}
+
+@media (width>= 560px) and (width<=868px){
+    .boxStyles{
+        min-width: 45%;
+    }
+}

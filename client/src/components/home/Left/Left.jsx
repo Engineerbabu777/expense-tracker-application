@@ -8,77 +8,125 @@ import { TbReportAnalytics } from 'react-icons/tb'
 import { BiSolidFileExport } from 'react-icons/bi'
 import { FaShieldVirus } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
+import { Link } from 'react-router-dom'
 
 export default function LeftSide ({}) {
+
   return (
     <>
       <section className='sidebar-container'>
         {/* MAIN CONTENT BOX! */}
         <div className='main-content-box'>
           {/* CHILD (LIST) */}
-          <div className='option-box color'>
+          <Link
+            className={`option-box ${
+              window?.location?.pathname === '/' ? ' color ' : '  '
+            }  `}
+            to={'/'}
+          >
             {/* ICON! */}
             <RiDashboardFill />
 
             {/* TEXT! */}
             <p>Dashboard</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/transactions')
+                ? ' color '
+                : ''
+            } `}
+            to={'/transactions'}
+          >
             {/* ICON! */}
             <AiOutlineTransaction />
 
             {/* TEXT! */}
             <p>Transactions</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/categories')
+                ? ' color '
+                : ''
+            } `}
+            to={'/categories'}
+          >
             {/* ICON! */}
             <SiExpensify />
 
             {/* TEXT! */}
             <p>Expense Categories</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/management')
+                ? ' color '
+                : ''
+            } `}
+            to={'/management'}
+          >
             {/* ICON! */}
             <FaBusinessTime />
 
             {/* TEXT! */}
             <p>Budget Management</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/reports') ? ' color ' : ''
+            } `}
+            to={'/reports'}
+          >
             {/* ICON! */}
             <TbReportAnalytics />
 
             {/* TEXT! */}
             <p>Reports & Analytics</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/export') ? ' color ' : ''
+            } `}
+            to={'/export'}
+          >
             {/* ICON! */}
             <BiSolidFileExport />
 
             {/* TEXT! */}
             <p>Export Data</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/privacy') ? ' color ' : ''
+            } `}
+            to={'/privacy'}
+          >
             {/* ICON! */}
             <FaShieldVirus />
 
             {/* TEXT! */}
             <p>Privacy & Policy</p>
-          </div>
+          </Link>
 
-          <div className='option-box'>
+          <Link
+            className={` option-box ${
+              window?.location?.pathname?.includes('/settings') ? ' color ' : ''
+            } `}
+            to={'/settings'}
+          >
             {/* ICON! */}
             <IoMdSettings />
 
             {/* TEXT! */}
             <p>Settings</p>
-          </div>
+          </Link>
         </div>
       </section>
     </>

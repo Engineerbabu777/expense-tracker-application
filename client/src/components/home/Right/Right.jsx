@@ -1,38 +1,43 @@
 import '../../../styles/Homepage/Right/RightSideMain.css'
+import IncomeBox from './IncomeBox'
+import ExpenseBox from './ExpensesBox'
+import SavingBox from './SavingsBox'
+import Headings from './Headings'
+import Table from './RecentTrans'
 
 export default function RightSide ({}) {
   return (
     <>
       {/* MAIN CONTAINER! */}
       <section className='main-section-container'>
-        {/* OVERVIEW! */}
+        {/* OVERVIEW SECTION! */}
         <div className='overview-section'>
-          <h1 className='overview-text'>Overview</h1>
+          {/* HEADING TEXT FOR SECTIONS */}
+          <Headings Heading={'Overview'} />
+
+          {/* BOXES CONTAINER! */}
           <div className='three-boxes-container'>
             {/* INCOME BOX! */}
-            <div className='income-box'>
-              <div className='income-box-inside-color' />
-            </div>
+            <IncomeBox />
 
             {/* EXPENSES BOX! */}
-            <div className='expenses-box'>
-              <div className='expense-box-inside-color' />
-            </div>
+            <ExpenseBox />
 
             {/* SAVING BOX! */}
-            <div className='saving-box'>
-              <div className='saving-box-inside-color' />
-            </div>
-
-            {/* THIS WEEK EXPENSES! */}
-            <div className='current-week-box'>
-              <div className='current-week-box-inside-color' />
-            </div>
+            <SavingBox />
           </div>
+
+          {/* THIS WEEK EXPENSES! */}
         </div>
 
         {/* RECENT TRANSACTIONS! */}
-        <div className='recent-transactions-section'></div>
+        <div className='recent-transactions-section'>
+          {/* RECENT HEADING */}
+          <Headings Heading={'Recent Transactions'} />
+
+          {/* TABLE! */}
+          <Table />
+        </div>
       </section>
     </>
   )

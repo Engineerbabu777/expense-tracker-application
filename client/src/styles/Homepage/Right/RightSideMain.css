@@ -1,150 +1,73 @@
 /* MAIN CONTAINER STYLES! */
 .main-section-container {
-    /* padding-top: 5%; */
-    /* height:100%; */
-    /* width:100%; */
-    overflow: hidden;
+    height: 100%;
+    overflow: auto;
+    margin: 0 2% 0 1%;
 }
 
-
+.main-section-container::-webkit-scrollbar {
+    display: none;
+}
 
 /* OVERVIEW SECTION STYLES! */
 .overview-section {
     margin-top: 2%;
-    display: flex;
-    flex-direction: column;
-    margin-right:3%;
-}
-.three-boxes-container{
-  margin-top: 15px;
-  display: flex;
-  width: 100%;
-  gap:3%;
-  padding-right: 2%;
-  /* overflow: auto; */
+    /* display: flex;  */
+    /* flex-direction: column; */
+    /* margin-right: 2%; */
+    /* overflow: hidden; */
+    width: 100%;
+    /* height:100%; */
 }
 
-/* INCOME BOX STYLES HERE! */
-.income-box{
-    position: relative;
-    width:25%;
-    height:185px;
-    border-left: 4px solid #00B85E;
-    border-radius: 15px;
-    overflow: hidden;
-    background: #272829;
-
+.three-boxes-container {
+    margin-top: 15px;
+    display: inline-flex;
+    width: 100%;
+    gap: 2%;
+    /* overflow: auto; */
 }
-
-.income-box-inside-color{
-    position: absolute;
-    right:0;
-    top:0;
-    border-bottom-left-radius: 65px;
-    height:50%;
-    width:40%;
-    /* z-index: -1; */
-
-    background:rgb(0,184,94,0.7);
-
-    filter:blur(60px);
-    -o-filter:blur(60px);
-    -ms-filter:blur(60px);
-    -moz-filter:blur(60px);
-    -webkit-filter:blur(60px);
-}
-
-/* EXPENSES BOX STYLES HERE! */
-.expenses-box{
-    position: relative;
-    width:25%;
-    height:185px;
-    border-left: 4px solid red;
-    border-radius: 15px;
-    overflow: hidden;
-    background: #272829;
-
-}
-
-.expense-box-inside-color{
-    position: absolute;
-    right:0;
-    top:0;
-    border-bottom-left-radius: 65px;
-    height:50%;
-    width:40%;
-    /* z-index: -1; */
-
-    background:rgb(255,0,0,0.7);
-
-    filter:blur(60px);
-    -o-filter:blur(60px);
-    -ms-filter:blur(60px);
-    -moz-filter:blur(60px);
-    -webkit-filter:blur(60px);
-}
-
-/* SAVING BOX STYLES HERE! */
-.saving-box{
-    position: relative;
-    width:25%;
-    height:185px;
-    border-left: 4px solid skyblue;
-    border-radius: 15px;
-    overflow: hidden;
-    background: #272829;
-
-}
-
-.saving-box-inside-color{
-    position: absolute;
-    right:0;
-    top:0;
-    border-bottom-left-radius: 65px;
-    height:50%;
-    width:40%;
-    /* z-index: -1; */
-
-    background:rgb(0,100,200,0.7);
-
-    filter:blur(60px);
-    -o-filter:blur(60px);
-    -ms-filter:blur(60px);
-    -moz-filter:blur(60px);
-    -webkit-filter:blur(60px);
-}
-
-/* CURRENT WEEK BOX STYLES! */
-.current-week-box{
-    position: relative;
-    width:25%;
-    height:185px;
-    border-left: 4px solid darkcyan;
-    border-radius: 15px;
-    overflow: hidden;
-    background: #272829;
-
-}
-
-.current-week-box-inside-color{
-    position: absolute;
-    right:0;
-    top:0;
-    border-bottom-left-radius: 65px;
-    height:50%;
-    width:40%;
-    /* z-index: -1; */
-
-    background:rgb(0,255,200,0.7);
-
-    filter:blur(60px);
-    -o-filter:blur(60px);
-    -ms-filter:blur(60px);
-    -moz-filter:blur(60px);
-    -webkit-filter:blur(60px);
-}
-
-
 
 /* RECENT TRANSACTION STYLES! */
-.recent-transactions-section {}
+.recent-transactions-section {
+    margin-top: 2%;
+    height: 100%;
+    margin-bottom: 5%;
+    width: 100%;
+}
+
+@media (width <=560px) {
+    .main-section-container {
+        margin: 0 1%;
+        width: 100%;
+
+    }
+
+    .three-boxes-container {
+        width: 100vw;
+        overflow: auto;
+    }
+
+    .recent-transactions-section{
+        width:100vw;
+    }
+
+}
+
+@media (width >560px) and (width <= 868px) {
+    .main-section-container {
+        margin: 0 1%;
+        width: 100%;
+
+    }
+
+    .three-boxes-container {
+        width: 100vw;
+        overflow: auto;
+    }
+
+    .recent-transactions-section{
+        width:100vw;
+    }
+
+}
