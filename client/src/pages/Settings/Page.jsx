@@ -5,6 +5,7 @@ import Header from '../../components/shared/Header/Header'
 import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
 import RightSide from '../../components/home/Right/Right'
+import SettingsMain from '../../components/home/Settings/SettingsMain'
 
 export default function SettingsPage () {
   const [cookies] = useCookies([])
@@ -27,10 +28,9 @@ export default function SettingsPage () {
         style={{
           backgroundColor: '#151515',
           height: '100%',
-          width: "100%",
+          width: '100%',
           fontFamily: 'Urbanist',
-          overflow:'hidden',
-
+          overflow: 'hidden'
         }}
       >
         {/* HEADER FOR ALL PAGES! */}
@@ -41,9 +41,8 @@ export default function SettingsPage () {
           {/* LEFT SIDE BAR! */}
           <LeftSide />
 
-          {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
-          <div>Settings Page</div>
-
+          {/* RIGHT SIDE WILL ME FOR SETTINGS USER AND ACCOUNT SETTINGS !! */}
+          <SettingsMain />
         </HomeLayout>
       </div>
     </>

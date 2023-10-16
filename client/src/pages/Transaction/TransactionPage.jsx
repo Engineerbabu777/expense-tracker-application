@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../components/shared/Header/Header'
 import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
-import RightSide from '../../components/home/Right/Right'
+import Transactions from '../../components/home/Transactions/Transactions'
+
 
 export default function TransactionPage () {
   const [cookies] = useCookies([])
@@ -42,7 +43,7 @@ export default function TransactionPage () {
           <LeftSide />
 
           {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
-          <div>Transaction Page</div>
+          <Transactions />
 
         </HomeLayout>
       </div>
