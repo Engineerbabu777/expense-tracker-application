@@ -1,0 +1,46 @@
+/* !! PARENT CONTAINER STYLES */
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 15px;
+}
+
+/* !!BUTTON STYLES! */
+.button-styles {
+    height: 32px;
+    font-weight: 900;
+    background: linear-gradient(to right, #6E38E0, #FF5F36);
+    outline: none;
+    border: 1px solid #272829;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+    opacity: 0.65;
+
+}
+
+.button-styles:hover {
+    opacity: 1;
+
+}
+
+
+/*!! LAST NOTE STYLES */
+.note-styles-container {
+    font-weight: 0.85rem;
+    margin-top: -8px;
+    color: #898989;
+}
+
+.note-styles-container-text {
+    color: white;
+    padding-right: 3px;
+}
+
+@media (width<=840px){
+    .parent-container{
+        width:100%;
+    }
+}

@@ -1,0 +1,45 @@
+/* LABEL STYLES! */
+.label-styles {
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    flex: 1;
+}
+
+
+/* BUTTON STYLES! */
+.para-styles {
+    font-weight: 0.85rem;
+    color: #898989;
+}
+
+/* NOT E STYES */
+.note-styles {
+    color: white;
+    padding-right: 3px;
+}
+
+/* .LABEL NAD BUTTON CONTAINER! */
+.label-button-container{
+    display:flex;
+    align-items:center;
+}
+
+
+
+/* MEDIA QUERIES! */
+
+@media (width<=840px){
+    .label-button-container{
+        flex-direction: column;
+        align-items: start;
+        gap:4px;
+    }
+
+    .label-styles{
+        font-size: 1.05rem;
+    }
+}

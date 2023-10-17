@@ -1,0 +1,51 @@
+/* MAIN CONTAINER STYLES */
+
+.main-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.label-style {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.input-styles {
+    flex: 1;
+    padding: 9px 17px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid #272829;
+    background-color: #272829;
+    color: #898989;
+}
+
+/* HOVER STYLES ON INPUT! */
+.input-styles::placeholder {
+    color: lightslategrey;
+}
+
+.input-styles:focus {
+    border: 1px solid #fff;
+}
+
+.input-styles:hover {
+    border: 1px solid #6E38E0;
+}
+
+
+@media (width <=840px) {
+    .main-container {
+        /* margin: 0 10px; */
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .label-style{
+        font-size: 1.05rem;
+    }
+}
