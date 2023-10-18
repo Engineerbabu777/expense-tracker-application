@@ -8,7 +8,8 @@ export default function TextInputBox ({
   placeholder,
   name,
   value,
-  onChange
+  onChange,
+  disabled=true,
 }) {
   return (
     <>
@@ -24,6 +25,7 @@ export default function TextInputBox ({
           type={type}
           id={name}
           className='input-styles'
+          disabled
         />
       </div>
     </>

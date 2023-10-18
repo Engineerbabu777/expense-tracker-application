@@ -5,6 +5,10 @@
     width: 100%;
     color: #898989;
     overflow: auto;
+
+}
+.sidebar-container::-webkit-scrollbar{
+    display: none;
 }
 
 

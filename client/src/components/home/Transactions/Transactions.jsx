@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Headings from '../Right/Headings'
 
+import styles from '../../../styles/Homepage/Transactions/Transactions.module.css'
+
 export default function Transactions () {
   const [showMenu, setShowMenu] = useState(false)
   const [filterType, setFilterType] = useState('All')
@@ -14,12 +16,12 @@ export default function Transactions () {
 
   const generateRows = () => {
     const rows = []
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 5; i++) {
       const type = i % 2 === 0 ? 'Income' : 'Expense'
       const category = type === 'Income' ? 'Salary' : 'Groceries'
       rows.push(
         <tr key={i} style={i % 2 === 0 ? {} : {}}>
-          <td style={{}}>Description {i}</td>
+          <td >Description {i} </td>
           <td style={{}}>${i + ((3 * 90) / i) * i * (i * 90 + i)}.00</td>
           <td style={{}}>{category}</td>
 
@@ -36,89 +38,41 @@ export default function Transactions () {
   return (
     <>
       {/* PARENT CONTAINER OF ALL! */}
-      <div
-        style={{
-          display: 'flex',
-          height: '100vh',
-          flexDirection: 'column',
-          paddingRight: '2%',
-          marginLeft: '1%'
-        }}
-      >
+      <div className={styles.parentContainerOfAll}>
         {/* CHILD CONTAINER ONE OF PARENT CONTAINER FOR HEADING */}
-        <div
-          style={{
-            height: 'fit-content',
-            fontSize: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            marginTop: '2%'
-          }}
-        >
+        <div className={styles.childOne}>
           {' '}
           {/* WILL SET HEADING MORE LATER!*/}
-          <div style={{ marginTop: '-2%', width: 'fit-content', flex: 1 }}>
+          <div className={styles.headingBox}>
             <Headings Heading={'Transactions Details'} />
           </div>
           {/* FILTER OPTIONS */}
-          <div
-            style={{
-              display: 'flex',
-              gap: '15px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '3%'
-            }}
-          >
-            <p style={{ fontWeight: 'semibold', fontSize: '14px' }}>
-              FILTER BY:
-            </p>
+          <div className={styles.filterParents}>
+          {/* FILTER BY MONTH AS WELL!! (ALSO INCLUDES ALL TO SHOW ALL DATA) */}
+          <div className={styles.filterContainer}>
+            <p className={styles.filterLabelText}>SHOW&nbsp;MONTH:</p>
+            <div className={styles.currentFilter}>
+              {' '}
+              October,&nbsp;2023
+              {/* */}
+            </div>
+          </div>
+          {/* FILTER BY EVERYTHING! */}
+          <div className={styles.filterContainer}>
+            <p className={styles.filterLabelText}>FILTER&nbsp;BY:</p>
             <div
-              style={{
-                backgroundColor: 'white',
-                color: '#272829',
-                padding: '4px 16px',
-                borderRadius: 30,
-                fontSize: '15px',
-                position: 'relative',
-                cursor: 'pointer'
-              }}
+              className={styles.currentFilter}
               onClick={() => setShowMenu(!showMenu)}
             >
               {filterType}
               {showMenu && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    width: '140px',
-                    background: 'white',
-                    right: '0',
-                    top: '34px',
-                    color: '#898989',
-                    borderRadius: 15,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '5px 15px',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    overflow: 'hidden',
-                    textAlign: 'center',
-                    opacity: 0.95,
-                    boxShadow: '1px 1px 4px white'
-                  }}
-                >
+                <div className={styles.filterOptionsBox}>
                   {menu.map((item, ind) => (
                     <p
+                      className={styles.filterOptionsItem}
                       onClick={() => changeMenu(item)}
                       style={{
                         color: filterType === item && 'white',
-                        width: '100%',
-                        textAlign: 'center',
-                        padding: '10px',
-                        borderRadius: 5,
-
                         background:
                           filterType === item &&
                           'linear-gradient(to right, #6E38E0, #FF5F36)'
@@ -130,32 +84,19 @@ export default function Transactions () {
                 </div>
               )}
             </div>
+            </div>
           </div>
         </div>
 
         {/* CHILD CONTAINER TWO OF PARENT CONTAINER FOR TABLE */}
-        <div
-          style={{
-            flex: 1,
-            overflow: 'auto',
-            marginTop: '2%',
-            marginBottom: '8%'
-          }}
-        >
-          <table
-            style={{
-              backgroundColor: 'rgba(89, 89, 89, 0.17)',
-              width: '100%',
-              padding: '1%',
-              borderRadius: '10px'
-            }}
-          >
-            <thead style={{}}>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Category</th>
-              <th>Type</th>
-              <th>Date</th>
+        <div className={styles.childTwo}>
+          <table className={styles.tableStyles}>
+            <thead >
+              <th className={styles.theadStyles}>Description</th>
+              <th className={styles.theadStyles}>Amount</th>
+              <th className={styles.theadStyles}>Category</th>
+              <th className={styles.theadStyles}>Type</th>
+              <th className={styles.theadStyles}>Date</th>
             </thead>
             <tbody style={{}}>{generateRows()}</tbody>
           </table>

@@ -8,9 +8,9 @@ import '../../../styles/Homepage/settings/Main.css'
 
 export default function SettingsMain () {
   const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: 'Elon Musk',
+    email: 'elonmuskx99@gmail.com',
+    password: '--- -- --- - ---',
     image: ''
   })
 

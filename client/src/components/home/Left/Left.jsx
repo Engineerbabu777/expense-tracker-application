@@ -9,15 +9,16 @@ import { BiSolidFileExport } from 'react-icons/bi'
 import { FaShieldVirus } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { Link } from 'react-router-dom'
+import SingleComponent from './shared/SingleOption'
 
 export default function LeftSide ({}) {
-
   return (
     <>
       <section className='sidebar-container'>
         {/* MAIN CONTENT BOX! */}
         <div className='main-content-box'>
           {/* CHILD (LIST) */}
+
           <Link
             className={`option-box ${
               window?.location?.pathname === '/' ? ' color ' : '  '
@@ -31,35 +32,17 @@ export default function LeftSide ({}) {
             <p>Dashboard</p>
           </Link>
 
-          <Link
-            className={` option-box ${
-              window?.location?.pathname?.includes('/transactions')
-                ? ' color '
-                : ''
-            } `}
-            to={'/transactions'}
-          >
-            {/* ICON! */}
-            <AiOutlineTransaction />
+          <SingleComponent
+            Icon={AiOutlineTransaction}
+            Name={'Transactions'}
+            pathname={'transactions'}
+          />
 
-            {/* TEXT! */}
-            <p>Transactions</p>
-          </Link>
-
-          <Link
-            className={` option-box ${
-              window?.location?.pathname?.includes('/categories')
-                ? ' color '
-                : ''
-            } `}
-            to={'/categories'}
-          >
-            {/* ICON! */}
-            <SiExpensify />
-
-            {/* TEXT! */}
-            <p>Expense Categories</p>
-          </Link>
+          <SingleComponent
+            Icon={SiExpensify}
+            Name={'Expense Categories'}
+            pathname={'categories'}
+          />
 
           <Link
             className={` option-box ${
