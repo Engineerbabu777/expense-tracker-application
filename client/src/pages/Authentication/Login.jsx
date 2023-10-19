@@ -60,7 +60,7 @@ export default function Register () {
         response.json().then(data => {
           // CHECK IF TOKEN EXISTS!
           if (data?.token) {
-            setCookie('authTokenExpense', data.token)
+            setCookie('@authTokenExpense', data.token)
             toast.success('Login Successful!')
             navigate('/')
           }

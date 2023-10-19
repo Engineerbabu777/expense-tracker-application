@@ -5,6 +5,7 @@ import Header from '../../components/shared/Header/Header'
 import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
 import RightSide from '../../components/home/Right/Right'
+import ReportsAndAnalytics from '../../components/home/Analytics/ReportsAndAnalytics'
 
 export default function ReportsPage () {
   const [cookies] = useCookies([])
@@ -40,8 +41,9 @@ export default function ReportsPage () {
           {/* LEFT SIDE BAR! */}
           <LeftSide />
 
-          {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
-          <div>Reports Page</div>
+          {/* RIGHT SIDE (REPORTS AND ANALYTICS !! ) */}
+          {/* <div>123</div> */}
+          <ReportsAndAnalytics />
         </HomeLayout>
       </div>
     </>

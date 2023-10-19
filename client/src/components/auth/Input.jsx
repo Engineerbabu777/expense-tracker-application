@@ -5,7 +5,7 @@ export default function Input ({ placeholder, onChange, value, name, type }) {
     <>
       <input
         placeholder={placeholder}
-        className='input-styles' // USING STYLES FILE!
+        className='input-style' // USING STYLES FILE!
         name={name}
         value={value}
         onChange={onChange}
