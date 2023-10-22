@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
-import {Toaster} from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast'
+import AllContextProvider from './states/ContextProvider'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-      <BrowserRouter>
-        <Toaster />
-          <App />
-      </BrowserRouter>
+    <BrowserRouter>
+      <Toaster />
+      <AllContextProvider>
+        <App />
+      </AllContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 )

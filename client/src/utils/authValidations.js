@@ -1,3 +1,9 @@
+
+
+
+
+
+// EMAIL VALIDATOR!
 function validateEmail (email) {
   // CHECK IF EMAIL CONSISTS OF EMPTY SPACES THEN RETURN FALSE!
   if (email.includes(' ')) return false
@@ -20,6 +26,9 @@ function validateEmail (email) {
   return true
 }
 
+
+
+// COMPLETE AUTH DATA VALIDATIONS!
 export const authValidation = (name, email, password, password2) => {
   // CHECK IF USER IS EMPTY!
   if (name === '' || email === '' || password === '' || password2 === '') {

@@ -8,3 +8,4 @@ export const sidebarList = [
 ]
 // HERE DROP DOWN IN TRANSACTIONS PAGE!
 const filterMenu = [];
+

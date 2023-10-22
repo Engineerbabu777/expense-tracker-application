@@ -13,7 +13,7 @@ export default function SettingsPage () {
 
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.authTokenExpense) {
+      if (!cookies['@authTokenExpense']) {
         navigate('/login')
       } else {
         // MAKE A REQUEST AND GET USER!

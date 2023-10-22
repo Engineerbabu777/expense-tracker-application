@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import {databaseConnect} from './database.js';
+import categoryRoutes from './routes/category.js';
 
 
 // CREATING EXPRESS SERVER APP!
@@ -21,6 +22,8 @@ app.use(cors());
 
  //!! ROUTES START WITH /api/auth WILL BE HANDLED BY THIS ROUTE!)
 app.use('/api/auth', authRoutes)  //!! HERE WE ARE HANDLING AUTH ROUTES (LOGIN! /REGISTER! /RESET!)
+//!! ROUTES START WITH /api/expenses WILL BE HANDLED BY THIS ROUTE!
+app.use('/api/category', categoryRoutes);
 
 // CONNECTING WITH DATABASE!
 databaseConnect();

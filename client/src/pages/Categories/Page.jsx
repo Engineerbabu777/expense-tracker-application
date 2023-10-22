@@ -4,15 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../components/shared/Header/Header'
 import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
-import RightSide from '../../components/home/Right/Right'
+import CategoriesRight from '../../components/home/Categories/CategoriesRight'
 
 export default function CategoriesPage () {
   const [cookies] = useCookies([])
   const navigate = useNavigate()
-
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.authTokenExpense) {
+      if (!cookies['@authTokenExpense']) {
         navigate('/login')
       } else {
         // MAKE A REQUEST AND GET USER!
@@ -42,7 +41,7 @@ export default function CategoriesPage () {
           <LeftSide />
 
           {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
-          <div>Categories Page</div>
+          <><CategoriesRight /></>
 
         </HomeLayout>
       </div>

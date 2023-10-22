@@ -10,10 +10,10 @@ import ReportsAndAnalytics from '../../components/home/Analytics/ReportsAndAnaly
 export default function ReportsPage () {
   const [cookies] = useCookies([])
   const navigate = useNavigate()
-
+  
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.authTokenExpense) {
+      if (!cookies['@authTokenExpense']) {
         navigate('/login')
       } else {
         // MAKE A REQUEST AND GET USER!
