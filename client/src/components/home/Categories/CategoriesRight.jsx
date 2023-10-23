@@ -1,36 +1,31 @@
 import Headings from '../Right/Headings'
 import { BiEdit } from 'react-icons/bi'
 import styles from '../../../styles/Homepage/Transactions/Transactions.module.css'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
 import Modal from '../../shared/Modal/Modal'
+import useCategories from '../../../hooks/useCategory'
+import { FaEdit } from 'react-icons/fa'
+import { MdDelete } from 'react-icons/md'
 
 export default function CategoriesRight () {
-  
+  const { getCategories, loadingData, deleteCategories } = useCategories()
+  const [categories, setCategories] = useState([])
+  const { setShowModal, showModal, setModalType } = useContext(AllContext)
 
-    const {setShowModal, showModal,setModalType} = useContext(AllContext);
-    
-    const generateRows = () => {
-    const rows = []
-    for (let i = 1; i <= 5; i++) {
-      rows.push(
-        <tr key={i} style={i % 2 === 0 ? {} : {}}>
-          <td>{i}.</td>
-          <td>Bills</td>
-          <td>#678971</td>
-          <td>45,000</td>
-          <td>(E-D)</td>
-        </tr>
-      )
-    }
-    return rows
+  const getData = async () => {
+    const data = await getCategories()
+    console.log('DATA: ', data)
+    setCategories(data?.categories)
   }
 
-
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <>
-    <Modal />
+      <Modal />
       {/* PARENT CONTAINER OF ALL! */}
       <div className={styles.parentContainerOfAll}>
         {/* CHILD CONTAINER ONE OF PARENT CONTAINER FOR HEADING */}
@@ -48,12 +43,16 @@ export default function CategoriesRight () {
                 style={{
                   fontSize: '1rem',
                   display: 'flex',
-                  cursor: 'pointer',
-                  
+                  cursor: 'pointer'
                 }}
               >
                 {/* ICON! */}
-                <div style={{ backgroundColor: 'rgb(110, 56, 224)', padding: '4px' }}>
+                <div
+                  style={{
+                    backgroundColor: 'rgb(110, 56, 224)',
+                    padding: '4px'
+                  }}
+                >
                   <BiEdit size={20} color={'white'} />
                 </div>
                 {/* TEXT! */}
@@ -64,8 +63,10 @@ export default function CategoriesRight () {
                     color: 'white',
                     fontWeight: '600'
                   }}
-
-                  onClick={() => {setShowModal(!showModal);setModalType('NEW_CATEGORY')}}
+                  onClick={() => {
+                    setShowModal(!showModal)
+                    setModalType('NEW_CATEGORY')
+                  }}
                 >
                   Add&nbsp;New
                 </p>
@@ -82,9 +83,48 @@ export default function CategoriesRight () {
               <th className={styles.theadStyles}>Name</th>
               <th className={styles.theadStyles}>Color Code</th>
               <th className={styles.theadStyles}>Expense Limit</th>
+              <th className={styles.theadStyles}>Currency</th>
               <th className={styles.theadStyles}>Actions</th>
             </thead>
-            <tbody style={{}}>{generateRows()}</tbody>
+            <tbody style={{}}>
+              {categories.map((category, i) => {
+                return (
+                  <>
+                    <tr key={i} style={i % 2 === 0 ? {} : {}}>
+                      <td>{i}.</td>
+                      <td>{category?.categoryName}</td>
+                      <td>{category?.colorCode}</td>
+                      <td>
+                        {category?.categoryLimit
+                          ? category?.categoryLimit
+                          : 'infinity'}
+                      </td>
+                      <td>{category?.currency}</td>
+                      <td>
+                        <p
+                          style={{
+                            display: 'flex',
+                            gap: '15px',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <span style={{ color: '#6BCB77', cursor: 'pointer' }}>
+                            <FaEdit size={18} />
+                          </span>
+                          <span
+                            style={{ color: '#F15A59', cursor: 'pointer' }}
+                            onClick={() => deleteCategories(category?._id)}
+                          >
+                            <MdDelete size={20} />
+                          </span>
+                        </p>
+                      </td>
+                    </tr>
+                  </>
+                )
+              })}
+            </tbody>
           </table>
         </div>
       </div>

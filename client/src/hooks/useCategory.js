@@ -1,12 +1,13 @@
 import { useCookies } from 'react-cookie'
 import { dataValidations } from '../utils/expenseValidations'
 import { getCurrentUserId } from '../utils/getCurrentUserId'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 export default function useCategories () {
   const [cookies] = useCookies([])
 
   const [loadingState, setLoadingState] = useState(false)
+  const [loadingData, setLoadingData] = useState(false)
 
   const addCategory = async data => {
     try {
@@ -40,7 +41,7 @@ export default function useCategories () {
             body: JSON.stringify(body)
           }
         )
-        
+
         const resp = await _RESPONSE.json().then()
 
         console.log('THE DATA: ', resp)
@@ -64,9 +65,62 @@ export default function useCategories () {
 
   const updateCategory = () => {}
 
-  const getCategories = () => {}
+  const getCategories = async () => {
+    setLoadingData(true)
 
-  const deleteCategories = () => {}
+    try {
+      // CHECK USER!
+      const response = getCurrentUserId(cookies['@authTokenExpense'])
+
+      const _RESPONSE = await fetch(
+        'http://localhost:4444/api/category/getAll?userId=' + response?.userId
+      )
+      const FINAL_RESPONSE = await _RESPONSE.json().then()
+
+      console.log('THE:-> ', FINAL_RESPONSE.categories)
+
+      setLoadingData(false)
+
+      return { success: true, categories: FINAL_RESPONSE?.categories }
+    } catch (err) {
+      setLoadingData(false)
+      console.log('ERROR:  ', err.message)
+      return { error: true, message: err.message }
+    }
+  }
+
+  const deleteCategories = async deleteId => {
+    setLoadingData(true)
+
+    try {
+      // CHECK USER!
+      const token = getCurrentUserId(cookies['@authTokenExpense'])
+
+      const _RESPONSE = await fetch(
+        'http://localhost:4444/api/category/delete?userId=' +
+          token?.userId +
+          '&deleteId=' +
+          deleteId,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const FINAL_RESPONSE = await _RESPONSE.json().then()
+
+      console.log('THE:-> ', FINAL_RESPONSE.success)
+
+      setLoadingData(false)
+
+      return { success: true }
+    } catch (err) {
+      setLoadingData(false)
+      console.log('ERROR:  ', err.message)
+      return { error: true, message: err.message }
+    }
+  }
 
   return {
     addCategory,
@@ -74,6 +128,7 @@ export default function useCategories () {
     updateCategory,
     getCategories,
     loadingState,
-    setLoadingState
+    setLoadingState,
+    loadingData
   }
 }
