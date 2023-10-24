@@ -24,7 +24,7 @@ export default function Modal ({}) {
                 position: 'absolute',
                 inset: 0,
                 background: '#272829',
-                opacity: 0.7
+                opacity: 0.3
               }}
             />
 
@@ -37,7 +37,9 @@ export default function Modal ({}) {
               }}
             >
               {/* IF MODAL TYPE IS NEW CATEGORY !! */}
-              {modalType === 'NEW_CATEGORY' && <NewCategoryModalBody />}
+              {['NEW_CATEGORY','EDIT_CATEGORY'].includes(modalType) && (
+                <NewCategoryModalBody />
+              )}
             </div>
           </div>
         </>

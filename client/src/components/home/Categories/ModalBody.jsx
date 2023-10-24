@@ -1,10 +1,12 @@
 import { useContext, useState } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
-import useCategories from '../../../hooks/useCategory';
+import useCategories from '../../../hooks/useCategory'
 
 export default function NewCategoryModalBody ({}) {
-  const { setShowModal, showModal } = useContext(AllContext)
-  const { addCategory, loadingState,setLoadingState } = useCategories()
+  const { setShowModal, editCategory, modalType } = useContext(AllContext)
+  const { addCategory, loadingState, setLoadingState, updateCategory } =
+    useCategories()
+
   const [status, setStatus] = useState({
     error: '',
     success: ''
@@ -12,12 +14,12 @@ export default function NewCategoryModalBody ({}) {
 
   // STATE!
   const [newCategory, setNewCategory] = useState({
-    name: '',
-    code: '',
-    limit: '',
-    currency: ''
+    name: editCategory ? editCategory?.categoryName : '',
+    code: editCategory ? editCategory?.colorCode : '',
+    limit: editCategory ? editCategory?.categoryLimit : '',
+    currency: editCategory ? editCategory?.currency : '',
+    id: editCategory?._id
   })
-  // const [loadingState, setLoadingState] = useState(false)
 
   // INPUT CHANGE HANDLERS!
   const onInputChange = event => {
@@ -25,15 +27,18 @@ export default function NewCategoryModalBody ({}) {
   }
 
   // ON-SUBMIT HANDLER FUNCTION!
-  const onSubmitHandler = async() => {
+  const onSubmitHandler = async () => {
     // CALL THE FUNCTION FROM HOOK!
-    const response = await addCategory(newCategory)
+    const response =
+      modalType === 'NEW_CATEGORY'
+        ? await addCategory(newCategory)
+        : await updateCategory(newCategory)
 
-    console.log('text',response);
+    console.log('text', response)
     if (response?.success) {
       setStatus({
         error: '',
-        success: 'Category added successfully!'
+        success: response?.message
       })
     }
     if (response?.error) {
@@ -59,7 +64,8 @@ export default function NewCategoryModalBody ({}) {
           borderBottom: '1px solid #272829'
         }}
       >
-        Add New Expense Category
+        {modalType === 'NEW_CATEGORY' ? 'Add New ' : 'Edit '}
+        Expense Category
       </header>
 
       {/* INPUTS! */}
@@ -96,6 +102,7 @@ export default function NewCategoryModalBody ({}) {
             }}
             placeholder='New Expense Category Name'
             onChange={onInputChange}
+            value={newCategory.name}
           />
         </div>
 
@@ -239,6 +246,7 @@ export default function NewCategoryModalBody ({}) {
             }}
             placeholder='New Expense Monthly Limit'
             onChange={onInputChange}
+            value={newCategory.limit}
           />
           <div
             style={{
@@ -386,7 +394,11 @@ export default function NewCategoryModalBody ({}) {
           }}
           onClick={onSubmitHandler}
         >
-          {loadingState ? 'SAVING...' : 'SAVE'}
+          {loadingState
+            ? 'SAVING...'
+            : modalType === 'NEW_CATEGORY'
+            ? 'SAVE'
+            : 'UPDATE'}
         </button>
       </footer>
     </>

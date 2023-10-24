@@ -1,13 +1,15 @@
 import { useCookies } from 'react-cookie'
 import { dataValidations } from '../utils/expenseValidations'
 import { getCurrentUserId } from '../utils/getCurrentUserId'
-import { useCallback, useMemo, useState } from 'react'
+import { useContext, useState } from 'react'
+import { AllContext } from '../states/ContextProvider'
 
 export default function useCategories () {
   const [cookies] = useCookies([])
 
   const [loadingState, setLoadingState] = useState(false)
   const [loadingData, setLoadingData] = useState(false)
+  const { setAllCategories, setShowModal } = useContext(AllContext)
 
   const addCategory = async data => {
     try {
@@ -17,8 +19,6 @@ export default function useCategories () {
 
       // NOW VALIDATE THIS DATA!
       const validator = dataValidations(data) // THIS WILL RETURN TRUE IF EVERYTHING GOING WELL!
-
-      console.log('DATA SENDING... ', data)
 
       if (validator) {
         // CONTINUE SAVING NEW CATEGORY!
@@ -43,8 +43,8 @@ export default function useCategories () {
         )
 
         const resp = await _RESPONSE.json().then()
+        console.log('CHECK: ', resp?.newCategory)
 
-        console.log('THE DATA: ', resp)
         // CHECK IF ERROR!
         if (resp?.error) {
           setLoadingState(false)
@@ -54,17 +54,82 @@ export default function useCategories () {
         // CHECK IF SUCCESS!
         if (resp?.success) {
           setLoadingState(false)
-          return { success: true, newCategory: data.newCategory }
+          setAllCategories(prev => [...prev, resp?.newCategory])
+          setShowModal(false)
+          return {
+            success: true,
+            newCategory: resp?.newCategory,
+            message: 'New Category Added!'
+          }
         }
       }
     } catch (err) {
-      console.log('ERROR:  ', err.message)
       return { error: true, message: err.message }
     }
   }
+  const updateCategory = async data => {
+    try {
+      setLoadingState(true)
+      // CHECK IF USER ID EXISTS!
+      const response = getCurrentUserId(cookies['@authTokenExpense'])
 
-  const updateCategory = () => {}
+      // NOW VALIDATE THIS DATA!
+      const validator = dataValidations(data) // THIS WILL RETURN TRUE IF EVERYTHING GOING WELL!
 
+      if (validator) {
+        // CONTINUE SAVING NEW CATEGORY!
+        const body = {
+          categoryName: data.name,
+          categoryLimit: data.limit,
+          colorCode: data.code,
+          currency: data.currency,
+          userId: response.userId,
+          id: data?.id
+        }
+
+        console.log('SENDING DATA:', body)
+
+        const _RESPONSE = await fetch(
+          'http://localhost:4444/api/category/update',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              accept: 'application/json'
+            },
+            body: JSON.stringify(body)
+          }
+        )
+
+        const resp = await _RESPONSE.json().then()
+
+        console.log('RESP: ', resp)
+
+        // CHECK IF ERROR!
+        if (resp?.error) {
+          setLoadingState(false)
+          return { error: true, message: data.message }
+        }
+
+        // CHECK IF SUCCESS!
+        if (resp?.success) {
+          setLoadingState(false)
+          setAllCategories(prev => [
+            ...prev.filter(category => category?._id !== data?.id),
+            resp?.updatedCategory
+          ])
+          setShowModal(false)
+          return {
+            success: true,
+            updatedCategory: resp?.updatedCategory,
+            message: 'Category Updated!'
+          }
+        }
+      }
+    } catch (err) {
+      return { error: true, message: err.message }
+    }
+  }
   const getCategories = async () => {
     setLoadingData(true)
 
@@ -77,24 +142,23 @@ export default function useCategories () {
       )
       const FINAL_RESPONSE = await _RESPONSE.json().then()
 
-      console.log('THE:-> ', FINAL_RESPONSE.categories)
-
       setLoadingData(false)
 
-      return { success: true, categories: FINAL_RESPONSE?.categories }
+      setAllCategories(FINAL_RESPONSE.categories)
+
+      return { success: true, message: 'Fetched all categories' }
     } catch (err) {
       setLoadingData(false)
-      console.log('ERROR:  ', err.message)
       return { error: true, message: err.message }
     }
   }
 
   const deleteCategories = async deleteId => {
-    setLoadingData(true)
-
     try {
       // CHECK USER!
       const token = getCurrentUserId(cookies['@authTokenExpense'])
+
+      setLoadingState(true)
 
       const _RESPONSE = await fetch(
         'http://localhost:4444/api/category/delete?userId=' +
@@ -110,14 +174,19 @@ export default function useCategories () {
       )
       const FINAL_RESPONSE = await _RESPONSE.json().then()
 
-      console.log('THE:-> ', FINAL_RESPONSE.success)
+      if (FINAL_RESPONSE?.success) {
+        setAllCategories(prev => [
+          ...prev.filter(category => category._id !== deleteId)
+        ])
+        setLoadingState(false)
 
-      setLoadingData(false)
+        return { success: true }
+      }
 
-      return { success: true }
+      return { error: true, message: FINAL_RESPONSE.message }
     } catch (err) {
-      setLoadingData(false)
       console.log('ERROR:  ', err.message)
+      setLoadingState(false)
       return { error: true, message: err.message }
     }
   }

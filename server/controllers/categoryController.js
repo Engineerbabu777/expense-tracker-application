@@ -38,7 +38,6 @@ export const addNewCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
   try {
     const { userId } = req.query
-    console.log('USER_ID-> ', userId)
 
     // CHECK USER IN THE DATABASE!
     const user = await userModel.findById(userId)
@@ -52,8 +51,6 @@ export const getCategories = async (req, res) => {
 
     const categories = await categoryModel.find({ userId })
 
-    console.log('Categories:', categories)
-
     // RETURN SUCCESS RESPONSE!
     res
       .status(200)
@@ -63,11 +60,10 @@ export const getCategories = async (req, res) => {
   }
 }
 
+// :DELETE
 export const deleteCategory = async (req, res) => {
   try {
     const { userId, deleteId } = req.query
-    console.log('QUERY:', req.query)
-    console.log('USER_ID-> ', userId, 'deleteId-> ', deleteId)
 
     // CHECK USER IN THE DATABASE!
     const user = await userModel.findById(userId)
@@ -83,6 +79,43 @@ export const deleteCategory = async (req, res) => {
 
     // RETURN SUCCESS RESPONSE!
     res.status(200).json({ success: true, message: 'Category Deleted!' })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error!', error: true })
+  }
+}
+
+// UPDATE
+export const updateCategory = async (req, res) => {
+  try {
+    const { categoryName, categoryLimit, currency, userId, colorCode, id } =
+      req.body
+
+    // CHECK USER IN THE DATABASE!
+    const user = await userModel.findById(userId)
+
+    if (!user?.email || !user?.name) {
+      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
+      return res
+        .status(401)
+        .json({ error: true, message: 'Invalid Authorization!' })
+    }
+
+    await categoryModel.findByIdAndUpdate(id, {
+      categoryLimit,
+      categoryName,
+      colorCode,
+      userId,
+      currency
+    })
+
+    const updatedCategory = await categoryModel.findById(id)
+
+    console.log('UPDATED: ', updatedCategory)
+
+    // RETURN SUCCESS RESPONSE!
+    res
+      .status(200)
+      .json({ success: true, message: 'Updated Success!', updatedCategory })
   } catch (error) {
     res.status(500).json({ message: 'Server error!', error: true })
   }

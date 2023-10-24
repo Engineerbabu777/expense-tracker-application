@@ -12,7 +12,7 @@ export default function ManagementPage () {
 
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.authTokenExpense) {
+      if (!cookies['@authTokenExpense']) {
         navigate('/login')
       } else {
         // MAKE A REQUEST AND GET USER!

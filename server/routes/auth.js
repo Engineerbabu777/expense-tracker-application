@@ -18,6 +18,6 @@ authRoutes.post('/resetPassword', resetPassword) // POST METHOD OF THIS PARTICUL
 authRoutes.put('/newPassword', newPassword) // PUT METHOD OF THIS PARTICULAR ROUTE!
 // GET ENDPOINTS!
 authRoutes.get('/page/newPassword/', checkVerifyPasswordPage) // GET METHOD OF THIS PARTICULAR ROUTE!
-
+// DELETE ENDPOINTS!
 // EXPORTING!!!
 export default authRoutes
