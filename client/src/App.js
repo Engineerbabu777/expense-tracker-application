@@ -21,7 +21,7 @@ function App () {
         <Route index element={<HomePage /> } />
         <Route path="/transactions" element={<TransactionPage /> } />
         <Route path="/categories" element={<CategoriesPage /> } />
-        <Route path="/management" element={<ManagementPage /> } />
+        <Route path="/management/*" element={<ManagementPage /> } />
         <Route path="/reports" element={<ReportsPage /> } />
         <Route path="/export" element={<ExportPage /> } />
         <Route path="/privacy" element={<PrivacyPage /> } />
@@ -30,6 +30,8 @@ function App () {
         <Route path='/register' element={<Register />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         <Route path='/resetPassword/:token' element={<ResetPasswordPage />} />
+        
+
       </Routes>
     </>
   )

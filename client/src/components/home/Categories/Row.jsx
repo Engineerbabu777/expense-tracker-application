@@ -2,8 +2,7 @@ import { FaEdit } from 'react-icons/fa'
 import useCategories from '../../../hooks/useCategory'
 import { MdDelete } from 'react-icons/md'
 import { toast } from 'react-hot-toast'
-import Modal from '../../shared/Modal/Modal'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
 
 export default function Row ({ category, i }) {
@@ -26,9 +25,7 @@ export default function Row ({ category, i }) {
       <tr key={i} style={i % 2 === 0 ? {} : {}}>
         <td>{i}.</td>
         <td>{category?.categoryName}</td>
-        <td >
-          {category?.colorCode}
-        </td>
+        <td>{category?.colorCode}</td>
         <td>
           {category?.categoryLimit ? category?.categoryLimit : 'infinity'}
         </td>

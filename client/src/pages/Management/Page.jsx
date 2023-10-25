@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../components/shared/Header/Header'
 import HomeLayout from '../../components/home/Layout'
 import LeftSide from '../../components/home/Left/Left'
-import RightSide from '../../components/home/Right/Right'
+import BudgetMain from '../../components/home/management/main'
 
 export default function ManagementPage () {
   const [cookies] = useCookies([])
@@ -42,7 +42,7 @@ export default function ManagementPage () {
           <LeftSide />
 
           {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
-          <div>Management Page</div>
+          <BudgetMain />
 
         </HomeLayout>
       </div>

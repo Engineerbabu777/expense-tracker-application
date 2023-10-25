@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,15 +17,26 @@ const userSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default:'https://e7.pngegg.com/pngimages/146/551/png-clipart-user-login-mobile-phones-password-user-miscellaneous-blue.png'
+      default:
+        'https://e7.pngegg.com/pngimages/146/551/png-clipart-user-login-mobile-phones-password-user-miscellaneous-blue.png'
     },
     resetPasswordToken: String,
-    resetPasswordTime: Date
+    resetPasswordTime: Date,
+    notifications: [
+      {
+        Date: {
+          month: String,
+          year: Number,
+          date: Number
+        },
+        message: String
+      }
+    ]
   },
   {
     timestamps: true
   }
 )
 
-export const userModel = mongoose?.models?.user || mongoose.model('user', userSchema)
-
+export const userModel =
+  mongoose?.models?.user || mongoose.model('user', userSchema)
