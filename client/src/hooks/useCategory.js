@@ -152,7 +152,6 @@ export default function useCategories () {
       return { error: true, message: err.message }
     }
   }
-
   const deleteCategories = async deleteId => {
     try {
       // CHECK USER!
@@ -190,7 +189,6 @@ export default function useCategories () {
       return { error: true, message: err.message }
     }
   }
-
   return {
     addCategory,
     deleteCategories,

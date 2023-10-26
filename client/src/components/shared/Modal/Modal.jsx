@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
 import './style.css'
 import NewCategoryModalBody from '../../home/Categories/ModalBody'
+import ModalBodyForBudget from '../../home/management/ModalBody'
 
 export default function Modal ({}) {
   const { showModal, modalType } = useContext(AllContext)
@@ -36,9 +37,14 @@ export default function Modal ({}) {
                 width: '400px'
               }}
             >
-              {/* IF MODAL TYPE IS NEW CATEGORY !! */}
-              {['NEW_CATEGORY','EDIT_CATEGORY'].includes(modalType) && (
+              {/* MODAL BODY FOR CATEGORIES! !! */}
+              {['NEW_CATEGORY', 'EDIT_CATEGORY'].includes(modalType) && (
                 <NewCategoryModalBody />
+              )}
+
+              {/* MODAL BODY FOR BUDGET! */}
+              {['NEW_BUDGET', 'EDIT_BUDGET'].includes(modalType) && (
+                <ModalBodyForBudget />
               )}
             </div>
           </div>

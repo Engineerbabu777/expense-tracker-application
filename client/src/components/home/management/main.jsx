@@ -1,17 +1,15 @@
 import { BiEdit } from 'react-icons/bi'
 import Headings from '../Right/Headings'
-import TabsManagement from './TabsManagement'
-import { useLocation } from 'react-router-dom'
-import IncomeExpenseView from './IncomeExpenseView/InExView'
-import BudgetView from './BudgetView/BudgetView'
+import { useContext } from 'react'
+import { AllContext } from '../../../states/ContextProvider'
+import Modal from '../../shared/Modal/Modal'
 
 export default function BudgetMain ({}) {
-  const location = useLocation()
-
-  const index = location?.pathname?.split('/')[2]
+  const { setShowModal, setModalType } = useContext(AllContext)
 
   return (
     <>
+      <Modal />
       {/* MAIN RIGHT SIDE! */}
       <div
         style={{
@@ -61,22 +59,16 @@ export default function BudgetMain ({}) {
                     color: 'white',
                     fontWeight: '600'
                   }}
-                  onClick={() => {}}
+                  onClick={() => {
+                    setShowModal(true)
+                    setModalType('NEW_BUDGET')
+                  }}
                 >
                   Create&nbsp;New&nbsp;Budget
                 </p>
               </div>
             </div>
           </div>
-
-          {/* TABS! */}
-          <TabsManagement />
-
-          {/* VIEW ACCORDING TO TABS! */}
-
-          {['expense', 'income'].includes(index) && <IncomeExpenseView />}
-
-          {index === 'budget' && <BudgetView />}
         </div>
       </div>
     </>
