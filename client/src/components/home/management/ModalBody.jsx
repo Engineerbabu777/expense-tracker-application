@@ -5,7 +5,7 @@ import useBudget from '../../../hooks/useBudget'
 
 export default function MOdalBodyForBudget ({}) {
   const { setShowModal, modalType } = useContext(AllContext)
-  const { createNewBudget, loadingState } = useBudget()
+  const { createNewBudget, creatingBudget } = useBudget()
 
   const [status, setStatus] = useState({
     error: '',
@@ -33,6 +33,10 @@ export default function MOdalBodyForBudget ({}) {
         error: '',
         success: response?.message
       })
+
+      setTimeout(() => {
+       setShowModal(false)
+      },300);
     }
     if (response?.error) {
       // setLoadingState(false)
@@ -143,8 +147,8 @@ export default function MOdalBodyForBudget ({}) {
           }}
           onClick={onSubmitHandler}
         >
-          {loadingState
-            ? 'SAVING...'
+          {creatingBudget
+            ? 'CREATING...'
             : modalType === 'NEW_BUDGET'
             ? 'CREATE'
             : 'UPDATE'}

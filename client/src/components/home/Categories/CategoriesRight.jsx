@@ -88,8 +88,6 @@ export default function CategoriesRight () {
                 <th className={styles.theadStyles}>Sr#</th>
                 <th className={styles.theadStyles}>Name</th>
                 <th className={styles.theadStyles}>Color Code</th>
-                <th className={styles.theadStyles}>Expense Limit</th>
-                <th className={styles.theadStyles}>Currency</th>
                 <th className={styles.theadStyles}>Actions</th>
               </thead>
               <tbody style={{}}>

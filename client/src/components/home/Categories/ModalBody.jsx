@@ -1,11 +1,18 @@
 import { useContext, useState } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
 import useCategories from '../../../hooks/useCategory'
+import { useLocation } from 'react-router-dom'
+import useBudget from '../../../hooks/useBudget'
 
 export default function NewCategoryModalBody ({}) {
   const { setShowModal, editCategory, modalType } = useContext(AllContext)
   const { addCategory, loadingState, setLoadingState, updateCategory } =
     useCategories()
+  const { editMonthlyBudgetCategory } = useBudget()
+
+  const location = useLocation()
+  const isBudget = location.pathname.includes('/management')
+  console.log(isBudget)
 
   const [status, setStatus] = useState({
     error: '',
@@ -14,11 +21,21 @@ export default function NewCategoryModalBody ({}) {
 
   // STATE!
   const [newCategory, setNewCategory] = useState({
-    name: editCategory ? editCategory?.categoryName : '',
-    code: editCategory ? editCategory?.colorCode : '',
-    limit: editCategory ? editCategory?.categoryLimit : '',
+    name: editCategory?.categoryId
+      ? editCategory?.categoryId?.categoryName
+      : editCategory?.categoryName
+      ? editCategory.categoryName
+      : '',
+    code: editCategory?.categoryId
+      ? editCategory?.categoryId?.colorCode
+      : editCategory?.colorCode
+      ? editCategory.colorCode
+      : '',
+    limit: editCategory?.monthlyLimit ? editCategory?.monthlyLimit : '',
     currency: editCategory ? editCategory?.currency : '',
-    id: editCategory?._id
+    id: editCategory?.categoryId
+      ? editCategory?.categoryId?._id
+      : editCategory?._id
   })
 
   // INPUT CHANGE HANDLERS!
@@ -29,24 +46,44 @@ export default function NewCategoryModalBody ({}) {
   // ON-SUBMIT HANDLER FUNCTION!
   const onSubmitHandler = async () => {
     // CALL THE FUNCTION FROM HOOK!
-    const response =
-      modalType === 'NEW_CATEGORY'
-        ? await addCategory(newCategory)
-        : await updateCategory(newCategory)
+    if (isBudget) {
+      // FOR BUDGET LIMIT CURRENCY!
+      const response = await editMonthlyBudgetCategory(newCategory)
+      console.log('BUDGET LIMIT:', response)
+      if (response?.success) {
+        setStatus({
+          error: '',
+          success: response?.message
+        })
+      }
+      if (response?.error) {
+        setLoadingState(false)
+        setStatus({
+          success: '',
+          error: response.message
+        })
+      }
+    } else {
+      // FOR CATEGORIES!
+      const response =
+        modalType === 'NEW_CATEGORY'
+          ? await addCategory(newCategory)
+          : await updateCategory(newCategory)
 
-    console.log('text', response)
-    if (response?.success) {
-      setStatus({
-        error: '',
-        success: response?.message
-      })
-    }
-    if (response?.error) {
-      setLoadingState(false)
-      setStatus({
-        success: '',
-        error: response.message
-      })
+      console.log('text', response)
+      if (response?.success) {
+        setStatus({
+          error: '',
+          success: response?.message
+        })
+      }
+      if (response?.error) {
+        setLoadingState(false)
+        setStatus({
+          success: '',
+          error: response.message
+        })
+      }
     }
   }
 
@@ -78,269 +115,292 @@ export default function NewCategoryModalBody ({}) {
           padding: '15px'
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px'
-          }}
-        >
-          <label htmlFor='name' style={{ color: '#8e8e8e', fontWeight: '600' }}>
-            Category Name:{' '}
-          </label>
-          <input
-            id='name'
-            type='text'
-            name='name'
-            style={{
-              borderRadius: '3px',
-              padding: '8px 10px',
-              outline: 'none',
-              border: '1px solid gray',
-              backgroundColor: '#272829',
-              color: 'white'
-            }}
-            placeholder='New Expense Category Name'
-            onChange={onInputChange}
-            value={newCategory.name}
-          />
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px'
-          }}
-        >
-          <label htmlFor='code' style={{ color: '#8e8e8e', fontWeight: '600' }}>
-            Color Code:{' '}
-          </label>
-
+        {!isBudget && (
           <div
             style={{
               display: 'flex',
-              gap: '10px',
-              alignItems: 'center'
+              flexDirection: 'column',
+              gap: '4px'
             }}
           >
-            <div
+            <label
+              htmlFor='name'
+              style={{ color: '#8e8e8e', fontWeight: '600' }}
+            >
+              Category Name:{' '}
+            </label>
+            <input
+              id='name'
+              type='text'
+              name='name'
               style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#786AA3',
-                borderRadius: '30px',
-                border: newCategory.code === '#786AA3' && '2px solid lightGreen'
+                borderRadius: '3px',
+                padding: '8px 10px',
+                outline: 'none',
+                border: '1px solid gray',
+                backgroundColor: '#272829',
+                color: 'white'
               }}
-              onClick={() =>
-                setNewCategory({ ...newCategory, code: '#786AA3' })
-              }
-            />
-
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#7AABB3',
-                borderRadius: '30px',
-                border: newCategory.code === '#7AABB3' && '2px solid lightGreen'
-              }}
-              onClick={() =>
-                setNewCategory({ ...newCategory, code: '#7AABB3' })
-              }
-            />
-
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#789EE3',
-                borderRadius: '30px',
-                border: newCategory.code === '#789EE3' && '2px solid lightGreen'
-              }}
-              onClick={() =>
-                setNewCategory({ ...newCategory, code: '#789EE3' })
-              }
-            />
-
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#599AB4',
-                borderRadius: '30px'
-              }}
-              onClick={() =>
-                setNewCategory({ ...newCategory, code: '#599AB4' })
-              }
-            />
-
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#786',
-                borderRadius: '30px'
-              }}
-              onClick={() => setNewCategory({ ...newCategory, code: '#786' })}
-            />
-
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#AAA',
-                borderRadius: '30px'
-              }}
-              onClick={() => setNewCategory({ ...newCategory, code: '#AAA' })}
-            />
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#CCC136',
-                borderRadius: '30px'
-              }}
-              onClick={() =>
-                setNewCategory({ ...newCategory, code: '#CCC136' })
-              }
-            />
-            <div
-              style={{
-                width: '20px',
-                height: '20px',
-                backgroundColor: '#786EEE',
-                borderRadius: '30px'
-              }}
-              onClick={() =>
-                setNewCategory({ ...newCategory, code: '#786EEE' })
-              }
+              placeholder='New Expense Category Name'
+              onChange={onInputChange}
+              value={newCategory.name}
             />
           </div>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px'
-          }}
-        >
-          <label
-            htmlFor='limit'
-            style={{ color: '#8e8e8e', fontWeight: '600' }}
-          >
-            Expense Monthly Limit:{' '}
-          </label>
-          <input
-            id='limit'
-            type='number'
-            name='limit'
-            style={{
-              borderRadius: '3px',
-              padding: '8px 10px',
-              outline: 'none',
-              border: '1px solid gray',
-              backgroundColor: '#272829',
-              color: 'white'
-            }}
-            placeholder='New Expense Monthly Limit'
-            onChange={onInputChange}
-            value={newCategory.limit}
-          />
+        )}
+        {!isBudget && (
           <div
             style={{
               display: 'flex',
-              gap: '2px',
-              color: '#898989',
-              fontSize: '0.85rem',
-              fontWeight: '600'
+              flexDirection: 'column',
+              gap: '4px'
             }}
           >
-            <span>Note: </span>
-            <p>If not limit set then it will be infinity.</p>
+            <label
+              htmlFor='code'
+              style={{ color: '#8e8e8e', fontWeight: '600' }}
+            >
+              Color Code:{' '}
+            </label>
+
+            <div
+              style={{
+                display: 'flex',
+                gap: '10px',
+                alignItems: 'center'
+              }}
+            >
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#786AA3',
+                  borderRadius: '30px',
+                  border:
+                    newCategory.code === '#786AA3' && '2px solid lightGreen'
+                }}
+                onClick={() =>
+                  setNewCategory({ ...newCategory, code: '#786AA3' })
+                }
+              />
+
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#7AABB3',
+                  borderRadius: '30px',
+                  border:
+                    newCategory.code === '#7AABB3' && '2px solid lightGreen'
+                }}
+                onClick={() =>
+                  setNewCategory({ ...newCategory, code: '#7AABB3' })
+                }
+              />
+
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#789EE3',
+                  borderRadius: '30px',
+                  border:
+                    newCategory.code === '#789EE3' && '2px solid lightGreen'
+                }}
+                onClick={() =>
+                  setNewCategory({ ...newCategory, code: '#789EE3' })
+                }
+              />
+
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#599AB4',
+                  borderRadius: '30px'
+                }}
+                onClick={() =>
+                  setNewCategory({ ...newCategory, code: '#599AB4' })
+                }
+              />
+
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#786',
+                  borderRadius: '30px'
+                }}
+                onClick={() => setNewCategory({ ...newCategory, code: '#786' })}
+              />
+
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#AAA',
+                  borderRadius: '30px'
+                }}
+                onClick={() => setNewCategory({ ...newCategory, code: '#AAA' })}
+              />
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#CCC136',
+                  borderRadius: '30px'
+                }}
+                onClick={() =>
+                  setNewCategory({ ...newCategory, code: '#CCC136' })
+                }
+              />
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: '#786EEE',
+                  borderRadius: '30px'
+                }}
+                onClick={() =>
+                  setNewCategory({ ...newCategory, code: '#786EEE' })
+                }
+              />
+            </div>
           </div>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px'
-          }}
-        >
-          <label style={{ color: '#8e8e8e', fontWeight: '600' }}>
-            Currency:{' '}
-          </label>
-
+        )}
+        {isBudget && (
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              // justifyContent: 'space-',
-              gap: '20px',
-              flexWrap: 'wrap'
+              flexDirection: 'column',
+              gap: '4px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {/* NAME! */}
-              <label htmlFor='dollar'>Dollar</label>
-
-              {/* RADIO! */}
-              <input
-                id={'dollar'}
-                type='radio'
-                value={'dollar'}
-                onChange={onInputChange}
-                checked={newCategory.currency === 'dollar'}
-                name='currency'
-              />
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {/* NAME! */}
-              <label htmlFor='pkr'>Pkr</label>
-
-              {/* RADIO! */}
-              <input
-                id={'pkr'}
-                type='radio'
-                value={'pkr'}
-                onChange={onInputChange}
-                checked={newCategory.currency === 'pkr'}
-                name='currency'
-              />
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {/* NAME! */}
-              <label htmlFor='dollar'>Inr</label>
-
-              {/* RADIO! */}
-              <input
-                type='radio'
-                value={'inr'}
-                checked={newCategory.currency === 'inr'}
-                onChange={onInputChange}
-                name='currency'
-              />
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {/* NAME! */}
-              <label htmlFor='lira'>Lira</label>
-
-              {/* RADIO! */}
-              <input
-                type='radio'
-                value={'lira'}
-                checked={newCategory.currency === 'lira'}
-                onChange={onInputChange}
-                name='currency'
-              />
+            <label
+              htmlFor='limit'
+              style={{ color: '#8e8e8e', fontWeight: '600' }}
+            >
+              Expense Monthly Limit:{' '}
+            </label>
+            <input
+              id='limit'
+              type='number'
+              name='limit'
+              style={{
+                borderRadius: '3px',
+                padding: '8px 10px',
+                outline: 'none',
+                border: '1px solid gray',
+                backgroundColor: '#272829',
+                color: 'white'
+              }}
+              placeholder='New Expense Monthly Limit'
+              onChange={onInputChange}
+              value={newCategory.limit}
+            />
+            <div
+              style={{
+                display: 'flex',
+                gap: '2px',
+                color: '#898989',
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}
+            >
+              <span>Note: </span>
+              <p>If not limit set then it will be infinity.</p>
             </div>
           </div>
-        </div>
+        )}
+
+        {isBudget && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px'
+            }}
+          >
+            <label style={{ color: '#8e8e8e', fontWeight: '600' }}>
+              Currency:{' '}
+            </label>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                // justifyContent: 'space-',
+                gap: '20px',
+                flexWrap: 'wrap'
+              }}
+            >
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+              >
+                {/* NAME! */}
+                <label htmlFor='dollar'>Dollar</label>
+
+                {/* RADIO! */}
+                <input
+                  id={'dollar'}
+                  type='radio'
+                  value={'dollar'}
+                  onChange={onInputChange}
+                  checked={newCategory.currency === 'dollar'}
+                  name='currency'
+                />
+              </div>
+
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+              >
+                {/* NAME! */}
+                <label htmlFor='pkr'>Pkr</label>
+
+                {/* RADIO! */}
+                <input
+                  id={'pkr'}
+                  type='radio'
+                  value={'pkr'}
+                  onChange={onInputChange}
+                  checked={newCategory.currency === 'pkr'}
+                  name='currency'
+                />
+              </div>
+
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+              >
+                {/* NAME! */}
+                <label htmlFor='dollar'>Inr</label>
+
+                {/* RADIO! */}
+                <input
+                  type='radio'
+                  value={'inr'}
+                  checked={newCategory.currency === 'inr'}
+                  onChange={onInputChange}
+                  name='currency'
+                />
+              </div>
+
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+              >
+                {/* NAME! */}
+                <label htmlFor='lira'>Lira</label>
+
+                {/* RADIO! */}
+                <input
+                  type='radio'
+                  value={'lira'}
+                  checked={newCategory.currency === 'lira'}
+                  onChange={onInputChange}
+                  name='currency'
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       {status.error && (
         <p style={{ color: 'red', textAlign: 'center' }}>{status.error}</p>

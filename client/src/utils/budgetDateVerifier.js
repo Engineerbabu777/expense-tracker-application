@@ -1,4 +1,4 @@
-function getFullMonthName (shortMonth) {
+export function getFullMonthName (shortMonth) {
   const monthMapping = {
     Jan: 'January',
     Feb: 'February',
@@ -37,7 +37,7 @@ export const Verifier = MY_D => {
 
   // DATE MUST NOT BE GREATER THAN CURRENT!
   if (
-    SELECTED_DAY + 1 < CURRENT_DAY + 1 &&
+    SELECTED_DAY < CURRENT_DAY &&
     SELECTED_MONTH === CURRENT_MONTH &&
     SELECTED_YEAR === CURRENT_YEAR
   ) {
@@ -46,6 +46,6 @@ export const Verifier = MY_D => {
 
   const month = getFullMonthName(SELECTED_MONTH)
   const year = SELECTED_YEAR
-  const day = SELECTED_DAY + 1
+  const day = SELECTED_DAY
   return { success: true, month, year, date: day }
 }

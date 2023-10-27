@@ -2,10 +2,8 @@ import mongoose from 'mongoose'
 
 const categorySchema = new mongoose.Schema({
   categoryName: String,
-  currency: String,
-  userId: { type: mongoose.Schema.ObjectId, require: true },
+  userId: { type: mongoose.Schema.ObjectId, require: true,ref:'user' },
   colorCode: String,
-  categoryLimit: Number
 })
 
 export const categoryModel =

@@ -6,26 +6,50 @@ import { useContext } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
 
 export default function Row ({ category, i }) {
-  const { deleteCategories } = useCategories()
   const { setEditCategory, setShowModal, setModalType } = useContext(AllContext)
+
+  console.log('DATA: ', category)
 
   // DELETING CATEGORY !!
   const deleteCategoryById = async id => {
-    const { success, error, message } = await deleteCategories(id)
-    if (success) {
-      toast.success('Success!')
-    }
-    if (error) {
-      toast.error(message)
-    }
+    // const { success, error, message } = await deleteCategories(id)
+    // if (success) {
+    //   toast.success('Success!')
+    // }
+    // if (error) {
+    //   toast.error(message)
+    // }
   }
 
   return (
     <>
       <tr key={i} style={i % 2 === 0 ? {} : {}}>
         <td>{i}.</td>
-        <td>{category?.categoryName}</td>
-        <td>{category?.colorCode}</td>
+        <td>
+          {category?.categoryId
+            ? category?.categoryId?.categoryName
+            : category?.categoryName}
+        </td>
+        <td>
+          {category?.categoryId
+            ? category?.categoryId?.colorCode
+            : category?.colorCode}
+        </td>
+        <td>
+          {category?.monthlyLimit ? (
+            category.monthlyLimit
+          ) : (
+            <p style={{ color: 'red', fontSize: '0.80rem' }}>set Limit</p>
+          )}
+        </td>
+        <td>
+          {category?.currency ? (
+            category.currency
+          ) : (
+            <p style={{ color: 'red', fontSize: '0.80rem' }}>set currency</p>
+          )}
+        </td>
+
         <td>
           <p
             style={{
@@ -44,12 +68,6 @@ export default function Row ({ category, i }) {
               }}
             >
               <FaEdit size={18} />
-            </span>
-            <span
-              style={{ color: '#F15A59', cursor: 'pointer' }}
-              onClick={() => deleteCategoryById(category?._id)}
-            >
-              <MdDelete size={20} />
             </span>
           </p>
         </td>

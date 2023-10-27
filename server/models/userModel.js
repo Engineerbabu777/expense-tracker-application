@@ -31,7 +31,18 @@ const userSchema = new mongoose.Schema(
         },
         message: String
       }
-    ]
+    ],
+    // userDefinedCategories: [
+    //   {
+    //     name: String,
+    //     color: String,
+    //     categoryId: {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: 'category'
+    //     },
+        
+    //   }
+    // ]
   },
   {
     timestamps: true

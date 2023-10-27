@@ -8,9 +8,12 @@ export default function AllContextProvider ({ children }) {
   const [modalType, setModalType] = useState('')
   const [allCategories, setAllCategories] = useState([])
   const [editCategory, setEditCategory] = useState(null)
+  const [userCategories, setUserCategories] = useState([])
+  const [budgetCategories, setBudgetCategories] = useState([])
+  const [expenses, setExpenses] = useState([])
+  const [income, setIncome] = useState([])
 
-  console.log(showModal,modalType)
-
+  console.log(showModal, modalType)
 
   return (
     <>
@@ -23,7 +26,11 @@ export default function AllContextProvider ({ children }) {
           allCategories,
           setAllCategories,
           editCategory,
-          setEditCategory
+          setEditCategory,
+          setUserCategories,
+          userCategories,
+          setBudgetCategories,
+          budgetCategories
         }}
       >
         {children}

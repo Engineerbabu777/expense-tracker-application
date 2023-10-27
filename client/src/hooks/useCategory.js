@@ -3,13 +3,15 @@ import { dataValidations } from '../utils/expenseValidations'
 import { getCurrentUserId } from '../utils/getCurrentUserId'
 import { useContext, useState } from 'react'
 import { AllContext } from '../states/ContextProvider'
+import { getFullMonthName } from '../utils/budgetDateVerifier'
 
 export default function useCategories () {
   const [cookies] = useCookies([])
 
   const [loadingState, setLoadingState] = useState(false)
   const [loadingData, setLoadingData] = useState(false)
-  const { setAllCategories, setShowModal } = useContext(AllContext)
+  const { setAllCategories, setShowModal, setBudgetCategories } =
+    useContext(AllContext)
 
   const addCategory = async data => {
     try {
@@ -189,6 +191,66 @@ export default function useCategories () {
       return { error: true, message: err.message }
     }
   }
+
+  const userCategories = async () => {
+    setLoadingData(true)
+
+    // GET ALL CATEGORIES CREATED BY USER!
+    // GET ALL BUDGET SET CATEGORIES OF THAT PARTICULAR MONTH BY USER!
+    // THEN COMPARE THESE VALUES AGAINST THEIR ID'S!
+    // TAKES BOTH DATA FROM THEM BUT REMOVE THE SAME DATA FROM USER CATEGORIES!
+    // THEN SEND THAT DATA/ SHOW THAT PARTICULAR THAT IN OUR TABLE!
+
+    try {
+      // CHECK USER!
+      const response = getCurrentUserId(cookies['@authTokenExpense'])
+
+      // CURRENT MONTH!
+      const CURRENT_DATE = new Date()
+      const CURRENT_MONTH = getFullMonthName(
+        CURRENT_DATE.toString().slice(4, 7)
+      )
+      const CURRENT_YEAR = CURRENT_DATE.toString().slice(11, 15)
+
+      console.log(CURRENT_MONTH, CURRENT_YEAR)
+
+      const _RESPONSE = await fetch(
+        'http://localhost:4444/api/category/userCategories?userId=' +
+          response?.userId +
+          '&month=' +
+          CURRENT_MONTH +
+          '&year=' +
+          CURRENT_YEAR
+      )
+      const FINAL_RESPONSE = await _RESPONSE.json().then()
+
+      setLoadingData(false)
+
+      // setAllCategories(FINAL_RESPONSE.categories)
+      // setUserCategories(FINAL_RESPONSE.userCategories)
+
+      let userCategories = FINAL_RESPONSE.userCategories
+      let userBudgetCategories = FINAL_RESPONSE.userBudgetCategories
+
+      // COMPARE AGAINST THE VALUES!
+
+      console.log('RESPONSE FROM USER CATEGORIES:', [
+        ...userBudgetCategories,
+        ...userCategories
+      ])
+      setBudgetCategories([...userBudgetCategories, ...userCategories])
+
+      return {
+        success: true,
+        message: 'Fetched all user categories',
+        budget: [...userBudgetCategories, ...userCategories]
+      }
+    } catch (err) {
+      setLoadingData(false)
+      return { error: true, message: err.message }
+    }
+  }
+
   return {
     addCategory,
     deleteCategories,
@@ -196,6 +258,7 @@ export default function useCategories () {
     getCategories,
     loadingState,
     setLoadingState,
-    loadingData
+    loadingData,
+    userCategories
   }
 }
