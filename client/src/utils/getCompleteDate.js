@@ -8,6 +8,8 @@ export default function getCompleteDate () {
   const CURRENT_MONTH = CURRENT_DATE.toString().slice(4, 7)
   const CURRENT_YEAR = CURRENT_DATE.toString().slice(11, 15)
 
+  console.log("CURRENT DATE: ", date);
+
   const month = getFullMonthName(CURRENT_MONTH)
 
   return {

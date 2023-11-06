@@ -9,24 +9,42 @@ import Row from './Row'
 import useCategories from '../../../hooks/useCategory'
 import { getFullMonthName } from '../../../utils/budgetDateVerifier'
 import Loading from '../../shared/Loading/Loading'
+import useBudget from '../../../hooks/useBudget'
 
 export default function BudgetMain ({}) {
   const { setShowModal, setModalType, budgetCategories, showModal } =
     useContext(AllContext)
   const { userCategories: getUserBudget, loadingData } = useCategories()
+  const {getCurrentBudget} = useBudget();
   const [isBudgetAvailable, setIsBudgetAvailable] = useState(false)
 
   const checkForActiveBudget = async () => {
-    const response = await getUserBudget()
-    if (response?.budget?.length) {
-      setIsBudgetAvailable(true)
+    const response = await getCurrentBudget();
+    if(response.success){
+      setIsBudgetAvailable(true);
     }
-    console.log(response)
+    // const response = await getUserBudget()
+    // if (response?.budget?.length) {
+    //   setIsBudgetAvailable(true)
+    // }
+    // console.log(response)
   }
 
   useEffect(() => {
     checkForActiveBudget()
   }, [])
+
+  const current = () => {
+    // CHECK FOR  CURRENT DATE!
+    const date = new Date()
+    const CURRENT_DATE = date.toDateString().slice(0, 15)
+    const CURRENT_MONTH = CURRENT_DATE.toString().slice(4, 7)
+    const CURRENT_YEAR = CURRENT_DATE.toString().slice(11, 15)
+
+    const full = getFullMonthName(CURRENT_MONTH)
+
+    return `${full}, ${CURRENT_YEAR}`
+  }
 
   return (
     <>
@@ -84,7 +102,7 @@ export default function BudgetMain ({}) {
                       setModalType('NEW_BUDGET')
                     }}
                   >
-                    Budget Activated (October, 2023)
+                    Budget Activated ({current()})
                     <TiTick size={20} color={'darkGreen'} />
                   </p>
                 </div>
@@ -139,7 +157,7 @@ export default function BudgetMain ({}) {
                 <th className={styles.theadStyles}>Actions</th>
               </thead>
               <tbody style={{}}>
-                {budgetCategories.map((category, i) => {
+                {budgetCategories?.map((category, i) => {
                   return (
                     <>
                       <Row category={category} i={i} />

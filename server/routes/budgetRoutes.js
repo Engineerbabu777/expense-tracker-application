@@ -1,11 +1,11 @@
 import express from 'express'
-import { createNewBudget, newMonthlyBudgetCategorySettings } from '../controllers/budgetController.js'
+import { createNewBudget, currentMonthBudget, newMonthlyBudgetCategorySettings } from '../controllers/budgetController.js'
 
 const budgetRoutes = express.Router()
 
 // ALL ROUTES!
 // GET ROUTES!
-// budgetRoutes.get('/getAll', getCategories)
+budgetRoutes.get('/thisMonth', currentMonthBudget)
 
 // POST ROUTES!
 budgetRoutes.post('/new', createNewBudget) // /add will be handled here!

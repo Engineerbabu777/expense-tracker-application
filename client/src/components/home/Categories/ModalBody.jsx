@@ -12,7 +12,6 @@ export default function NewCategoryModalBody ({}) {
 
   const location = useLocation()
   const isBudget = location.pathname.includes('/management')
-  console.log(isBudget)
 
   const [status, setStatus] = useState({
     error: '',

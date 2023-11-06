@@ -3,6 +3,9 @@ import { AllContext } from '../../../states/ContextProvider'
 import './style.css'
 import NewCategoryModalBody from '../../home/Categories/ModalBody'
 import ModalBodyForBudget from '../../home/management/ModalBody'
+import ChooseModalBody from '../../home/Transactions/ModalBodys/ChooseModalBody'
+import IncomeModalBody from '../../home/Transactions/ModalBodys/IncomeModalBody'
+import ExpenseModalBody from '../../home/Transactions/ModalBodys/ExpenseModelBody'
 
 export default function Modal ({}) {
   const { showModal, modalType } = useContext(AllContext)
@@ -17,7 +20,8 @@ export default function Modal ({}) {
               inset: 0,
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
+              zIndex:'10000'
             }}
           >
             <div
@@ -25,7 +29,7 @@ export default function Modal ({}) {
                 position: 'absolute',
                 inset: 0,
                 background: '#272829',
-                opacity: 0.3
+                opacity: 0.6
               }}
             />
 
@@ -33,7 +37,7 @@ export default function Modal ({}) {
               style={{
                 backgroundColor: '#151515',
                 borderRadius: '10px',
-                zIndex: '10',
+                zIndex: '1000000',
                 width: '400px'
               }}
             >
@@ -46,6 +50,12 @@ export default function Modal ({}) {
               {['NEW_BUDGET', 'EDIT_BUDGET'].includes(modalType) && (
                 <ModalBodyForBudget />
               )}
+
+              {['CHOOSE_OPTION'].includes(modalType) && <ChooseModalBody />}
+
+              {['NEW_INCOME', 'INCOME'].includes(modalType) && <IncomeModalBody />}
+
+              {['NEW_EXPENSE', 'EXPENSE'].includes(modalType) && <ExpenseModalBody />}
             </div>
           </div>
         </>

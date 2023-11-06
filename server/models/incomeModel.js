@@ -6,22 +6,18 @@ const incomeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user'
     },
-    type: {
-      type: String,
-      required: true
-    },
-
     money: {
       type: Number,
       required: true
     },
     month: String,
     year: Number,
-    date: Number,
+    day: Number,
     source: {
       type: String,
       required: true
-    }
+    },
+    currency:String,
   },
   {
     timestamps: true

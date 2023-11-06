@@ -10,16 +10,14 @@ const expenseSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    category: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'category'
     },
-    date: {
-      month: String,
-      date: Number,
-      year: Number
-    },
-    amount: {
+    month: String,
+    date: Number,
+    year: Number,
+    money: {
       type: Number,
       required: true
     },

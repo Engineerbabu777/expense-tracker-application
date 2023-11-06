@@ -1,9 +1,10 @@
 import { useCookies } from 'react-cookie'
 import { dataValidations } from '../utils/expenseValidations'
 import { getCurrentUserId } from '../utils/getCurrentUserId'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AllContext } from '../states/ContextProvider'
 import { getFullMonthName } from '../utils/budgetDateVerifier'
+import getCompleteDate from '../utils/getCompleteDate'
 
 export default function useCategories () {
   const [cookies] = useCookies([])
@@ -12,6 +13,10 @@ export default function useCategories () {
   const [loadingData, setLoadingData] = useState(false)
   const { setAllCategories, setShowModal, setBudgetCategories } =
     useContext(AllContext)
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   const addCategory = async data => {
     try {
@@ -192,58 +197,54 @@ export default function useCategories () {
     }
   }
 
+  
   const userCategories = async () => {
     setLoadingData(true)
-
-    // GET ALL CATEGORIES CREATED BY USER!
-    // GET ALL BUDGET SET CATEGORIES OF THAT PARTICULAR MONTH BY USER!
-    // THEN COMPARE THESE VALUES AGAINST THEIR ID'S!
-    // TAKES BOTH DATA FROM THEM BUT REMOVE THE SAME DATA FROM USER CATEGORIES!
-    // THEN SEND THAT DATA/ SHOW THAT PARTICULAR THAT IN OUR TABLE!
-
     try {
       // CHECK USER!
       const response = getCurrentUserId(cookies['@authTokenExpense'])
 
       // CURRENT MONTH!
-      const CURRENT_DATE = new Date()
-      const CURRENT_MONTH = getFullMonthName(
-        CURRENT_DATE.toString().slice(4, 7)
-      )
-      const CURRENT_YEAR = CURRENT_DATE.toString().slice(11, 15)
-
-      console.log(CURRENT_MONTH, CURRENT_YEAR)
+      const date = getCompleteDate()
+      // console.log(CURRENT_MONTH, CURRENT_YEAR)
 
       const _RESPONSE = await fetch(
         'http://localhost:4444/api/category/userCategories?userId=' +
           response?.userId +
           '&month=' +
-          CURRENT_MONTH +
+          date?.month +
           '&year=' +
-          CURRENT_YEAR
+          date?.year
       )
       const FINAL_RESPONSE = await _RESPONSE.json().then()
 
       setLoadingData(false)
 
-      // setAllCategories(FINAL_RESPONSE.categories)
-      // setUserCategories(FINAL_RESPONSE.userCategories)
-
       let userCategories = FINAL_RESPONSE.userCategories
       let userBudgetCategories = FINAL_RESPONSE.userBudgetCategories
 
-      // COMPARE AGAINST THE VALUES!
+      let newArray = []
+      for (let i = 0; i < userCategories?.length; i++) {
+        let isNotFound = true
+        for (let j = 0; j < userBudgetCategories?.length; j++) {
+          if (
+            userCategories[i]?._id?.toString() ===
+            userBudgetCategories[j]?.categoryId?._id?.toString()
+          ) {
+            console.log('SAME: ', userCategories[i], userBudgetCategories[j])
+            newArray.push(userBudgetCategories[j])
+            isNotFound = false
+            break
+          }
+        }
+        isNotFound && newArray.push(userCategories[i])
+      }
 
-      console.log('RESPONSE FROM USER CATEGORIES:', [
-        ...userBudgetCategories,
-        ...userCategories
-      ])
-      setBudgetCategories([...userBudgetCategories, ...userCategories])
+      setBudgetCategories([...newArray])
 
       return {
         success: true,
-        message: 'Fetched all user categories',
-        budget: [...userBudgetCategories, ...userCategories]
+        message: 'Fetched all user categories'
       }
     } catch (err) {
       setLoadingData(false)

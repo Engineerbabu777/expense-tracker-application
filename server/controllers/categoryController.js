@@ -1,16 +1,19 @@
 import { budgetModel } from '../models/budgetModel.js'
 import { categoryModel } from '../models/categoryModel.js'
+import { expenseModel } from '../models/expenseModel.js'
 import { monthlyCategoryModel } from '../models/monthlyCategoryModel.js'
 import { userModel } from '../models/userModel.js'
 
-// FUNCTION TO ADD NEW CATEGORY !!!
+// :POST 📫 📫 📫  !!!
 export const addNewCategory = async (req, res) => {
   try {
+    // DESTRUCTING DATA FROM QUERY OBJECT!
     const { categoryName, userId, colorCode } = req.body
 
     // CHECK USER IN THE DATABASE!
     const user = await userModel.findById(userId)
 
+    // IF USER IS NOT AVAILABLE THAT HIT THIS!
     if (!user?.email || !user?.name) {
       // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
       return res
@@ -18,6 +21,7 @@ export const addNewCategory = async (req, res) => {
         .json({ error: true, message: 'Invalid Authorization!' })
     }
 
+    // CREATING NEW CATEGORY HERE!
     const newCategory = await categoryModel.create({
       categoryName,
       colorCode,
@@ -33,7 +37,7 @@ export const addNewCategory = async (req, res) => {
   }
 }
 
-// GET ALL CATEGORIES!
+// :GET 🧐🧐🧐!!!
 export const getCategories = async (req, res) => {
   try {
     const { userId } = req.query
@@ -41,6 +45,7 @@ export const getCategories = async (req, res) => {
     // CHECK USER IN THE DATABASE!
     const user = await userModel.findById(userId)
 
+    // IF USER IS NOT AVAILABLE THAT HIT THIS!
     if (!user?.email || !user?.name) {
       // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
       return res
@@ -59,31 +64,35 @@ export const getCategories = async (req, res) => {
   }
 }
 
-// :DELETE
+// :DELETE ❌❌❌!!!
 export const deleteCategory = async (req, res) => {
   try {
+    // DESTRUCTING DATA FROM QUERY OBJECT!
     const { userId, deleteId } = req.query
-
     // CHECK USER IN THE DATABASE!
     const user = await userModel.findById(userId)
-
+    // IF USER IS NOT AVAILABLE THAT HIT THIS!
     if (!user?.email || !user?.name) {
       // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
       return res
         .status(401)
         .json({ error: true, message: 'Invalid Authorization!' })
     }
-
+    // DELETING THAT CATEGORY TO BE DELETE!
     await categoryModel.findByIdAndDelete(deleteId)
-
+    // DELETE FROM MONTHLY EXPENSES CATEGORY THAT HAS THAT ID!
+    await monthlyCategoryModel.deleteMany({ categoryId: deleteId })
+    // DELETE FROM EXPENSE TRANSACTIONS AS WELL!
+    await expenseModel.deleteMany({ categoryId: deleteId })
     // RETURN SUCCESS RESPONSE!
     res.status(200).json({ success: true, message: 'Category Deleted!' })
   } catch (error) {
+    // HANDLING ERROR AND SENDING BACK!
     res.status(500).json({ message: 'Server error!', error: true })
   }
 }
 
-// UPDATE
+// UPDATE ♻️♻️♻️♻️!!!
 export const updateCategory = async (req, res) => {
   try {
     const { categoryName, userId, colorCode, id } = req.body
@@ -117,14 +126,8 @@ export const updateCategory = async (req, res) => {
   }
 }
 
-// GET EACH USER CATEGORIES!
+// ::GET EACH USER CATEGORIES 🧐🧐🧐!
 export const eachUserCategories = async (req, res) => {
-  // GET ALL CATEGORIES CREATED BY USER!
-  // GET ALL BUDGET SET CATEGORIES OF THAT PARTICULAR MONTH BY USER!
-  // THEN COMPARE THESE VALUES AGAINST THEIR ID'S!
-  // TAKES BOTH DATA FROM THEM BUT REMOVE THE SAME DATA FROM USER CATEGORIES!
-  // THEN SEND THAT DATA/ SHOW THAT PARTICULAR THAT IN OUR TABLE!
-
   try {
     // GETTING DATA FROM OUR REQUESTED URL!
     const { userId, month, year } = req.query
@@ -152,32 +155,11 @@ export const eachUserCategories = async (req, res) => {
       })
       .populate('categoryId')
 
-    console.log(userCategories, userBudgetCategories)
-
-    const newArray = []
-
-    for (let i = 0; i < userCategories?.length; i++) {
-      for (let j = 0; j < userBudgetCategories?.length; j++) {
-        if (
-          userCategories[i]?._id?.toString() ==
-          userBudgetCategories[j]?.categoryId?._id?.toString()
-        ) {
-          userCategories.splice(i, i + 1)
-          newArray.push(userBudgetCategories[j])
-          break
-        }
-      }
-    }
-
-    // let x = userCategories;
-    // userCategories = [...x];
-
     // RETURN SUCCESS RESPONSE!
     res.status(200).json({
       success: true,
       message: 'Categories Found!',
       userCategories,
-      newArray,
       userBudgetCategories
     })
   } catch (error) {

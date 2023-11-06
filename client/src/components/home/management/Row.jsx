@@ -8,7 +8,6 @@ import { AllContext } from '../../../states/ContextProvider'
 export default function Row ({ category, i }) {
   const { setEditCategory, setShowModal, setModalType } = useContext(AllContext)
 
-  console.log('DATA: ', category)
 
   // DELETING CATEGORY !!
   const deleteCategoryById = async id => {

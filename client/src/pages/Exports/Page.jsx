@@ -12,7 +12,7 @@ export default function ExportPage () {
 
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.authTokenExpense) {
+      if (!cookies['@authTokenExpense']) {
         navigate('/login')
       } else {
         // MAKE A REQUEST AND GET USER!
@@ -27,10 +27,9 @@ export default function ExportPage () {
         style={{
           backgroundColor: '#151515',
           height: '100%',
-          width: "100%",
+          width: '100%',
           fontFamily: 'Urbanist',
-          overflow:'hidden',
-
+          overflow: 'hidden'
         }}
       >
         {/* HEADER FOR ALL PAGES! */}
@@ -43,7 +42,6 @@ export default function ExportPage () {
 
           {/* RIGHT SIDE BAR(TRANSACTION TABLE)! */}
           <div>Exports Page</div>
-
         </HomeLayout>
       </div>
     </>

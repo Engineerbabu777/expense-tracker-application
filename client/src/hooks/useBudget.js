@@ -5,6 +5,7 @@ import { Verifier } from '../utils/budgetDateVerifier'
 import { AllContext } from '../states/ContextProvider'
 import { dataValidations } from '../utils/expenseValidations'
 import getCompleteDate from '../utils/getCompleteDate'
+import useCategories from './useCategory'
 
 export default function useBudget () {
   const [cookies] = useCookies([])
@@ -18,6 +19,7 @@ export default function useBudget () {
     setModalType,
     editCategory
   } = useContext(AllContext)
+  const { userCategories } = useCategories()
 
   const createNewBudget = async MY_DATE => {
     // GET CURRENT USER!
@@ -50,7 +52,7 @@ export default function useBudget () {
         })
 
         const resp = await _RESPONSE.json().then()
-        console.log('CHECK: ', resp)
+        // console.log('CHECK: ', resp)
 
         // CHECK IF ERROR!
         if (resp?.error) {
@@ -126,33 +128,31 @@ export default function useBudget () {
 
         // CHECK IF SUCCESS!
         if (resp?.success) {
-          // USER CATEGORIES SAY PURANAY SAY NAY TO CHANGE KRNA HAI!
-          console.log('BUDGET CATEGORIES: ', budgetCategories)
-          console.log('NEW CATEGORY: ', resp?.newly)
-
           let userCategories = resp?.userCategories
           let userBudgetCategories = resp?.userBudgetCategories
 
-          // COMPARE AGAINST THE VALUES!
+          let newArray = []
+          for (let i = 0; i < userCategories?.length; i++) {
+            let isNotFound = true
+            for (let j = 0; j < userBudgetCategories?.length; j++) {
+              if (
+                userCategories[i]?._id?.toString() ===
+                userBudgetCategories[j]?.categoryId?._id?.toString()
+              ) {
+                newArray.push(userBudgetCategories[j])
+                isNotFound = false
+                break
+              }
+            }
+            isNotFound && newArray.push(userCategories[i])
+          }
 
-          setBudgetCategories([...userBudgetCategories, ...userCategories])
-          // setBudgetCategories(prev => [
-          //   // console.log([
-          //   ...prev.filter(p => p._id !== editCategory._id),
-          //   resp?.newly
-          // ])
-          // console.log(resp.newly.categoryId , budgetCategories[0]._id)
-          // resp.newly
-          // ])
-          // setUserCategories(resp?.userCategories)
-          // setCreatingBudget(false)
-          // console.log('good')
+          setBudgetCategories([...newArray])
           setShowModal(false)
           setModalType('none')
         }
         return {
           success: true,
-          // newBudget: resp?.newBudget,
           message: 'New Limit/Currency set!'
         }
       }
@@ -161,5 +161,47 @@ export default function useBudget () {
     }
   }
 
-  return { createNewBudget, creatingBudget, editMonthlyBudgetCategory }
+  const getCurrentBudget = async () => {
+    // GET CURRENT USER!
+    try {
+      setCreatingBudget(true)
+      // CHECK IF USER ID EXISTS!
+      const user = getCurrentUserId(cookies['@authTokenExpense'])
+      // GETTING TODAYS DATE!
+      const completeDate = getCompleteDate()
+      // -> CALLING API AND GETTING DATA!
+      const response = await fetch(
+        'http://localhost:4444/api/budget/thisMonth?month=' +
+          completeDate?.month +
+          '&year=' +
+          completeDate?.year +
+          '&userId=' +
+          user?.userId,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json'
+          }
+        }
+      ).then(response => response.json())
+      // GET USER CATEGORIES !!
+      const allUserCategories = await userCategories()
+      console.log('ALL USER CATEGORIES: ', allUserCategories)
+      // RETURNING DATA BACK TO CALL!
+      return {
+        success: response?.monthBudget[0] ? true : false,
+        message: 'New Limit/Currency set!'
+      }
+    } catch (err) {
+      return { error: true, message: err.message }
+    }
+  }
+
+  return {
+    createNewBudget,
+    creatingBudget,
+    editMonthlyBudgetCategory,
+    getCurrentBudget
+  }
 }

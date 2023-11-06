@@ -73,17 +73,16 @@ export const newMonthlyBudgetCategorySettings = async (req, res) => {
     // CHECK IF ALREADY EXISTS THEN ONLY UPDATE!
     if (_id) {
       const isExisted = await monthlyCategoryModel.findById(_id)
+
       if (isExisted?.userId) {
+
         // UPDATE!
         await monthlyCategoryModel.findByIdAndUpdate(_id, {
           monthlyLimit,
           currency
         })
-        // GET THAT DATA BACK!!!!!!!
-        // GETTING ALL CATEGORIES DATA THAT WAS CREATED BY USER!
         const userCategories = await categoryModel.find({ userId })
 
-        // BUDGET DATA THAT WAS CREATED BY USER IN EACH MONTH!
         const userBudgetCategories = await monthlyCategoryModel
           .find({
             userId,
@@ -91,26 +90,10 @@ export const newMonthlyBudgetCategorySettings = async (req, res) => {
             month
           })
           .populate('categoryId')
-
-        const newArray = []
-
-        for (let i = 0; i < userCategories?.length; i++) {
-          for (let j = 0; j < userBudgetCategories?.length; j++) {
-            if (
-              userCategories[i]?._id?.toString() ==
-              userBudgetCategories[j]?.categoryId?._id?.toString()
-            ) {
-              userCategories.splice(i, i + 1)
-              newArray.push(userBudgetCategories[j])
-              break
-            }
-          }
-        }
-
         return res.status(200).json({
           success: true,
           message: 'updated created!',
-          newArray,
+          // newArray,
           userCategories,
           userBudgetCategories
         })
@@ -141,29 +124,56 @@ export const newMonthlyBudgetCategorySettings = async (req, res) => {
       })
       .populate('categoryId')
 
-    const newArray = []
+    // const newArray = []
 
-    for (let i = 0; i < userCategories?.length; i++) {
-      for (let j = 0; j < userBudgetCategories?.length; j++) {
-        if (
-          userCategories[i]?._id?.toString() ==
-          userBudgetCategories[j]?.categoryId?._id?.toString()
-        ) {
-          userCategories.splice(i, i + 1)
-          newArray.push(userBudgetCategories[j])
-          break
-        }
-      }
-    }
+    // for (let i = 0; i < userCategories?.length; i++) {
+    //   for (let j = 0; j < userBudgetCategories?.length; j++) {
+    //     if (
+    //       userCategories[i]?._id?.toString() ===
+    //       userBudgetCategories[j]?.categoryId?._id?.toString()
+    //     ) {
+    //       userCategories.splice(i, i + 1)
+    //       newArray.push(userBudgetCategories[j])
+    //       break
+    //     }
+    //   }
+    // }
 
     return res.status(200).json({
       success: true,
       message: 'CREATED SUCCESS!',
-      newArray,
       userCategories,
       userBudgetCategories
     })
   } catch (err) {
+    res.status(500).json({ message: 'Server error!', error: true })
+  }
+}
+
+export const currentMonthBudget = async (req, res) => {
+  try {
+    const { userId, year, month } = req.query
+
+    // CHECK USER IN THE DATABASE!
+    const user = await userModel.findById(userId)
+
+    if (!user?.email || !user?.name) {
+      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
+      return res
+        .status(401)
+        .json({ error: true, message: 'Invalid Authorization!' })
+    }
+
+    // CHECK FOR THIS MONTH BUDGET!
+    const monthBudget = await budgetModel.find({
+      userId: userId,
+      month: month,
+      year: Number(year)
+    })
+
+    res.status(200).json({ success: true, monthBudget })
+  } catch (err) {
+    console.log('ERROR WHILE GETTING BUDGET!', err?.message)
     res.status(500).json({ message: 'Server error!', error: true })
   }
 }
