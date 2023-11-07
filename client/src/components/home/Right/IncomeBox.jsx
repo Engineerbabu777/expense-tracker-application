@@ -3,23 +3,19 @@ import { MdCalendarMonth } from 'react-icons/md'
 import { FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
 
 import '../../../styles/Homepage/Right/BoxStyles.css'
-import '../../../styles/Homepage/Right/SharedStyles.css';
+import '../../../styles/Homepage/Right/SharedStyles.css'
 
-export default function IncomeBox ({}) {
+export default function IncomeBox ({ isLoading, incomes }) {
   return (
     <>
       <div className='income-box boxStyles'>
         <div className='income-inside-color-box inside-color-box' />
 
-         {/* TOP(ICON + NAME + LINK ARROW) */}
-         <div className='inside-box-top-portion'>
+        {/* TOP(ICON + NAME + LINK ARROW) */}
+        <div className='inside-box-top-portion'>
           <div className='image-name-container'>
             {/* IMAGE! */}
-            <img
-              src={'/income.png'}
-              className='image-styles'
-              alt={'income'}
-            />
+            <img src={'/income.png'} className='image-styles' alt={'income'} />
 
             {/* NAME! */}
             <h2 style={{ fontSize: '1.30rem' }}>Income</h2>
@@ -37,14 +33,14 @@ export default function IncomeBox ({}) {
           <MdCalendarMonth size={22} />
 
           {/* MONTH NAME! */}
-          <h3 style={{ fontSize: '0.90rem' }}>October, 2023</h3>
+          <h3 style={{ fontSize: '0.90rem' }}>November, 2023</h3>
         </div>
 
         {/* BOTTOM */}
         <div className='inside-box-bottom-portion'>
           {/* AMOUNT! */}
           <p className='amount-box'>
-            <p className='amount-styles'>17,46,289</p>
+            <p className='amount-styles'>{incomes}</p>
             <PakistaniRupees size={18} color={'#838383'} />
           </p>
 
@@ -59,7 +55,6 @@ export default function IncomeBox ({}) {
             Today's Income 10k+
           </p>
         </div>
-
       </div>
     </>
   )

@@ -4,8 +4,12 @@ import ExpenseBox from './ExpensesBox'
 import SavingBox from './SavingsBox'
 import Headings from './Headings'
 import Table from './RecentTrans'
+import { useContext, useEffect } from 'react'
+import { AllContext } from '../../../states/ContextProvider'
 
 export default function RightSide ({}) {
+  const { dashboardData } = useContext(AllContext)
+
   return (
     <>
       {/* MAIN CONTAINER! */}
@@ -18,13 +22,22 @@ export default function RightSide ({}) {
           {/* BOXES CONTAINER! */}
           <div className='three-boxes-container'>
             {/* INCOME BOX! */}
-            <IncomeBox />
+            <IncomeBox
+              isLoading={dashboardData.fetchedAllData}
+              incomes={dashboardData.totalIncomes}
+            />
 
             {/* EXPENSES BOX! */}
-            <ExpenseBox />
+            <ExpenseBox
+              isLoading={dashboardData.fetchedAllData}
+              expenses={dashboardData.totalExpenses}
+            />
 
             {/* SAVING BOX! */}
-            <SavingBox />
+            <SavingBox
+              isLoading={dashboardData.fetchedAllData}
+              savings={dashboardData.savingAlongIncomeExpenses}
+            />
           </div>
 
           {/* THIS WEEK EXPENSES! */}
@@ -36,7 +49,7 @@ export default function RightSide ({}) {
           <Headings Heading={'Recent Transactions'} />
 
           {/* TABLE! */}
-          <Table />
+          <Table data={dashboardData.lastFewTransactions} />
         </div>
       </section>
     </>

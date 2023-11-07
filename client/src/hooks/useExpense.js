@@ -38,8 +38,10 @@ export default function useExpense () {
 
       const date = getCompleteDate()
 
-      const result = await userCategories();
-      if(result?.error) return;
+      if (budgetCategories.length > 0) {
+        const result = await userCategories()
+        if (result?.error) return
+      }
 
       // CHECK FOR LIMIT EXCEEDS !!
       const ONLY_EXPENSES = allTransactions.filter(t => t?.description)
@@ -55,10 +57,10 @@ export default function useExpense () {
       )
       console.log('TOTAL_AMOUNT: ', TOTAL_AMOUNT)
       // NOW CHECK WETHER IT IS GREATER THAN THE MONTHLY LIMIT OR NOT !!
-      const MONTHLY_LIMIT = budgetCategories.filter(
+      const MONTHLY_LIMIT = budgetCategories?.filter(
         b => b?.categoryId?._id === _DATA?.categoryId._id
       )[0]?.monthlyLimit
-      const CURRENCY_FOR_THAT_LIMIT = budgetCategories.filter(
+      const CURRENCY_FOR_THAT_LIMIT = budgetCategories?.filter(
         b => b?.categoryId?._id === _DATA?.categoryId._id
       )[0]?.currency
       console.log(

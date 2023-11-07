@@ -5,7 +5,7 @@ import { FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
 import '../../../styles/Homepage/Right/BoxStyles.css'
 import '../../../styles/Homepage/Right/SharedStyles.css';
 
-export default function ExpenseBox ({}) {
+export default function ExpenseBox ({expenses}) {
   return (
     <>
       <div className='boxStyles expense-box'>
@@ -36,14 +36,14 @@ export default function ExpenseBox ({}) {
           <MdCalendarMonth size={22} />
 
           {/* MONTH NAME! */}
-          <h3 style={{ fontSize: '0.90rem' }}>October, 2023</h3>
+          <h3 style={{ fontSize: '0.90rem' }}>November, 2023</h3>
         </div>
 
         {/* BOTTOM */}
         <div className='inside-box-bottom-portion'>
           {/* AMOUNT! */}
           <p className='amount-box'>
-            <p className='amount-styles'>7,46,289</p>
+            <p className='amount-styles'>{expenses}</p>
             <PakistaniRupees size={18} color={'#838383'} />
           </p>
 

@@ -5,6 +5,7 @@ import useIncome from '../../../../../hooks/useIncome'
 import Modal from '../../../../shared/Modal/Modal'
 import { useContext } from 'react'
 import { AllContext } from '../../../../../states/ContextProvider'
+import { useLocation, useRoutes } from 'react-router-dom'
 
 
 export default function Row ({ t, i }) {
@@ -12,6 +13,8 @@ export default function Row ({ t, i }) {
   const { deleteExpenseById } = useExpense()
   const { deleteIncomeById } = useIncome()
   const {setEditTrans, setModalType, setShowModal} = useContext(AllContext);
+  const {pathname} = useLocation();
+  const showEditDelete = pathname.split('/').includes('transactions');
 
   const date =  (new Date(t?.createdAt)).getDate();
   const month = (new Date(t?.createdAt)).getMonth() + 1;
@@ -36,15 +39,17 @@ export default function Row ({ t, i }) {
               {t?.description.slice(0, 15)}
               {t?.description?.length > 15 && '...'}
             </>
-          ) : (
-            t?.source
+          ) : (<>
+            {t?.source.slice(0, 15)}
+              {t?.source?.length > 15 && '...'}
+              </>
           )}
         </td>
         <td>${t?.money}</td>
         <td>{t?.categoryId ? t?.categoryId?.categoryName : '-'}</td>
         <td>{t?.categoryId ? 'Expense' : 'Income'}</td>
         <td>{date +"-"+ month+"-" + year}</td>
-        <td>
+        {showEditDelete && <td>
           <p
             style={{
               display: 'flex',
@@ -71,7 +76,7 @@ export default function Row ({ t, i }) {
               <MdDelete size={20} />
             </span>
           </p>
-        </td>
+        </td>}
       </tr>
     </>
   )

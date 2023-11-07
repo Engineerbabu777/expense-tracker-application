@@ -6,7 +6,7 @@ import { FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
 import '../../../styles/Homepage/Right/BoxStyles.css'
 import '../../../styles/Homepage/Right/SharedStyles.css'
 
-export default function SavingBox () {
+export default function SavingBox ({ savings }) {
   return (
     <>
       <div className='saving-box boxStyles'>
@@ -34,14 +34,14 @@ export default function SavingBox () {
           <MdCalendarMonth size={22} />
 
           {/* MONTH NAME! */}
-          <h3 style={{ fontSize: '0.90rem' }}>October, 2023</h3>
+          <h3 style={{ fontSize: '0.90rem' }}>November, 2023</h3>
         </div>
 
         {/* BOTTOM */}
         <div className='inside-box-bottom-portion'>
           {/* AMOUNT! */}
           <p className='amount-box'>
-            <p className='amount-styles'>40,289</p>
+            <p className='amount-styles'>{savings}</p>
             <PakistaniRupees size={18} color={'#838383'} />
           </p>
 
