@@ -32,7 +32,6 @@ export const newUserAccount = async (req, res) => {
     return res.status(500).json({ message: 'Server error!', error: true })
   }
 }
-
 // LOGIN HANDLER!
 export const loginUser = async (req, res) => {
   try {
@@ -63,16 +62,23 @@ export const loginUser = async (req, res) => {
         .status(400)
         .json({ message: 'Invalid credentials!', error: true })
 
+    // CHECK IF ACCOUNT IS DEACTIVATED !!
+    const isDeactivated = isUser?.isAccountDeactivated
+    if (isDeactivated)
+      return res
+        .status(400)
+        .json({ message: 'Account is deactivated!', error: true })
+
     // ELSE CREATE TOKEN!
     const token = jwt.sign({ id: isUser._id }, JWT_SECRET, { expiresIn: '1h' })
 
     console.log('TOKEN -> ', token)
 
     // RETURN SUCCESS RESPONSE!
-    res.cookie("@authExpense", token, {
+    res.cookie('@authExpense', token, {
       withCredentials: true,
-      httpOnly: false,
-    });
+      httpOnly: false
+    })
     res.status(200).json({
       message: 'Login successful!',
       success: true,

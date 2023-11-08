@@ -10,9 +10,8 @@ import categoryRoutes from './routes/category.js'
 import budgetRoutes from './routes/budgetRoutes.js'
 import incomeRoutes from './routes/income.js'
 import expenseRoutes from './routes/expense.js'
-import getTransactionController from './controllers/transactionController.js'
 import { transactionRoutes } from './routes/transactions.js'
-import { authMiddleware } from './middlewares/userAuth.js'
+import userRoutes from './routes/userRoutes.js'
 
 // CREATING EXPRESS SERVER APP!
 const app = express()
@@ -25,7 +24,7 @@ app.use(cors())
 // app.use(authMiddleware);
 
 //!! ROUTES START WITH /api/auth WILL BE HANDLED BY THIS ROUTE!)
-app.use('/api/auth',authRoutes) //!! HERE WE ARE HANDLING AUTH ROUTES (LOGIN! /REGISTER! /RESET!)
+app.use('/api/auth', authRoutes) //!! HERE WE ARE HANDLING AUTH ROUTES (LOGIN! /REGISTER! /RESET!)
 //!! ROUTES START WITH /api/expenses WILL BE HANDLED BY THIS ROUTE!
 app.use('/api/category', categoryRoutes)
 //!! ROUTES START WITH /api/expenses WILL BE HANDLED BY THIS ROUTE!
@@ -36,7 +35,8 @@ app.use('/api/income', incomeRoutes)
 app.use('/api/expense', expenseRoutes)
 //!! ROUTES START WITH /api/transactions WILL BE HANDLED BY THIS->
 app.use('/api/transactions', transactionRoutes)
-
+//!! ROUTES START WITH /api/user WILL BE HANDLED BY THIS->
+app.use('/api/user', userRoutes)
 // CONNECTING WITH DATABASE!
 databaseConnect()
 

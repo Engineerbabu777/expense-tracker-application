@@ -9,7 +9,7 @@ export default function TextInputBox ({
   name,
   value,
   onChange,
-  disabled=true,
+  disabled,
 }) {
   return (
     <>
@@ -25,7 +25,7 @@ export default function TextInputBox ({
           type={type}
           id={name}
           className='input-styles'
-          disabled
+          disabled={disabled}
         />
       </div>
     </>

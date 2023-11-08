@@ -6,7 +6,8 @@ export default function AccountTextButtons ({
   note,
   buttonText,
   buttonHandler,
-  type
+  type,
+  onClick,
 }) {
   return (
     <>
@@ -25,7 +26,7 @@ export default function AccountTextButtons ({
           >
             {heading}
           </label>
-          <Button buttonText={buttonText} type={type} />
+          <Button buttonText={buttonText} type={type} onClick={onClick} />
         </div>
         <p
          className='para-styles'

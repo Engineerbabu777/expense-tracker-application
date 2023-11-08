@@ -22,6 +22,9 @@ export async function addNewExpense (req, res) {
 
     const user = await userModel.findById(userId)
 
+    // GETTING THE PREVIOUS DATA!
+    
+
     // CREATE NEW INCOME STREAM!
     const newExpense = await expenseModel.create({
       month: month,

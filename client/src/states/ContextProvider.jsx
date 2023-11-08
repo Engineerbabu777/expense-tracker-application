@@ -1,4 +1,6 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
+import useUser from '../hooks/useUser'
+import { useCookies } from 'react-cookie'
 
 export const AllContext = createContext(null)
 
@@ -12,6 +14,16 @@ export default function AllContextProvider ({ children }) {
   const [budgetCategories, setBudgetCategories] = useState([])
   const [allTransactions, setAllTransactions] = useState([])
   const [editTrans, setEditTrans] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null)
+  const [cookies, setCookies] = useCookies()
+  const [loadingUser, setLoadingUser] = useState(false)
+  // const { getCurrentUser } = useUser()
+
+  // useEffect(() => {
+  //   if (cookies['@authTokenExpense']) {
+  //     getCurrentUser()
+  //   }
+  // }, [cookies])
 
   // DASHBOARD STATES!
   const [dashboardData, setDashboardData] = useState({
@@ -22,7 +34,7 @@ export default function AllContextProvider ({ children }) {
     allDataFetched: false
   })
 
-  console.log(showModal, modalType)
+  console.log(showModal, modalType, currentUser)
 
   return (
     <>
@@ -45,7 +57,11 @@ export default function AllContextProvider ({ children }) {
           setEditTrans,
           editTrans,
           dashboardData,
-          setDashboardData
+          setDashboardData,
+          currentUser,
+          setCurrentUser,
+          loadingUser,
+          setLoadingUser
         }}
       >
         {children}

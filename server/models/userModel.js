@@ -32,17 +32,12 @@ const userSchema = new mongoose.Schema(
         message: String
       }
     ],
-    // userDefinedCategories: [
-    //   {
-    //     name: String,
-    //     color: String,
-    //     categoryId: {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: 'category'
-    //     },
-        
-    //   }
-    // ]
+    activationToken: String,
+    activationTokenExpires: Date,
+    isAccountDeactivated: {
+      default: false,
+      type: Boolean
+    }
   },
   {
     timestamps: true

@@ -1,6 +1,18 @@
 import TextInputBox from './TextInputBox'
 import '../../../styles/Homepage/settings/UserRightSide.css'
-export default function UserRightSide ({ onChangeHandler, user }) {
+import useUser from '../../../hooks/useUser'
+import { useContext, useEffect } from 'react'
+import { AllContext } from '../../../states/ContextProvider'
+import { useCookies } from 'react-cookie'
+export default function UserRightSide ({ onChangeHandler, name,email,password, disabled,onSubmitHandler }) {
+  const { updateUser, getCurrentUser } = useUser()
+  const { currentUser, loadingUser } = useContext(AllContext)
+  // GET CURRENT USER FROM CONTEXT !!
+  const [cookies] = useCookies(['@authTokenExpense'])
+
+
+  console.log(currentUser)
+
   return (
     <>
       <div className='parent-container'>
@@ -11,7 +23,8 @@ export default function UserRightSide ({ onChangeHandler, user }) {
           name='name'
           placeholder={'Your Display Name'}
           onChange={onChangeHandler}
-          value={user.name}
+          value={name}
+          disabled={disabled}
         />
 
         {/* EMAIL! */}
@@ -21,7 +34,8 @@ export default function UserRightSide ({ onChangeHandler, user }) {
           name='email'
           placeholder={'Your Email Address'}
           onChange={onChangeHandler}
-          value={user.email}
+          value={email}
+          disabled={disabled}
         />
 
         {/* PASSWORD!(NOT DISPLAY) */}
@@ -31,11 +45,12 @@ export default function UserRightSide ({ onChangeHandler, user }) {
           name='password'
           placeholder={'Your Account Password'}
           onChange={onChangeHandler}
-          value={user.password}
+          value={password}
+          disabled={disabled}
         />
 
         {/* UPDATE SAVE BUTTON! */}
-        <button type='button' className='button-styles'>
+        <button type='button' className='button-styles' onClick={onSubmitHandler}>
           Save Profile
         </button>
         <p className='note-styles-container'>
