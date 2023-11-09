@@ -6,6 +6,7 @@ import ModalBodyForBudget from '../../home/management/ModalBody'
 import ChooseModalBody from '../../home/Transactions/ModalBodys/ChooseModalBody'
 import IncomeModalBody from '../../home/Transactions/ModalBodys/IncomeModalBody'
 import ExpenseModalBody from '../../home/Transactions/ModalBodys/ExpenseModelBody'
+import SearchModalBody from '../../search/SearchModalBody'
 
 export default function Modal ({}) {
   const { showModal, modalType } = useContext(AllContext)
@@ -21,7 +22,7 @@ export default function Modal ({}) {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              zIndex:'10000'
+              zIndex: '10000'
             }}
           >
             <div
@@ -38,7 +39,7 @@ export default function Modal ({}) {
                 backgroundColor: '#151515',
                 borderRadius: '10px',
                 zIndex: '1000000',
-                width: '400px'
+                width: modalType === 'SEARCH' ? '80%' : '400px'
               }}
             >
               {/* MODAL BODY FOR CATEGORIES! !! */}
@@ -53,9 +54,15 @@ export default function Modal ({}) {
 
               {['CHOOSE_OPTION'].includes(modalType) && <ChooseModalBody />}
 
-              {['NEW_INCOME', 'INCOME'].includes(modalType) && <IncomeModalBody />}
+              {['NEW_INCOME', 'INCOME'].includes(modalType) && (
+                <IncomeModalBody />
+              )}
 
-              {['NEW_EXPENSE', 'EXPENSE'].includes(modalType) && <ExpenseModalBody />}
+              {['NEW_EXPENSE', 'EXPENSE'].includes(modalType) && (
+                <ExpenseModalBody />
+              )}
+
+              {modalType === 'SEARCH' && <SearchModalBody />}
             </div>
           </div>
         </>

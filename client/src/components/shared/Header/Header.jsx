@@ -3,10 +3,15 @@ import { FaGripfire } from 'react-icons/fa'
 import { BsSearch } from 'react-icons/bs'
 import { FiSettings } from 'react-icons/fi'
 import { IoIosNotificationsOutline } from 'react-icons/io'
-
+import { useContext } from 'react'
+import { AllContext } from '../../../states/ContextProvider'
+import Modal from '../Modal/Modal'
 export default function Header ({}) {
+  const { setShowModal, setModalType } = useContext(AllContext)
+
   return (
     <>
+      <Modal />
       <header className='main-header-tag'>
         {/* LOGO! */}
         <section className='logo-box'>
@@ -38,6 +43,10 @@ export default function Header ({}) {
             <BsSearch style={{ color: '#898989' }} />
             {/* INPUT! */}
             <input
+              onClick={() => {
+                setShowModal(true)
+                setModalType('SEARCH')
+              }}
               type={'text'}
               style={{
                 background: 'inherit',

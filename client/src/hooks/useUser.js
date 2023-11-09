@@ -92,6 +92,7 @@ export default function useUser () {
         response.json().then(data => {
           if (data?.success) {
             toast.success(data?.message)
+            removeCookie('@authTokenExpense')
           } else {
             toast.error(data?.message)
           }
@@ -102,7 +103,7 @@ export default function useUser () {
       toast.error(error?.message)
     }
   }
-  
+
   // DELETE USER ACCOUNT!
   const deleteUserAccount = async () => {
     try {
@@ -127,5 +128,38 @@ export default function useUser () {
     }
   }
 
-  return { updateUser, getCurrentUser, deleteUserData, deleteUserAccount }
+  // DEACTIVATE USER ACCOUNT!
+  const deActivateUserAccount = async () => {
+    try {
+      // CHECK IF USER ID EXISTS!
+      const user = getCurrentUserId(cookies['@authTokenExpense'])
+
+      fetch(
+        'http://localhost:4444/api/user/deactivate?userId=' + user?.userId,
+        {
+          method: 'PUT'
+        }
+      ).then(response =>
+        response.json().then(data => {
+          if (data?.success) {
+            toast.success(data?.message)
+            removeCookie('@authTokenExpense')
+          } else {
+            toast.error(data?.message)
+          }
+        })
+      )
+      return { success: true }
+    } catch (error) {
+      console.log('ERROR WHILE DELETING USER ACCOUNT!')
+      toast.error(error?.message)
+    }
+  }
+  return {
+    updateUser,
+    getCurrentUser,
+    deleteUserData,
+    deleteUserAccount,
+    deActivateUserAccount
+  }
 }

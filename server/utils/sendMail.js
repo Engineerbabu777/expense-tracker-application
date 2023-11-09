@@ -83,7 +83,7 @@ export const userAccountDeactivationMail = async (email, token) => {
     from: 'projectbase999@gmail.com',
     to: email,
     subject: 'Your account is deactivated',
-    text: `Follow the link to to activate your account: http://localhost:4444/api/user/${token} . you won't be able to activate it after 30 days`
+    text: `Follow the link to to activate your account: http://localhost:4444/api/user/activate/${token} . you won't be able to activate it after 30 days`
   }
 
   // SEND EMAIL!

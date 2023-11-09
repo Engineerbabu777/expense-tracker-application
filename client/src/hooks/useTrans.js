@@ -4,6 +4,7 @@ import getCompleteDate from '../utils/getCompleteDate'
 import { useContext, useEffect, useState } from 'react'
 import { AllContext } from '../states/ContextProvider'
 import useCategories from './useCategory'
+import toast from 'react-hot-toast'
 
 export default function useTrans () {
   const [cookies] = useCookies()
@@ -91,8 +92,54 @@ export default function useTrans () {
     }
   }
 
+  // SEARCH THROUGH TRANSACTIONS!!
+  const searchTrans = async searchTerm => {
+    console.log(1)
+    if (!searchTerm) return
+
+    // GET CURRENT USER!
+    try {
+      // CHECK IF USER ID EXISTS!
+      const user = getCurrentUserId(cookies['@authTokenExpense'])
+
+      let isDigit = null
+      let isString = null
+      let modified = null
+
+      console.log('hi')
+
+      // CONVERTING TO DIGIT IF ITS CAPABLE!
+      if (isNaN(searchTerm)) {
+        isString = 1
+        modified = searchTerm;
+      } else {
+        isDigit = 1
+        modified = Number(searchTerm)
+      }
+
+      console.log({ isDigit, isString, modified })
+
+      fetch(
+        'http://localhost:4444/api/transactions?q=' +
+          modified +
+          '&isDigit=' +
+          isDigit +
+          '&isString=' +
+          isString +
+          '&userId=' +
+          user?.userId
+      ).then(response =>
+        response.json().then(data => console.log('SEARCH DATA: ', data))
+      )
+    } catch (err) {
+      console.log('GET TRANSACTIONS ERROR ! ', err)
+      return { error: true, message: err.message }
+    }
+  }
+
   return {
     getTrans,
-    loadingTrans
+    loadingTrans,
+    searchTrans
   }
 }

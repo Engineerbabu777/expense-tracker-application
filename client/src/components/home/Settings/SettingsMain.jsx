@@ -11,8 +11,13 @@ import { AllContext } from '../../../states/ContextProvider'
 import { useCookies } from 'react-cookie'
 
 export default function SettingsMain () {
-  const { updateUser, getCurrentUser, deleteUserData, deleteUserAccount } =
-    useUser()
+  const {
+    updateUser,
+    getCurrentUser,
+    deleteUserData,
+    deleteUserAccount,
+    deActivateUserAccount
+  } = useUser()
   const { currentUser, loadingUser } = useContext(AllContext)
   // FOR HANDLING EDIT MODE!
   const [isEditMode, setIsEditMode] = useState(false)
@@ -156,6 +161,9 @@ export default function SettingsMain () {
                     {/* DEACTIVATE ACCOUNT!! */}
                     <AccountTextButtons
                       heading={'De-Activate Account ?'}
+                      onClick={async () => {
+                        await deActivateUserAccount()
+                      }}
                       note={
                         'After clicking you will get an email of deactivating account & can activate account with in 30 days.'
                       }
@@ -165,6 +173,9 @@ export default function SettingsMain () {
 
                     {/* DELETE ALL DATA! */}
                     <AccountTextButtons
+                      onClick={async () => {
+                        await deleteUserData()
+                      }}
                       heading={'Delete all account data ?'}
                       note={
                         "All data records will be deleted from our database and you won't be able to access it again."
@@ -179,8 +190,8 @@ export default function SettingsMain () {
                       note={'All of your account and data will be deleted.'}
                       buttonText={'DELETE ACCOUNT'}
                       type='DELETE'
-                      onClick={() => {
-                        deleteUserAccount()
+                      onClick={async () => {
+                        await deleteUserAccount()
                       }}
                     />
                   </div>

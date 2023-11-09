@@ -126,7 +126,9 @@ export const userDataDeletion = async (req, res) => {
     await expenseModel.deleteMany({ userId })
 
     // RETUNING RESPONSE BACK!
-    res.status(200).json({ message: 'User data deleted successfully!' })
+    res
+      .status(200)
+      .json({ message: 'User data deleted successfully!', success: true })
   } catch (err) {
     console.log('USER DATA DELETION ERROR: ', err.message)
     res.status(504).json({ message: 'User data deleted failed!' })
@@ -166,7 +168,9 @@ export const userAccountDeactivation = async (req, res) => {
     await user.save()
 
     // RETUNING RESPONSE BACK!
-    res.status.json({ success: true, message: 'Account has been deactivated!' })
+    res
+      .status(200)
+      .json({ success: true, message: 'Account has been deactivated!' })
   } catch (err) {
     // RETURNING THE ERROR RESPONSE!
     console.log('USER ACCOUNT DEACTIVATION ERROR: ', err.message)
