@@ -19,11 +19,6 @@ export default function AllContextProvider ({ children }) {
   const [loadingUser, setLoadingUser] = useState(false)
   // const { getCurrentUser } = useUser()
 
-  // useEffect(() => {
-  //   if (cookies['@authTokenExpense']) {
-  //     getCurrentUser()
-  //   }
-  // }, [cookies])
 
   // DASHBOARD STATES!
   const [dashboardData, setDashboardData] = useState({

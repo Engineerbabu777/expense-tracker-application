@@ -5,11 +5,15 @@ import { FaWindowClose } from 'react-icons/fa'
 import { TbMoodEmptyFilled } from 'react-icons/tb'
 import useTrans from '../../hooks/useTrans'
 import toast from 'react-hot-toast'
+import Row from '../home/Transactions/ModalBodys/components/Row'
 
 export default function SearchModalBody ({}) {
   const { setShowModal } = useContext(AllContext)
   const [searchText, setSearchText] = useState('')
-  const { searchTrans } = useTrans()
+  const { searchTrans, results } = useTrans()
+
+  console.log({ results })
+  console.log(1)
 
   return (
     <>
@@ -87,7 +91,7 @@ export default function SearchModalBody ({}) {
               cursor: 'pointer',
               border: '1px solid #272829'
             }}
-            onClick={async() => {
+            onClick={async () => {
               await searchTrans(searchText)
             }}
           >
@@ -103,131 +107,46 @@ export default function SearchModalBody ({}) {
           }}
         >
           {/* TABLE! */}
-          {/* <table className={styles.tableStyles}>
-            <thead>
-              <th className={styles.theadStyles}>Description</th>
-              <th className={styles.theadStyles}>Amount</th>
-              <th className={styles.theadStyles}>Category</th>
-              <th className={styles.theadStyles}>Type</th>
-              <th className={styles.theadStyles}>Date</th>
-            </thead>
-            <tbody style={{}}>
-              <tr>
-                <td>Nothing to show</td>
-                <td>$500</td>
-                <td>-</td>
-                <td>Income</td>
-                <td>12-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>What can I show?</td>
-                <td>$750</td>
-                <td>Bills</td>
-                <td>Expense</td>
-                <td>27-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Hey, how are u?</td>
-                <td>$330</td>
-                <td>Entertainment</td>
-                <td>Expense</td>
-                <td>23-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Nothing to show</td>
-                <td>$500</td>
-                <td>-</td>
-                <td>Income</td>
-                <td>12-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>What can I show?</td>
-                <td>$750</td>
-                <td>Bills</td>
-                <td>Expense</td>
-                <td>27-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Hey, how are u?</td>
-                <td>$330</td>
-                <td>Entertainment</td>
-                <td>Expense</td>
-                <td>23-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Nothing to show</td>
-                <td>$500</td>
-                <td>-</td>
-                <td>Income</td>
-                <td>12-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>What can I show?</td>
-                <td>$750</td>
-                <td>Bills</td>
-                <td>Expense</td>
-                <td>27-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Hey, how are u?</td>
-                <td>$330</td>
-                <td>Entertainment</td>
-                <td>Expense</td>
-                <td>23-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Nothing to show</td>
-                <td>$500</td>
-                <td>-</td>
-                <td>Income</td>
-                <td>12-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>What can I show?</td>
-                <td>$750</td>
-                <td>Bills</td>
-                <td>Expense</td>
-                <td>27-11-2023</td>
-              </tr>
-
-              <tr>
-                <td>Hey, how are u?</td>
-                <td>$330</td>
-                <td>Entertainment</td>
-                <td>Expense</td>
-                <td>23-11-2024</td>
-              </tr>
-            </tbody>
-          </table> */}
+          {results.data.length > 0 && (
+            <table className={styles.tableStyles}>
+              <thead>
+                <th className={styles.theadStyles}>Description</th>
+                <th className={styles.theadStyles}>Amount</th>
+                <th className={styles.theadStyles}>Category</th>
+                <th className={styles.theadStyles}>Type</th>
+                <th className={styles.theadStyles}>Date</th>
+              </thead>
+              <tbody style={{}}>
+                {results.data.map((item, index) => (
+                  <>
+                    <Row t={item} i={index} show={false} />
+                  </>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            height: '100%',
-            fontSize: '2.2rem',
-            fontWeight: 'bold',
-            color: '#333'
-          }}
-        >
-          <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            Nothing to show
-            <TbMoodEmptyFilled />
-          </p>
-        </div>
+        {/*  IF NOTHING TO SHOW! */}
+        {results.data.length === 0 && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+              fontSize: '2.2rem',
+              fontWeight: 'bold',
+              color: '#333'
+            }}
+          >
+            <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              Nothing to show
+              <TbMoodEmptyFilled />
+            </p>
+          </div>
+        )}
       </section>
     </>
   )

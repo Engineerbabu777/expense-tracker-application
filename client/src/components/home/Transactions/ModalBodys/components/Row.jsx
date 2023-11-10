@@ -7,18 +7,17 @@ import { useContext } from 'react'
 import { AllContext } from '../../../../../states/ContextProvider'
 import { useLocation, useRoutes } from 'react-router-dom'
 
-
-export default function Row ({ t, i }) {
+export default function Row ({ t, i, show = true }) {
   const TRANSACTION_TYPE = t?.categoryId ? 'EXPENSE' : 'INCOME'
   const { deleteExpenseById } = useExpense()
   const { deleteIncomeById } = useIncome()
-  const {setEditTrans, setModalType, setShowModal} = useContext(AllContext);
-  const {pathname} = useLocation();
-  const showEditDelete = pathname.split('/').includes('transactions');
+  const { setEditTrans, setModalType, setShowModal } = useContext(AllContext)
+  const { pathname } = useLocation()
+  const showEditDelete = pathname.split('/').includes('transactions')
 
-  const date =  (new Date(t?.createdAt)).getDate();
-  const month = (new Date(t?.createdAt)).getMonth() + 1;
-  const year = (new Date(t?.createdAt)).getFullYear();
+  const date = new Date(t?.createdAt).getDate()
+  const month = new Date(t?.createdAt).getMonth() + 1
+  const year = new Date(t?.createdAt).getFullYear()
 
   const deleteById = () => {
     // CHECK FOR TYPE !!
@@ -31,52 +30,55 @@ export default function Row ({ t, i }) {
 
   return (
     <>
-    {/* <Modal /> */}
-      <tr key={i} style={i % 2 === 0 ? {} : {}}>
+      {/* <Modal /> */}
+      <tr key={i} style={{color:'white'}} >
         <td>
           {t?.categoryId ? (
             <>
               {t?.description.slice(0, 15)}
               {t?.description?.length > 15 && '...'}
             </>
-          ) : (<>
-            {t?.source.slice(0, 15)}
+          ) : (
+            <>
+              {t?.source.slice(0, 15)}
               {t?.source?.length > 15 && '...'}
-              </>
+            </>
           )}
         </td>
         <td>${t?.money}</td>
         <td>{t?.categoryId ? t?.categoryId?.categoryName : '-'}</td>
         <td>{t?.categoryId ? 'Expense' : 'Income'}</td>
-        <td>{date +"-"+ month+"-" + year}</td>
-        {showEditDelete && <td>
-          <p
-            style={{
-              display: 'flex',
-              gap: '15px',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <span
-              style={{ color: '#6BCB77', cursor: 'pointer' }}
-              onClick={() => {
-                setEditTrans(t)
-
-                setShowModal(true)
-                setModalType(TRANSACTION_TYPE)
+        <td>{date + '-' + month + '-' + year}</td>
+        {(showEditDelete && show) && (
+          <td>
+            <p
+              style={{
+                display: 'flex',
+                gap: '15px',
+                justifyContent: 'center',
+                alignItems: 'center'
               }}
             >
-              <FaEdit size={18} />
-            </span>
-            <span
-              style={{ color: '#F15A59', cursor: 'pointer' }}
-              onClick={deleteById}
-            >
-              <MdDelete size={20} />
-            </span>
-          </p>
-        </td>}
+              <span
+                style={{ color: '#6BCB77', cursor: 'pointer' }}
+                onClick={() => {
+                  setEditTrans(t)
+
+                  setShowModal(true)
+                  setModalType(TRANSACTION_TYPE)
+                }}
+              >
+                <FaEdit size={18} />
+              </span>
+              <span
+                style={{ color: '#F15A59', cursor: 'pointer' }}
+                onClick={deleteById}
+              >
+                <MdDelete size={20} />
+              </span>
+            </p>
+          </td>
+        )}
       </tr>
     </>
   )

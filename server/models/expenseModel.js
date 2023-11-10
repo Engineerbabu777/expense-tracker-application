@@ -15,7 +15,7 @@ const expenseSchema = new mongoose.Schema(
       ref: 'category'
     },
     month: String,
-    date: Number,
+    day: Number,
     year: Number,
     money: {
       type: Number,

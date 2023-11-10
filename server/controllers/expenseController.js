@@ -20,6 +20,7 @@ export async function addNewExpense (req, res) {
       exceedingAmount // GETTING THIS DATA HERE!
     } = req.body
 
+    console.log(req.body);
     const user = await userModel.findById(userId)
 
     // GETTING THE PREVIOUS DATA!

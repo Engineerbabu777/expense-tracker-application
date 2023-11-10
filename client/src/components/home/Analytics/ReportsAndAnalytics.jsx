@@ -55,35 +55,7 @@ export default function ReportsAndAnalytics ({}) {
             </div>
           </div>
 
-          {/* CONTAINER ONE! */}
-          <div
-            style={{
-              paddingRight: '2vw',
-              display: 'flex',
-              gap: 4,
-              marginTop: '2%',
-              flexDirection: 'column'
-            }}
-          >
-            {/* !!SECTION ONE */}
-            <p
-              style={{
-                fontWeight: '700',
-                color: '#898989',
-                textDecoration: 'underline',
-                width:'100%'
-              }}
-            >
-              Line Graph Chart Analysis
-            </p>
-
-            <div
-              style={{ flex: 1, minHeight: '300px', border: '1px solid red',width:'100%' }}
-            >
-
-            </div>
-          </div>
-
+          
           {/* CONTAINER TWO! */}
           <div
             style={{
@@ -104,7 +76,7 @@ export default function ReportsAndAnalytics ({}) {
           </div>
 
           {/* CONTAINER THREE! */}
-          <div
+          {/* <div
             style={{
               paddingRight: '2vw',
               display: 'flex',
@@ -128,7 +100,7 @@ export default function ReportsAndAnalytics ({}) {
               <PieChart />
 
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

@@ -13,6 +13,10 @@ export default function useTrans () {
     useContext(AllContext)
   const [loadingTrans, setLoadingTrans] = useState(false)
   const { userCategories } = useCategories()
+  const [results, setResults] = useState({
+    error: null,
+    data: []
+  })
 
   useEffect(() => {
     if (cookies['@authTokenExpense']) {
@@ -111,7 +115,7 @@ export default function useTrans () {
       // CONVERTING TO DIGIT IF ITS CAPABLE!
       if (isNaN(searchTerm)) {
         isString = 1
-        modified = searchTerm;
+        modified = searchTerm
       } else {
         isDigit = 1
         modified = Number(searchTerm)
@@ -129,10 +133,17 @@ export default function useTrans () {
           '&userId=' +
           user?.userId
       ).then(response =>
-        response.json().then(data => console.log('SEARCH DATA: ', data))
+        response.json().then(data => {
+          if (data?.success) {
+            setResults({ data: data?.transactions })
+          } else {
+            setResults({ error: data?.message })
+          }
+        })
       )
     } catch (err) {
       console.log('GET TRANSACTIONS ERROR ! ', err)
+      setResults({ error: err?.message })
       return { error: true, message: err.message }
     }
   }
@@ -140,6 +151,7 @@ export default function useTrans () {
   return {
     getTrans,
     loadingTrans,
-    searchTrans
+    searchTrans,
+    results
   }
 }

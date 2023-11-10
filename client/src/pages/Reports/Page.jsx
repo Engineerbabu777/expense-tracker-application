@@ -42,7 +42,6 @@ export default function ReportsPage () {
           <LeftSide />
 
           {/* RIGHT SIDE (REPORTS AND ANALYTICS !! ) */}
-          {/* <div>123</div> */}
           <ReportsAndAnalytics />
         </HomeLayout>
       </div>
