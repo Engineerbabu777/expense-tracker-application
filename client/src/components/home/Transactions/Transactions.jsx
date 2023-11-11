@@ -8,15 +8,35 @@ import useCategories from '../../../hooks/useCategory'
 import useTrans from '../../../hooks/useTrans'
 import Loading from '../../shared/Loading/Loading'
 import Row from './ModalBodys/components/Row'
+import toast from 'react-hot-toast'
+import useBudget from '../../../hooks/useBudget'
 
 export default function Transactions () {
   const [showMenu, setShowMenu] = useState(false)
   const [filterType, setFilterType] = useState('All')
-  const { setShowModal, setModalType, allTransactions,setEditTrans } = useContext(AllContext)
-
+  const {
+    setShowModal,
+    setModalType,
+    allTransactions,
+    setEditTrans,
+    isBudgetAvailable,setIsBudgetAvailable
+  } = useContext(AllContext)
+  console.log('FROM TRANSACTION: ', isBudgetAvailable)
   const data = useCategories()
   const { loadingTrans } = useTrans()
   console.log('TRANSACTIONS STATUS: ', loadingTrans)
+  const {getCurrentBudget} = useBudget();
+
+  const checkForActiveBudget = async () => {
+    const response = await getCurrentBudget();
+    if(response.success){
+      setIsBudgetAvailable(true);
+    }
+  }
+
+  useEffect(() => {
+    checkForActiveBudget()
+  }, [])
 
   const menu = ['All', 'Income', 'Expense']
 
@@ -65,6 +85,10 @@ export default function Transactions () {
                   fontWeight: '600'
                 }}
                 onClick={() => {
+                  if (!isBudgetAvailable) {
+                    toast.success('Create Monthly First')
+                    return
+                  }
                   setEditTrans(null)
                   setShowModal(true)
                   setModalType('CHOOSE_OPTION')
@@ -156,15 +180,11 @@ export default function Transactions () {
                       .filter((trans, i) => {
                         if (filterType === 'Income') {
                           console.log('INCOME: ', trans)
-                          return trans?.source
-                            ? trans
-                            : null
+                          return trans?.source ? trans : null
                         }
                         if (filterType === 'Expense') {
                           console.log('EXPENSE: ', trans)
-                          return trans?.description
-                            ? trans
-                            : null
+                          return trans?.description ? trans : null
                         }
                         return trans
                       })

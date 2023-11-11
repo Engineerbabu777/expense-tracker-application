@@ -6,6 +6,7 @@ import { AllContext } from '../states/ContextProvider'
 import { dataValidations } from '../utils/expenseValidations'
 import getCompleteDate from '../utils/getCompleteDate'
 import useCategories from './useCategory'
+import toast from 'react-hot-toast'
 
 export default function useBudget () {
   const [cookies] = useCookies([])
@@ -17,7 +18,10 @@ export default function useBudget () {
     setBudgetCategories,
     budgetCategories,
     setModalType,
-    editCategory
+    editCategory,
+    setMonthlyBudgetId,
+    setIsBudgetAvailable,
+    monthlyBudgetId,setAllTransactions
   } = useContext(AllContext)
   const { userCategories } = useCategories()
 
@@ -188,10 +192,69 @@ export default function useBudget () {
       // GET USER CATEGORIES !!
       const allUserCategories = await userCategories()
       console.log('ALL USER CATEGORIES: ', allUserCategories)
+
+      console.log('DATA: ', response?.monthBudget[0]?._id)
+      if (response?.monthBudget[0]) {
+        console.log('NOOOO!')
+        setMonthlyBudgetId(response?.monthBudget[0]?._id)
+      }
+
       // RETURNING DATA BACK TO CALL!
+
       return {
         success: response?.monthBudget[0] ? true : false,
         message: 'New Limit/Currency set!'
+      }
+    } catch (err) {
+      return { error: true, message: err.message }
+    }
+  }
+
+  const deleteCurrentBudget = async () => {
+    console.log('MONTHLY ID: ', monthlyBudgetId)
+    // GET CURRENT USER!
+    try {
+      setCreatingBudget(true)
+      // CHECK IF USER ID EXISTS!
+      const user = getCurrentUserId(cookies['@authTokenExpense'])
+
+      const completeDate = getCompleteDate()
+
+      if (true) {
+        // CONTINUE SAVING NEW CATEGORY!
+
+        const _RESPONSE = await fetch(
+          'http://localhost:4444/api/budget/delete?userId=' +
+            user?.userId +
+            '&budgetId=' +
+            monthlyBudgetId +
+            '&month=' +
+            completeDate.month +
+            '&year=' +
+            completeDate.year,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              accept: 'application/json'
+            }
+          }
+        )
+
+        const resp = await _RESPONSE.json().then()
+
+        console.log('RESPONSE: ', resp)
+        if (resp.data.success) {
+          // DELETE EVERYTHING RELATED TO THIS!
+          setBudgetCategories([]);
+          setIsBudgetAvailable(false);
+          setAllTransactions([]);
+          toast.success('SUCCESS!')
+        }
+
+        return {
+          success: true
+        }
       }
     } catch (err) {
       return { error: true, message: err.message }
@@ -202,6 +265,7 @@ export default function useBudget () {
     createNewBudget,
     creatingBudget,
     editMonthlyBudgetCategory,
-    getCurrentBudget
+    getCurrentBudget,
+    deleteCurrentBudget
   }
 }

@@ -17,8 +17,9 @@ export default function AllContextProvider ({ children }) {
   const [currentUser, setCurrentUser] = useState(null)
   const [cookies, setCookies] = useCookies()
   const [loadingUser, setLoadingUser] = useState(false)
+  const [isBudgetAvailable, setIsBudgetAvailable] = useState(false)
+  const [monthlyBudgetId, setMonthlyBudgetId] = useState(null);
   // const { getCurrentUser } = useUser()
-
 
   // DASHBOARD STATES!
   const [dashboardData, setDashboardData] = useState({
@@ -56,7 +57,9 @@ export default function AllContextProvider ({ children }) {
           currentUser,
           setCurrentUser,
           loadingUser,
-          setLoadingUser
+          setLoadingUser,
+          setIsBudgetAvailable,
+          isBudgetAvailable,setMonthlyBudgetId,monthlyBudgetId
         }}
       >
         {children}

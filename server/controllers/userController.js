@@ -36,7 +36,7 @@ export const getCurrentUserData = async (req, res) => {
 export const updateUserData = async (req, res) => {
   try {
     // GET DATA FROM BODY!
-    const { password, name, email, userId } = req.body
+    const { password, name, email, userId,image } = req.body
 
     console.log('Update body: ', req.body)
 
@@ -59,6 +59,7 @@ export const updateUserData = async (req, res) => {
     // UPDATE THE DATA!
     currentUser.name = name
     currentUser.email = email
+    currentUser.image = image
 
     // SAVE THE USER!
     await currentUser.save()

@@ -1,5 +1,5 @@
 import express from 'express'
-import { createNewBudget, currentMonthBudget, newMonthlyBudgetCategorySettings } from '../controllers/budgetController.js'
+import { createNewBudget, currentMonthBudget, deleteBudget, newMonthlyBudgetCategorySettings } from '../controllers/budgetController.js'
 
 const budgetRoutes = express.Router()
 
@@ -15,6 +15,6 @@ budgetRoutes.post('/category',newMonthlyBudgetCategorySettings);
 // budgetRoutes.put('/update', updateCategory)
 
 // DELETE ROUTES!
-// budgetRoutes.delete('/delete', deleteCategory)
+budgetRoutes.delete('/delete', deleteBudget)
 
 export default budgetRoutes

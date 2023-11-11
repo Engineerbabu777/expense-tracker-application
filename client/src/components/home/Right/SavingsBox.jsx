@@ -5,6 +5,7 @@ import { FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
 
 import '../../../styles/Homepage/Right/BoxStyles.css'
 import '../../../styles/Homepage/Right/SharedStyles.css'
+import getCompleteDate from '../../../utils/getCompleteDate'
 
 export default function SavingBox ({ savings }) {
   return (
@@ -34,7 +35,9 @@ export default function SavingBox ({ savings }) {
           <MdCalendarMonth size={22} />
 
           {/* MONTH NAME! */}
-          <h3 style={{ fontSize: '0.90rem' }}>November, 2023</h3>
+          <h3 style={{ fontSize: '0.90rem' }}>
+            {getCompleteDate().month + ',' + getCompleteDate().year}
+          </h3>
         </div>
 
         {/* BOTTOM */}

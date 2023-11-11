@@ -3,7 +3,7 @@ import { AllContext } from '../../../../states/ContextProvider'
 import './style.css'
 import useExpense from '../../../../hooks/useExpense'
 export default function ExpenseModalBody ({ }) {
-  const { setShowModal, modalType, allCategories,editTrans:transaction } = useContext(AllContext)
+  const { setShowModal, modalType, allCategories,editTrans:transaction,budgetCategories } = useContext(AllContext)
   const [showMenu, setShowMenu] = useState(false)
 
   const { addNewExpense, updateExpenseById } = useExpense()
@@ -137,8 +137,11 @@ export default function ExpenseModalBody ({ }) {
                   marginTop: '2px'
                 }}
               >
-                {allCategories.length > 0 &&
-                  allCategories.map(category => (
+                {budgetCategories.length > 0 &&
+                  budgetCategories.map(category => {
+                    console.log('EACH: ', category)
+                    if(!category?.categoryId?._id) return null; 
+                    return(
                     <>
                       <li
                         style={{
@@ -154,10 +157,10 @@ export default function ExpenseModalBody ({ }) {
                           setShowMenu(!showMenu)
                         }}
                       >
-                        {category?.categoryName}
+                        {category?.categoryId?.categoryName}
                       </li>
                     </>
-                  ))}
+                  )})}
               </div>
             )}
           </div>

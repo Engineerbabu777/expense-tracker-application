@@ -75,12 +75,29 @@ export default function SettingsMain () {
     await updateUser(user)
   }
 
-  // DELETE ACCOUNT HANDLER!
-  const onDeleteAccount = () => {}
-  // DELETE DATA HANDLER!
-  const onDeleteDataHandler = () => {}
-  // DEACTIVATE HANDLER FUNCTION!
-  const onDeActivateAccount = () => {}
+  // HANDLE IMAGE!
+  const imageHandler = async e => {
+    console.log(e.target.files[0])
+    if (e?.target?.files) {
+      console.log(e.target.files[0])
+
+      const files = e.target.files
+      const url = 'http://api.cloudinary.com/v1_1/djo2k58eq/image/upload'
+
+      const formData = new FormData()
+      formData.append('file', files[0])
+      formData.append('upload_preset', 'new-data')
+
+      const data = await fetch(url, {
+        method: 'POST',
+        body: formData
+      }).then(r => r.json().then())
+
+      console.log({ data: data?.secure_url })
+
+      setUser({ ...user, image: data?.secure_url })
+    }
+  }
 
   return (
     <>
@@ -130,7 +147,9 @@ export default function SettingsMain () {
                 <>
                   {/* IMAGE - CIRCLE */}
                   <ImageCircle
+                    onChange={imageHandler}
                     imageSource={
+                      user?.image ||
                       'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/800px-Elon_Musk_Royal_Society_%28crop2%29.jpg'
                     }
                     type='edit'

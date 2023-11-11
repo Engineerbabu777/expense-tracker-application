@@ -1,10 +1,14 @@
 import { BsFillImageFill } from 'react-icons/bs'
 import '../../../styles/Homepage/settings/shared/ImageCircle.css'
 
-export default function ImageCircle ({ type = 'noEdit', imageSource, onClick }) {
+export default function ImageCircle ({
+  type = 'noEdit',
+  imageSource,
+  onChange
+}) {
   return (
     <>
-      <div className={'outer-box '+(type==='noEdit' && ' none')}>
+      <div className={'outer-box ' + (type === 'noEdit' && ' none')}>
         <img
           className='image-sty'
           src={imageSource}
@@ -20,7 +24,13 @@ export default function ImageCircle ({ type = 'noEdit', imageSource, onClick }) 
             <label htmlFor='image' className='styles-label'>
               <BsFillImageFill size={24} color={'#898989'} />
             </label>
-            <input type='file' name='image' id='image' hidden />
+            <input
+              type='file'
+              name='image'
+              id='image'
+              hidden
+              onChange={onChange}
+            />
           </div>
         )}
       </div>

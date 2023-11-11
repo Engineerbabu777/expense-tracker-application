@@ -2,6 +2,8 @@ import { budgetModel } from '../models/budgetModel.js'
 import { categoryModel } from '../models/categoryModel.js'
 import { monthlyCategoryModel } from '../models/monthlyCategoryModel.js'
 import { userModel } from '../models/userModel.js'
+import { incomeModel } from '../models/incomeModel.js'
+import { expenseModel } from '../models/expenseModel.js'
 
 export const createNewBudget = async (req, res) => {
   try {
@@ -75,7 +77,6 @@ export const newMonthlyBudgetCategorySettings = async (req, res) => {
       const isExisted = await monthlyCategoryModel.findById(_id)
 
       if (isExisted?.userId) {
-
         // UPDATE!
         await monthlyCategoryModel.findByIdAndUpdate(_id, {
           monthlyLimit,
@@ -174,6 +175,50 @@ export const currentMonthBudget = async (req, res) => {
     res.status(200).json({ success: true, monthBudget })
   } catch (err) {
     console.log('ERROR WHILE GETTING BUDGET!', err?.message)
+    res.status(500).json({ message: 'Server error!', error: true })
+  }
+}
+
+// DELETE: BUDGET!
+export const deleteBudget = async (req, res) => {
+  try {
+    const { userId, budgetId, month, year } = req.query
+
+    console.log(req.query)
+
+    // CHECK USER IN THE DATABASE!
+    const user = await userModel.findById(userId)
+
+    if (!user?.email || !user?.name) {
+      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
+      return res
+        .status(401)
+        .json({ error: true, message: 'Invalid Authorization!' })
+    }
+
+    // DELETE BUDGET!
+    await budgetModel.findByIdAndDelete(budgetId)
+
+    // DELETE ALL TRANSACTION OF BUDGET!
+    await incomeModel.deleteMany({
+      month: month,
+      year: Number(year),
+      userId: userId
+    })
+    await expenseModel.deleteMany({
+      month: month,
+      year: Number(year),
+      userId: userId
+    })
+    await monthlyCategoryModel.deleteMany({
+      month: month,
+      year: Number(year),
+      userId: userId
+    })
+
+    res.status(200).json({ success: true, message: 'Budget deleted!' })
+  } catch (err) {
+    console.log('ERROR: ', err?.message)
     res.status(500).json({ message: 'Server error!', error: true })
   }
 }

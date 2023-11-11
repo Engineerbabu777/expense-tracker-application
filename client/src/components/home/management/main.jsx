@@ -10,18 +10,24 @@ import useCategories from '../../../hooks/useCategory'
 import { getFullMonthName } from '../../../utils/budgetDateVerifier'
 import Loading from '../../shared/Loading/Loading'
 import useBudget from '../../../hooks/useBudget'
+import { MdDeleteForever } from 'react-icons/md'
 
 export default function BudgetMain ({}) {
-  const { setShowModal, setModalType, budgetCategories, showModal } =
-    useContext(AllContext)
+  const {
+    setShowModal,
+    setModalType,
+    budgetCategories,
+    showModal,
+    setIsBudgetAvailable,
+    isBudgetAvailable
+  } = useContext(AllContext)
   const { userCategories: getUserBudget, loadingData } = useCategories()
-  const {getCurrentBudget} = useBudget();
-  const [isBudgetAvailable, setIsBudgetAvailable] = useState(false)
+  const { getCurrentBudget, deleteCurrentBudget } = useBudget()
 
   const checkForActiveBudget = async () => {
-    const response = await getCurrentBudget();
-    if(response.success){
-      setIsBudgetAvailable(true);
+    const response = await getCurrentBudget()
+    if (response.success) {
+      setIsBudgetAvailable(true)
     }
     // const response = await getUserBudget()
     // if (response?.budget?.length) {
@@ -95,15 +101,17 @@ export default function BudgetMain ({}) {
                       fontWeight: '600',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '5px'
+                      gap: '5px',
+                      justifyContent:'space-around'
+
                     }}
-                    onClick={() => {
-                      setShowModal(true)
-                      setModalType('NEW_BUDGET')
-                    }}
+                    
                   >
                     Budget Activated ({current()})
                     <TiTick size={20} color={'darkGreen'} />
+                    <span style={{ color: 'white' }} onClick={() => {deleteCurrentBudget()}}>
+                      <MdDeleteForever size={18} />
+                    </span>
                   </p>
                 </div>
               )}
@@ -145,7 +153,7 @@ export default function BudgetMain ({}) {
         </div>
 
         {/* SHOW TABLE HERE */}
-        {!loadingData && budgetCategories?.length > 0 ? (
+        {isBudgetAvailable && !loadingData && budgetCategories?.length > 0 ? (
           <div className={styles.childTwo}>
             <table className={styles.tableStyles}>
               <thead>
