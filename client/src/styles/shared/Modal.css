@@ -1,0 +1,24 @@
+/* OUTER AREA! */
+.outer-area {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* FOR SOME OPACITY! */
+.outer-area-opacity {
+    position: absolute;
+    inset: 0;
+    background: #272829;
+    opacity: 0.6;
+}
+
+/* MODAL! */
+.modal-box {
+    background-color: #151515;
+    border-radius: 10px;
+    z-index: 1000000;
+}

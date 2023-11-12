@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
-import useCategories from '../../../hooks/useCategory'
 import useBudget from '../../../hooks/useBudget'
+import '../../../styles/Homepage/management/modalBody.css'
 
 export default function MOdalBodyForBudget ({}) {
   const { setShowModal, modalType } = useContext(AllContext)
@@ -35,11 +35,10 @@ export default function MOdalBodyForBudget ({}) {
       })
 
       setTimeout(() => {
-       setShowModal(false)
-      },300);
+        setShowModal(false)
+      }, 300)
     }
     if (response?.error) {
-      // setLoadingState(false)
       setStatus({
         success: '',
         error: response.message
@@ -51,29 +50,13 @@ export default function MOdalBodyForBudget ({}) {
     <>
       {/* WILL CHANGE LATER FOR ALL! */}
       {/* HEADING! */}
-      <header
-        style={{
-          fontSize: '1.2rem',
-          fontWeight: '700',
-          color: 'white',
-          textAlign: 'center',
-          padding: '15px',
-          borderBottom: '1px solid #272829'
-        }}
-      >
+      <header className='header'>
         {modalType === 'NEW_BUDGET' ? 'Add New ' : 'Edit '}
         Budget
       </header>
 
       {/* SELECT DATE! */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          margin: '15px'
-        }}
-      >
+      <div className='select-date'>
         <label htmlFor='date' style={{ color: '#8e8e8e', fontWeight: '600' }}>
           Select Budget (Date/Month) :{' '}
         </label>
@@ -81,14 +64,7 @@ export default function MOdalBodyForBudget ({}) {
           id='date'
           type='date'
           name='date'
-          style={{
-            borderRadius: '3px',
-            padding: '8px 10px',
-            outline: 'none',
-            border: '1px solid gray',
-            backgroundColor: '#272829',
-            color: 'white'
-          }}
+          className='input'
           placeholder='CREATE NEW BUDGET'
           onChange={onInputChange}
           value={newBudget.date}
@@ -103,48 +79,20 @@ export default function MOdalBodyForBudget ({}) {
       )}
 
       {/* FOOTER! */}
-      <footer
-        style={{
-          borderTop: '1px solid #272829',
-          padding: '15px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'end',
-          gap: '10px',
-          marginTop: '20px'
-        }}
-      >
+      <footer className='footer'>
         {/* BUTTON CLOSE! */}
         <button
-          style={{
-            backgroundColor: '#333333',
-            padding: '10px',
-            outline: 'none',
-            border: 'none',
-            width: '100px',
-            color: 'white',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
+          className='footer-button-close'
           type='button'
           onClick={() => setShowModal(false)}
         >
           CLOSE
         </button>
-        {/* BUTTON SAVE! */}
 
+        {/* BUTTON SAVE! */}
         <button
           type='button'
-          style={{
-            backgroundColor: '#6E38E0',
-            padding: '10px',
-            outline: 'none',
-            border: 'none',
-            width: '100px',
-            color: 'white',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
+          className='footer-button-save'
           onClick={onSubmitHandler}
         >
           {creatingBudget

@@ -1,12 +1,13 @@
 import { useContext } from 'react'
 import { AllContext } from '../../../states/ContextProvider'
-import './style.css'
 import NewCategoryModalBody from '../../home/Categories/ModalBody'
 import ModalBodyForBudget from '../../home/management/ModalBody'
 import ChooseModalBody from '../../home/Transactions/ModalBodys/ChooseModalBody'
 import IncomeModalBody from '../../home/Transactions/ModalBodys/IncomeModalBody'
 import ExpenseModalBody from '../../home/Transactions/ModalBodys/ExpenseModelBody'
 import SearchModalBody from '../../search/SearchModalBody'
+import '../../../styles/shared/Modal.css';
+
 
 export default function Modal ({}) {
   const { showModal, modalType } = useContext(AllContext)
@@ -16,31 +17,17 @@ export default function Modal ({}) {
       {showModal && (
         <>
           <div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: '10000'
-            }}
+           className="outer-area"
           >
             <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: '#272829',
-                opacity: 0.6
-              }}
+              className="outer-area-opacity"
             />
 
             <div
               style={{
-                backgroundColor: '#151515',
-                borderRadius: '10px',
-                zIndex: '1000000',
                 width: modalType === 'SEARCH' ? '80%' : '400px'
               }}
+              className='modal-box'
             >
               {/* MODAL BODY FOR CATEGORIES! !! */}
               {['NEW_CATEGORY', 'EDIT_CATEGORY'].includes(modalType) && (

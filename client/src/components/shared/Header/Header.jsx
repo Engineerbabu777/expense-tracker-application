@@ -17,28 +17,13 @@ export default function Header ({}) {
         <section className='logo-box'>
           {/* ICON */}
           <FaGripfire style={{ color: '#FF5f36', fontSize: 32 }} />
-
-          {/* NAME! */}
           {/* HIDDEN FROM (< 675px) */}
-
           <h1>ExpendiGenius</h1>
         </section>
 
         <div className='right-side-container-header'>
           {/* SEARCH INPUT! */}
-          <div
-            style={{
-              position: 'relative',
-              backgroundColor: '#272829',
-              borderRadius: '15px',
-              padding: '3px 15px',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              height: '25px'
-            }}
-          >
+          <div className='search-input-parent'>
             {/* ICON! */}
             <BsSearch style={{ color: '#898989' }} />
             {/* INPUT! */}
@@ -48,46 +33,21 @@ export default function Header ({}) {
                 setModalType('SEARCH')
               }}
               type={'text'}
-              style={{
-                background: 'inherit',
-                color: 'white',
-                outline: 'none',
-                border: 'none',
-                width: '100%'
-              }}
+              className='search-input'
               placeholder='Search for recent transactions, expenses, incomes'
             />
           </div>
 
           {/* LAST ICONS! */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className='last-icons-parent'>
             {/* HIDDEN FROM (< 675px) */}
-            <div
-              style={{
-                backgroundColor: '#3C4048',
-                height: 30,
-                width: 30,
-                borderRadius: 30,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+            {/* ICON ONE! */}
+            <div className='each-icons-box'>
               <FiSettings style={{ fontSize: 20, color: '#898989' }} />
             </div>
-
-            <div
-              style={{
-                backgroundColor: '#3C4048',
-                height: 30,
-                width: 30,
-                borderRadius: 30,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative'
-              }}
-            >
+            {/* ICON-2 */}
+            <div className='each-icons-box'>
+              {/* DOT */}
               <div
                 style={{
                   backgroundColor: 'green',
@@ -103,20 +63,8 @@ export default function Header ({}) {
                 style={{ fontSize: 20, color: '#898989' }}
               />
             </div>
-
-            <div
-              style={{
-                backgroundColor: '#3C4048',
-                height: 30,
-                width: 30,
-                borderRadius: 30,
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative'
-              }}
-            >
+            {/* ICON_3 */}
+            <div className='each-icons-box'>
               <img
                 src={
                   'http://www.clker.com/cliparts/P/n/9/v/6/W/boy-with-hat-cartoon-th.png'

@@ -9,16 +9,7 @@ export default function Row ({ category, i }) {
   const { setEditCategory, setShowModal, setModalType } = useContext(AllContext)
 
 
-  // DELETING CATEGORY !!
-  const deleteCategoryById = async id => {
-    // const { success, error, message } = await deleteCategories(id)
-    // if (success) {
-    //   toast.success('Success!')
-    // }
-    // if (error) {
-    //   toast.error(message)
-    // }
-  }
+
 
   return (
     <>

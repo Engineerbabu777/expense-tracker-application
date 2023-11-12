@@ -11,6 +11,7 @@ import { getFullMonthName } from '../../../utils/budgetDateVerifier'
 import Loading from '../../shared/Loading/Loading'
 import useBudget from '../../../hooks/useBudget'
 import { MdDeleteForever } from 'react-icons/md'
+import '../../../styles/Homepage/management/main.css'
 
 export default function BudgetMain ({}) {
   const {
@@ -29,11 +30,6 @@ export default function BudgetMain ({}) {
     if (response.success) {
       setIsBudgetAvailable(true)
     }
-    // const response = await getUserBudget()
-    // if (response?.budget?.length) {
-    //   setIsBudgetAvailable(true)
-    // }
-    // console.log(response)
   }
 
   useEffect(() => {
@@ -56,73 +52,37 @@ export default function BudgetMain ({}) {
     <>
       <Modal />
       {/* MAIN RIGHT SIDE! */}
-      <div
-        style={{
-          margin: '2% 2% 0 1%',
-          width: '98%',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100vh',
-          overflow: 'auto'
-        }}
-      >
+      <div className='main-right-parent'>
         {/* PARENT CONTAINER */}
 
         <div>
-          <div
-            style={{
-              fontSize: '.75rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
+          <div className='box'>
             <div style={{ marginTop: '-2%', flex: 1 }}>
               <Headings Heading={'Budget Management'} />
             </div>
 
-            <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+            <div className='top-right-parent'>
               {isBudgetAvailable && (
-                <div
-                  style={{
-                    fontSize: '1rem',
-                    display: 'flex',
-                    cursor: 'pointer'
-                  }}
-                >
+                <div className='top-right-budgetBox'>
                   {/* ICON! */}
 
                   {/* TEXT! */}
-                  <p
-                    style={{
-                      backgroundColor: '#3EC70A',
-                      padding: '5px',
-                      color: 'white',
-                      fontWeight: '600',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      justifyContent:'space-around'
-
-                    }}
-                    
-                  >
+                  <p className='top-right-budgetBox-text'>
                     Budget Activated ({current()})
                     <TiTick size={20} color={'darkGreen'} />
-                    <span style={{ color: 'white' }} onClick={() => {deleteCurrentBudget()}}>
+                    <span
+                      style={{ color: 'white' }}
+                      onClick={() => {
+                        deleteCurrentBudget()
+                      }}
+                    >
                       <MdDeleteForever size={18} />
                     </span>
                   </p>
                 </div>
               )}
 
-              <div
-                style={{
-                  fontSize: '1rem',
-                  display: 'flex',
-                  cursor: 'pointer'
-                }}
-              >
+              <div className='new-create-box'>
                 {/* ICON! */}
                 <div
                   style={{
@@ -134,12 +94,7 @@ export default function BudgetMain ({}) {
                 </div>
                 {/* TEXT! */}
                 <p
-                  style={{
-                    backgroundColor: 'rgba(110, 56, 224,0.8)',
-                    padding: '5px',
-                    color: 'white',
-                    fontWeight: '600'
-                  }}
+                  className='new-create-box-text'
                   onClick={() => {
                     setShowModal(true)
                     setModalType('NEW_BUDGET')

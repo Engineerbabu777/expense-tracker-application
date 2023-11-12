@@ -1,0 +1,53 @@
+
+
+.main-right-parent{
+    margin: 2% 2% 0 1%;
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto
+}
+
+.box{
+    font-size: .75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-right-parent{
+    display: flex;
+    gap: 15px;
+    align-items: center 
+}
+
+.top-right-budgetBox{
+    font-size: 1rem;
+    display: flex;
+    cursor: pointer;
+}
+
+.top-right-budgetBox-text{
+    background-color: #3EC70A;
+    padding: 5px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-around;
+}
+
+.new-create-box{
+    font-size: 1rem;
+    display: flex;
+    cursor: pointer;
+}
+
+.new-create-box-text{
+    background-color: rgba(110, 56, 224,0.8);
+    padding: 5px;
+    color: white;
+    font-weight: 600;
+}

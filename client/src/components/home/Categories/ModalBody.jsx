@@ -3,6 +3,7 @@ import { AllContext } from '../../../states/ContextProvider'
 import useCategories from '../../../hooks/useCategory'
 import { useLocation } from 'react-router-dom'
 import useBudget from '../../../hooks/useBudget'
+import '../../../styles/Homepage/Categories/ModalBody.css'
 
 export default function NewCategoryModalBody ({}) {
   const { setShowModal, editCategory, modalType } = useContext(AllContext)
@@ -90,38 +91,15 @@ export default function NewCategoryModalBody ({}) {
     <>
       {/* WILL CHANGE LATER FOR ALL! */}
       {/* HEADING! */}
-      <header
-        style={{
-          fontSize: '1.2rem',
-          fontWeight: '700',
-          color: 'white',
-          textAlign: 'center',
-          padding: '15px',
-          borderBottom: '1px solid #272829'
-        }}
-      >
+      <header className='header'>
         {modalType === 'NEW_CATEGORY' ? 'Add New ' : 'Edit '}
         Expense Category
       </header>
 
       {/* INPUTS! */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-          marginTop: '20px',
-          padding: '15px'
-        }}
-      >
+      <div className='inputs-container'>
         {!isBudget && (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '4px'
-            }}
-          >
+          <div className='budget-available-container'>
             <label
               htmlFor='name'
               style={{ color: '#8e8e8e', fontWeight: '600' }}
@@ -132,14 +110,7 @@ export default function NewCategoryModalBody ({}) {
               id='name'
               type='text'
               name='name'
-              style={{
-                borderRadius: '3px',
-                padding: '8px 10px',
-                outline: 'none',
-                border: '1px solid gray',
-                backgroundColor: '#272829',
-                color: 'white'
-              }}
+              className='input-one'
               placeholder='New Expense Category Name'
               onChange={onInputChange}
               value={newCategory.name}
@@ -221,48 +192,6 @@ export default function NewCategoryModalBody ({}) {
                   setNewCategory({ ...newCategory, code: '#599AB4' })
                 }
               />
-
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  backgroundColor: '#786',
-                  borderRadius: '30px'
-                }}
-                onClick={() => setNewCategory({ ...newCategory, code: '#786' })}
-              />
-
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  backgroundColor: '#AAA',
-                  borderRadius: '30px'
-                }}
-                onClick={() => setNewCategory({ ...newCategory, code: '#AAA' })}
-              />
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  backgroundColor: '#CCC136',
-                  borderRadius: '30px'
-                }}
-                onClick={() =>
-                  setNewCategory({ ...newCategory, code: '#CCC136' })
-                }
-              />
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  backgroundColor: '#786EEE',
-                  borderRadius: '30px'
-                }}
-                onClick={() =>
-                  setNewCategory({ ...newCategory, code: '#786EEE' })
-                }
-              />
             </div>
           </div>
         )}
@@ -284,27 +213,12 @@ export default function NewCategoryModalBody ({}) {
               id='limit'
               type='number'
               name='limit'
-              style={{
-                borderRadius: '3px',
-                padding: '8px 10px',
-                outline: 'none',
-                border: '1px solid gray',
-                backgroundColor: '#272829',
-                color: 'white'
-              }}
+              className='input-two'
               placeholder='New Expense Monthly Limit'
               onChange={onInputChange}
               value={newCategory.limit}
             />
-            <div
-              style={{
-                display: 'flex',
-                gap: '2px',
-                color: '#898989',
-                fontSize: '0.85rem',
-                fontWeight: '600'
-              }}
-            >
+            <div className='note-styles'>
               <span>Note: </span>
               <p>If not limit set then it will be infinity.</p>
             </div>
@@ -323,18 +237,10 @@ export default function NewCategoryModalBody ({}) {
               Currency:{' '}
             </label>
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                // justifyContent: 'space-',
-                gap: '20px',
-                flexWrap: 'wrap'
-              }}
-            >
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-              >
+            {/* CURRENCY PARENT! */}
+            <div className='currency-main-parent'>
+              {/* CURRENCY DOLLAR */}
+              <div className='currency-box'>
                 {/* NAME! */}
                 <label htmlFor='dollar'>Dollar</label>
 
@@ -348,10 +254,8 @@ export default function NewCategoryModalBody ({}) {
                   name='currency'
                 />
               </div>
-
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-              >
+              {/* CURRENCY PKR! */}
+              <div className='currency-box'>
                 {/* NAME! */}
                 <label htmlFor='pkr'>Pkr</label>
 
@@ -366,9 +270,7 @@ export default function NewCategoryModalBody ({}) {
                 />
               </div>
 
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-              >
+              <div className='currency-box'>
                 {/* NAME! */}
                 <label htmlFor='dollar'>Inr</label>
 
@@ -382,9 +284,7 @@ export default function NewCategoryModalBody ({}) {
                 />
               </div>
 
-              <div
-                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-              >
+              <div className='currency-box'>
                 {/* NAME! */}
                 <label htmlFor='lira'>Lira</label>
 
@@ -409,29 +309,10 @@ export default function NewCategoryModalBody ({}) {
       )}
 
       {/* FOOTER! */}
-      <footer
-        style={{
-          borderTop: '1px solid #272829',
-          padding: '15px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'end',
-          gap: '10px',
-          marginTop: '20px'
-        }}
-      >
+      <footer className='footer'>
         {/* BUTTON CLOSE! */}
         <button
-          style={{
-            backgroundColor: '#333333',
-            padding: '10px',
-            outline: 'none',
-            border: 'none',
-            width: '100px',
-            color: 'white',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
+          className='button button-close'
           type='button'
           onClick={() => setShowModal(false)}
         >
@@ -441,16 +322,7 @@ export default function NewCategoryModalBody ({}) {
 
         <button
           type='button'
-          style={{
-            backgroundColor: '#6E38E0',
-            padding: '10px',
-            outline: 'none',
-            border: 'none',
-            width: '100px',
-            color: 'white',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
+          className='button button-save'
           onClick={onSubmitHandler}
         >
           {loadingState
