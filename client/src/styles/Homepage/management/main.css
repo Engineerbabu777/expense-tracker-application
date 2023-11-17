@@ -1,6 +1,4 @@
-
-
-.main-right-parent{
+.main-right-parent {
     margin: 2% 2% 0 1%;
     width: 98%;
     display: flex;
@@ -9,26 +7,26 @@
     overflow: auto
 }
 
-.box{
+.box {
     font-size: .75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.top-right-parent{
+.top-right-parent {
     display: flex;
     gap: 15px;
-    align-items: center 
+    align-items: center
 }
 
-.top-right-budgetBox{
+.top-right-budgetBox {
     font-size: 1rem;
     display: flex;
     cursor: pointer;
 }
 
-.top-right-budgetBox-text{
+.top-right-budgetBox-text {
     background-color: #3EC70A;
     padding: 5px;
     color: white;
@@ -39,15 +37,50 @@
     justify-content: space-around;
 }
 
-.new-create-box{
+.new-create-box {
     font-size: 1rem;
     display: flex;
     cursor: pointer;
 }
 
-.new-create-box-text{
-    background-color: rgba(110, 56, 224,0.8);
+.new-create-box-text {
+    background-color: rgba(110, 56, 224, 0.8);
     padding: 5px;
     color: white;
     font-weight: 600;
+}
+
+.box-heading-container {
+    margin-top: -2%;
+    flex: 1;
+}
+.HEADER{
+    font-Size: 1.2rem;
+    font-Weight: 700;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #272829;
+}
+
+/* APPLYING MEDIA QUERIES FOR RESPONSIVENESS */
+@media (width<=640px) {
+    .top-right-parent {
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        gap: 10px;
+
+    }
+
+    .box {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+    }
+
+    .box-heading-container {
+        width: 100vw;
+    }
 }

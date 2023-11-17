@@ -8,6 +8,10 @@
 
 }
 
+.main-side-styles::-webkit-scrollbar {
+    display: none;
+}
+
 
 .edit-styles-button {
     background-color: #272829;
@@ -74,6 +78,13 @@
 
 
 /* MEDIA QUERIES */
+
+@media (width>1300px) {
+    .account-container-styles {
+        padding-bottom: 5%;
+    }
+
+}
 
 @media (width<=840px) {
     /* .main-side-styles{

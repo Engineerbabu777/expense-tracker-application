@@ -7,6 +7,7 @@ import Modal from '../../shared/Modal/Modal'
 import useCategories from '../../../hooks/useCategory'
 import Row from './Row'
 import Loading from '../../shared/Loading/Loading'
+import '../../../styles/Homepage/Categories/Categories.css';
 
 export default function CategoriesRight () {
   const { getCategories, loadingData } = useCategories()
@@ -33,14 +34,14 @@ export default function CategoriesRight () {
       {/* PARENT CONTAINER OF ALL! */}
       <div className={styles.parentContainerOfAll}>
         {/* CHILD CONTAINER ONE OF PARENT CONTAINER FOR HEADING */}
-        <div className={styles.childOne}>
+        <div className={"childOne"}>
           {' '}
           {/* WILL SET HEADING MORE LATER!*/}
           <div className={styles.headingBox}>
             <Headings Heading={'Expense Categories'} />
           </div>
           {/* FILTER OPTIONS */}
-          <div className={styles.filterParents}>
+          <div className={"filterParents"}>
             {/* FILTER BY MONTH AS WELL!! (ALSO INCLUDES ALL TO SHOW ALL DATA) */}
             <div className={styles.filterContainer}>
               <div

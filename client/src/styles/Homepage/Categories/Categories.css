@@ -1,0 +1,45 @@
+.childOne {
+    height: fit-content;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 2%;
+
+}
+
+.HEADER {
+    font-Size: 1.2rem;
+    font-Weight: 700;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #272829;
+}
+
+.filterParents {
+    display: flex;
+    gap: 10px;
+}
+
+@media (width<=660px) {
+    /* !! UPPER HEADING QUERIES! */
+
+    .filterParents {
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        margin-right: 2%;
+    }
+
+    .childOne {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: start;
+        width: 100vw;
+
+    }
+
+}

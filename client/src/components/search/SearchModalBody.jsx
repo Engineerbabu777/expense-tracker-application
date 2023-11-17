@@ -53,7 +53,8 @@ export default function SearchModalBody ({}) {
           width: '95%',
           alignItems: 'center',
           padding: '5px',
-          height: '80vh'
+          height: '80vh',
+          overflow: 'auto'
         }}
       >
         {/* SEARCH INPUT! */}
@@ -101,9 +102,8 @@ export default function SearchModalBody ({}) {
 
         <div
           style={{
-            width: '100%'
-            // flexGrow:1,
-            // overflow:'auto'
+            width: '100%',
+            overflow: 'auto'
           }}
         >
           {/* TABLE! */}
@@ -141,10 +141,9 @@ export default function SearchModalBody ({}) {
               color: '#333'
             }}
           >
-            <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              Nothing to show
-              <TbMoodEmptyFilled />
-            </p>
+            {/* <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}> */}
+            <TbMoodEmptyFilled />
+            {/* </p> */}
           </div>
         )}
       </section>

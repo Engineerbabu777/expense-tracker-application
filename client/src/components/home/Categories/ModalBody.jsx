@@ -91,7 +91,10 @@ export default function NewCategoryModalBody ({}) {
     <>
       {/* WILL CHANGE LATER FOR ALL! */}
       {/* HEADING! */}
-      <header className='header'>
+      <header
+        className='HEADER'
+        
+      >
         {modalType === 'NEW_CATEGORY' ? 'Add New ' : 'Edit '}
         Expense Category
       </header>

@@ -6,6 +6,9 @@ import { useContext } from 'react'
 import { AllContext } from '../states/ContextProvider'
 import toast from 'react-hot-toast'
 import useCategories from './useCategory'
+import {
+  currencyConverterForEachCategory,
+} from '../utils/exchangeRates'
 
 export default function useExpense () {
   const [cookies, setCookies] = useCookies([])
@@ -38,7 +41,7 @@ export default function useExpense () {
 
       const date = getCompleteDate()
 
-      if (budgetCategories.length > 0) {
+      if (budgetCategories?.length === 0) {
         const result = await userCategories()
         if (result?.error) return
       }
@@ -49,44 +52,26 @@ export default function useExpense () {
       const ONLY_THAT_CATEGORY = ONLY_EXPENSES.filter(
         c => c?.categoryId?._id === _DATA?.categoryId._id
       )
-      console.log('ONLY THAT CATEGORY: ', ONLY_THAT_CATEGORY)
-      // NOW ADDED THE TOTAL AMOUNT !!
-      const TOTAL_AMOUNT = ONLY_THAT_CATEGORY.reduce(
-        (acc, curr) => acc + curr?.money,
-        0
-      )
-      console.log('TOTAL_AMOUNT: ', TOTAL_AMOUNT)
-      // NOW CHECK WETHER IT IS GREATER THAN THE MONTHLY LIMIT OR NOT !!
-      const MONTHLY_LIMIT = budgetCategories?.filter(
-        b => b?.categoryId?._id === _DATA?.categoryId._id
-      )[0]?.monthlyLimit
-      const CURRENCY_FOR_THAT_LIMIT = budgetCategories?.filter(
-        b => b?.categoryId?._id === _DATA?.categoryId._id
-      )[0]?.currency
-      console.log(
-        `Monthly Limit for expense category ${_DATA?.categoryId?.categoryName} is ${MONTHLY_LIMIT}`
-      )
-      // IF THERE IS ANY EXCEEDING AMOUNT!
-      const warningOnAmount =
-        TOTAL_AMOUNT + Number(_DATA?.amount) - MONTHLY_LIMIT
-      // CHECKING IF THE AMOUNT EXCEEDS!
-      if (warningOnAmount > 0) {
-        console.log(
-          `Monthly Limit Exceeds for expense category ${_DATA?.categoryId?.categoryName}`
-        )
-        IS_EXPENSE_VOILATION = true
-      }
 
-      // IF ITS GREATER THAN THAT THEN SEND EMAIL TO THE USER !!
+      const responseFromConverter = currencyConverterForEachCategory(
+        ONLY_THAT_CATEGORY,
+        _DATA.currency,
+        budgetCategories,
+        _DATA
+      )
+
       const DATA = {
         ...date,
         ..._DATA2,
         userId: user.userId,
-        need_to_send_email: IS_EXPENSE_VOILATION,
+        need_to_send_email: responseFromConverter.need_to_send_email,
         monthlyData: budgetCategories.filter(
           b => b?.categoryId?._id === _DATA?.categoryId._id
         )[0],
-        exceedingAmount: warningOnAmount > 0 ? warningOnAmount : 0
+        exceedingAmount:
+          responseFromConverter.warningOnAmount > 0
+            ? responseFromConverter.warningOnAmount
+            : 0
       }
 
       // AND ALSO DISPLAY THE MESSAGE / ON SCREEN !!

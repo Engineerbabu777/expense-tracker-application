@@ -71,6 +71,7 @@ export default function useTrans () {
             0
           ) // HERE WE WILL GET ALL INCOMES!
           const savingAlongIncomeExpenses = totalIncomes - totalExpenses
+      
           const lastFewTransactions = [
             ...expenses?.slice(0, 5),
             ...incomes.slice(0, 5)

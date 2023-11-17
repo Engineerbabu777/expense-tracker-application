@@ -1,13 +1,27 @@
 import '../../../styles/Homepage/Right/RightSideMain.css'
-import { PiArrowLineUpRightBold } from 'react-icons/pi'
+import { PiArrowLineUpRightBold, PiCurrencyInrBold } from 'react-icons/pi'
 import { MdCalendarMonth } from 'react-icons/md'
-import { FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
+import { FaDollarSign, FaLiraSign, FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
 
 import '../../../styles/Homepage/Right/BoxStyles.css'
 import '../../../styles/Homepage/Right/SharedStyles.css'
 import getCompleteDate from '../../../utils/getCompleteDate'
+import { useContext } from 'react'
+import { AllContext } from '../../../states/ContextProvider'
 
 export default function SavingBox ({ savings }) {
+
+  const {filterType} = useContext(AllContext);
+
+  const returnIcon = ()  => {
+    if(filterType === 'pkr') return PakistaniRupees;
+    if(filterType === 'dollar') return FaDollarSign;
+    if(filterType === 'lira') return FaLiraSign;
+    if(filterType === 'inr') return PiCurrencyInrBold;
+  }
+
+  const Icon = returnIcon();
+
   return (
     <>
       <div className='saving-box boxStyles'>
@@ -45,7 +59,7 @@ export default function SavingBox ({ savings }) {
           {/* AMOUNT! */}
           <p className='amount-box'>
             <p className='amount-styles'>{savings}</p>
-            <PakistaniRupees size={18} color={'#838383'} />
+            <Icon size={18} color={'#838383'} />
           </p>
 
           {/* TODAY! */}

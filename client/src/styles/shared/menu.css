@@ -1,0 +1,22 @@
+.close-icon-area {
+    display: flex;
+    justify-content: end;
+    color: white;
+    width: 100%;
+}
+
+.main-parent {
+    position: fixed;
+    background-color: #272829;
+    inset: 0;
+    padding: 15px 15px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-options {
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+}

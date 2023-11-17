@@ -57,7 +57,7 @@ export default function BudgetMain ({}) {
 
         <div>
           <div className='box'>
-            <div style={{ marginTop: '-2%', flex: 1 }}>
+            <div className="box-heading-container">
               <Headings Heading={'Budget Management'} />
             </div>
 

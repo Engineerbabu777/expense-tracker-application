@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
+    z-index: 10000px;
 }
 
 /* FOR SOME OPACITY! */
@@ -20,5 +20,5 @@
 .modal-box {
     background-color: #151515;
     border-radius: 10px;
-    z-index: 1000000;
+    z-index: 1000000px;
 }

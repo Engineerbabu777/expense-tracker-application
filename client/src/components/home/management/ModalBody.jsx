@@ -50,7 +50,7 @@ export default function MOdalBodyForBudget ({}) {
     <>
       {/* WILL CHANGE LATER FOR ALL! */}
       {/* HEADING! */}
-      <header className='header'>
+      <header className='HEADER'>
         {modalType === 'NEW_BUDGET' ? 'Add New ' : 'Edit '}
         Budget
       </header>

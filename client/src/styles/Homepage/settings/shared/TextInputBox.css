@@ -22,7 +22,7 @@
     border: 1px solid #272829;
     background-color: #272829;
     color: #898989;
-    
+
 }
 
 /* HOVER STYLES ON INPUT! */
@@ -40,13 +40,12 @@
 
 
 @media (width <=840px) {
-    .main-container {
-        /* margin: 0 10px; */
-        align-items: start;
-        flex-direction: column;
+
+    .input-styles {
+        width: 100%;
     }
 
-    .label-style{
+    .label-style {
         font-size: 1.05rem;
     }
 }

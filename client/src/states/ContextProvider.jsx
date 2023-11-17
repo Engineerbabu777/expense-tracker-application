@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
-import useUser from '../hooks/useUser'
+import { createContext, useState } from 'react'
 import { useCookies } from 'react-cookie'
 
 export const AllContext = createContext(null)
@@ -18,8 +17,8 @@ export default function AllContextProvider ({ children }) {
   const [cookies, setCookies] = useCookies()
   const [loadingUser, setLoadingUser] = useState(false)
   const [isBudgetAvailable, setIsBudgetAvailable] = useState(false)
-  const [monthlyBudgetId, setMonthlyBudgetId] = useState(null);
-  // const { getCurrentUser } = useUser()
+  const [monthlyBudgetId, setMonthlyBudgetId] = useState(null)
+  const [filterType, setFilterType] = useState('pkr')
 
   // DASHBOARD STATES!
   const [dashboardData, setDashboardData] = useState({
@@ -27,7 +26,8 @@ export default function AllContextProvider ({ children }) {
     totalIncomes: 0,
     savingAlongIncomeExpenses: 0,
     lastFewTransactions: [],
-    allDataFetched: false
+    allDataFetched: false,
+    currency:'pkr'
   })
 
   console.log(showModal, modalType, currentUser)
@@ -59,7 +59,11 @@ export default function AllContextProvider ({ children }) {
           loadingUser,
           setLoadingUser,
           setIsBudgetAvailable,
-          isBudgetAvailable,setMonthlyBudgetId,monthlyBudgetId
+          isBudgetAvailable,
+          setMonthlyBudgetId,
+          monthlyBudgetId,
+          filterType,
+          setFilterType
         }}
       >
         {children}

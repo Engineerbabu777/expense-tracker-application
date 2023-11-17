@@ -4,10 +4,18 @@ import { getCurrentUserId } from '../utils/getCurrentUserId'
 import { useContext } from 'react'
 import { AllContext } from '../states/ContextProvider'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 export default function useUser () {
   const [cookies, setCookies, removeCookie] = useCookies()
-  const { currentUser, setCurrentUser, setLoadingUser } = useContext(AllContext)
+  const navigate = useNavigate()
+  const {
+    currentUser,
+    setCurrentUser,
+    setLoadingUser,
+    setAllTransactions,
+    setDashboardData
+  } = useContext(AllContext)
 
   // GET CURRENT USER!!
   const getCurrentUser = async () => {
@@ -92,7 +100,8 @@ export default function useUser () {
         response.json().then(data => {
           if (data?.success) {
             toast.success(data?.message)
-            removeCookie('@authTokenExpense')
+            setAllTransactions(null)
+            setDashboardData(null)
           } else {
             toast.error(data?.message)
           }
@@ -117,6 +126,7 @@ export default function useUser () {
           if (data?.success) {
             toast.success(data?.message)
             removeCookie('@authTokenExpense')
+            navigate('/')
           } else {
             toast.error(data?.message)
           }
@@ -144,6 +154,7 @@ export default function useUser () {
           if (data?.success) {
             toast.success(data?.message)
             removeCookie('@authTokenExpense')
+            navigate('/')
           } else {
             toast.error(data?.message)
           }

@@ -125,6 +125,7 @@ export default function ExpenseModalBody ({ }) {
             }}
             onClick={() => setShowMenu(!showMenu)}
           >
+            {console.log('NEW: ',newTransaction?.categoryId)}
             {newTransaction?.categoryId?._id
               ? newTransaction?.categoryId?.categoryName
               : 'Show Drop Down'}
@@ -152,11 +153,11 @@ export default function ExpenseModalBody ({ }) {
                         onClick={() => {
                           setNewTransaction(prev => ({
                             ...prev,
-                            categoryId: category
+                            categoryId: category?.categoryId
                           }))
                           setShowMenu(!showMenu)
                         }}
-                      >
+                      >{console.log(category?.categoryId?.categoryName)}
                         {category?.categoryId?.categoryName}
                       </li>
                     </>

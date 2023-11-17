@@ -1,12 +1,26 @@
-import { PiArrowLineUpRightBold } from 'react-icons/pi'
+import { PiArrowLineUpRightBold, PiCurrencyInrBold } from 'react-icons/pi'
 import { MdCalendarMonth } from 'react-icons/md'
-import { FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
+import { FaDollarSign, FaLiraSign, FaRupeeSign as PakistaniRupees } from 'react-icons/fa6'
 
 import '../../../styles/Homepage/Right/BoxStyles.css'
 import '../../../styles/Homepage/Right/SharedStyles.css'
 import getCompleteDate from '../../../utils/getCompleteDate'
+import { AllContext } from '../../../states/ContextProvider'
+import { useContext } from 'react'
 
 export default function IncomeBox ({ isLoading, incomes }) {
+
+  const {filterType} = useContext(AllContext);
+
+  const returnIcon = ()  => {
+    if(filterType === 'pkr') return PakistaniRupees;
+    if(filterType === 'dollar') return FaDollarSign;
+    if(filterType === 'lira') return FaLiraSign;
+    if(filterType === 'inr') return PiCurrencyInrBold;
+  }
+
+  const Icon = returnIcon();
+
   return (
     <>
       <div className='income-box boxStyles'>
@@ -42,7 +56,7 @@ export default function IncomeBox ({ isLoading, incomes }) {
           {/* AMOUNT! */}
           <p className='amount-box'>
             <p className='amount-styles'>{incomes}</p>
-            <PakistaniRupees size={18} color={'#838383'} />
+            <Icon size={18} color={'#838383'} />
           </p>
 
           {/* TODAY! */}

@@ -14,7 +14,8 @@ export default function HomePage () {
   const navigate = useNavigate()
 
   const { getTrans } = useTrans()
-  const { allTransactions, setDashboardData } = useContext(AllContext)
+  const { allTransactions, setDashboardData, filterType } =
+    useContext(AllContext)
 
   useEffect(() => {
     const verifyCookie = async () => {
@@ -32,21 +33,22 @@ export default function HomePage () {
             totalIncomes,
             lastFewTransactions,
             savingAlongIncomeExpenses
-          } = dashboardData(allTransactions)
+          } = dashboardData(allTransactions, filterType)
           // RESETTING THE DASHBOARD DATA
           setDashboardData({
             totalExpenses,
             totalIncomes,
             savingAlongIncomeExpenses,
             lastFewTransactions,
-            allDataFetched: true
+            allDataFetched: true,
+            currency: filterType
           })
         }
         // MAKE A REQUEST AND GET USER!
       }
     }
     verifyCookie()
-  }, [cookies, navigate])
+  }, [cookies, navigate, filterType])
 
   return (
     <>

@@ -6,12 +6,13 @@ import Modal from '../../../../shared/Modal/Modal'
 import { useContext } from 'react'
 import { AllContext } from '../../../../../states/ContextProvider'
 import { useLocation, useRoutes } from 'react-router-dom'
+import { convertToSpecificCurrency } from '../../../../../utils/exchangeRates'
 
 export default function Row ({ t, i, show = true }) {
   const TRANSACTION_TYPE = t?.categoryId ? 'EXPENSE' : 'INCOME'
   const { deleteExpenseById } = useExpense()
   const { deleteIncomeById } = useIncome()
-  const { setEditTrans, setModalType, setShowModal } = useContext(AllContext)
+  const { setEditTrans, setModalType, setShowModal, filterType } = useContext(AllContext)
   const { pathname } = useLocation()
   const showEditDelete = pathname.split('/').includes('transactions')
 
@@ -45,7 +46,7 @@ export default function Row ({ t, i, show = true }) {
             </>
           )}
         </td>
-        <td>${t?.money}</td>
+        <td>{convertToSpecificCurrency(t?.currency,filterType,t?.money).rate}{" "}{filterType}</td>
         <td>{t?.categoryId ? t?.categoryId?.categoryName : '-'}</td>
         <td>{t?.categoryId ? 'Expense' : 'Income'}</td>
         <td>{date + '-' + month + '-' + year}</td>

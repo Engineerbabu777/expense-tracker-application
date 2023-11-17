@@ -45,7 +45,7 @@ export default function PrivacyPage () {
           <>
             <Headings Heading={'Privacy Policy'} />
 
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '20px',overflow:'auto',height:'100vh',paddingBottom:'5vh' }}>
               <p
                 style={{
                   lineHeight: '30px',
