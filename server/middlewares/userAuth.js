@@ -4,6 +4,8 @@ export const authMiddleware = async (req, res, next) => {
   const { userId } = req.body
   const { userId: userID } = req.query
 
+  console.log({userId,userID});
+
   console.log('HELLO FROM AUTH MIDDLEWARE!')
   // CHECK USER IN THE DATABASE!
   const user = await userModel.findById(userId || userID)

@@ -8,16 +8,6 @@ export async function addNewIncomeController (req, res) {
 
     console.log('DATA: ', req.body);
 
-    // CHECK FOR USER ID!
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // CREATE NEW INCOME STREAM!
     const newIncome = await incomeModel.create({
@@ -42,19 +32,7 @@ export async function addNewIncomeController (req, res) {
 export const deleteIncomeById = async (req, res) => {
   try {
     const { userId, deleteId } = req.query
-    console.log(1)
-    console.log(req.query);
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
-
+   
     await incomeModel.findOneAndDelete({_id:deleteId,userId:userId})
 
     // RETURN SUCCESS RESPONSE!
@@ -70,19 +48,6 @@ export const deleteIncomeById = async (req, res) => {
 export const updateIncome = async (req, res) => {
   try {
     const { trans, userId, _id } = req.body
-
-    console.log(req.body)
-
-    // CHECK FOR USER ID!
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     await incomeModel.findByIdAndUpdate(_id, {
       currency: trans.currency,
@@ -102,31 +67,5 @@ export const updateIncome = async (req, res) => {
   }
 }
 
-// :GET
-// export const getCurrentIncomes = async (req, res) => {
-//   try {
-//     const { userId, month, year } = req.query
-//     // CHECK USER IN THE DATABASE!
-//     const user = await userModel.findById(userId)
 
-//     if (!user?.email || !user?.name) {
-//       // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-//       return res
-//         .status(401)
-//         .json({ error: true, message: 'Invalid Authorization!' })
-//     }
-
-//     // GET EXPENSES OF THAT USER!
-//     const incomes = await incomeModel.find({
-//       userId,
-//       month,
-//       year: Number(year)
-//     })
-
-//     res
-//       .status(200)
-//       .json({ success: true, message: 'Founded Incomes Success!', incomes })
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error!', error: true })
-//   }
-// }
+// !! -------------

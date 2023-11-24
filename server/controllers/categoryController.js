@@ -1,25 +1,12 @@
-import { budgetModel } from '../models/budgetModel.js'
 import { categoryModel } from '../models/categoryModel.js'
 import { expenseModel } from '../models/expenseModel.js'
 import { monthlyCategoryModel } from '../models/monthlyCategoryModel.js'
-import { userModel } from '../models/userModel.js'
 
 // :POST 📫 📫 📫  !!!
 export const addNewCategory = async (req, res) => {
   try {
     // DESTRUCTING DATA FROM QUERY OBJECT!
     const { categoryName, userId, colorCode } = req.body
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    // IF USER IS NOT AVAILABLE THAT HIT THIS!
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // CREATING NEW CATEGORY HERE!
     const newCategory = await categoryModel.create({
@@ -42,17 +29,6 @@ export const getCategories = async (req, res) => {
   try {
     const { userId } = req.query
 
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    // IF USER IS NOT AVAILABLE THAT HIT THIS!
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
-
     const categories = await categoryModel.find({ userId })
 
     // RETURN SUCCESS RESPONSE!
@@ -69,15 +45,7 @@ export const deleteCategory = async (req, res) => {
   try {
     // DESTRUCTING DATA FROM QUERY OBJECT!
     const { userId, deleteId } = req.query
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-    // IF USER IS NOT AVAILABLE THAT HIT THIS!
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
+   
     // DELETING THAT CATEGORY TO BE DELETE!
     await categoryModel.findByIdAndDelete(deleteId)
     // DELETE FROM MONTHLY EXPENSES CATEGORY THAT HAS THAT ID!
@@ -97,16 +65,7 @@ export const updateCategory = async (req, res) => {
   try {
     const { categoryName, userId, colorCode, id } = req.body
 
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
-
+    
     await categoryModel.findByIdAndUpdate(id, {
       categoryName,
       colorCode,
@@ -131,17 +90,6 @@ export const eachUserCategories = async (req, res) => {
   try {
     // GETTING DATA FROM OUR REQUESTED URL!
     const { userId, month, year } = req.query
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    // CHECKING FOR USER!
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // GETTING ALL CATEGORIES DATA THAT WAS CREATED BY USER!
     const userCategories = await categoryModel.find({ userId })

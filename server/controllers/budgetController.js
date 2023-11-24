@@ -5,19 +5,10 @@ import { userModel } from '../models/userModel.js'
 import { incomeModel } from '../models/incomeModel.js'
 import { expenseModel } from '../models/expenseModel.js'
 
+// FOR CREATE NEW BUDGET: POST!
 export const createNewBudget = async (req, res) => {
   try {
     const { month, date, year, userId } = req.body
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // CHECK IF BUDGET ALREADY EXISTS!
     const isBudgetExists = await budgetModel.findOne({
@@ -55,22 +46,11 @@ export const createNewBudget = async (req, res) => {
   }
 }
 
+// FOR THE UPDATE OF MONTHLY BUDGET CATEGORIES!
 export const newMonthlyBudgetCategorySettings = async (req, res) => {
   try {
     const { month, year, userId, categoryId, monthlyLimit, currency, _id } =
       req.body
-
-    console.log('DATA GETTING: ', req.body)
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // CHECK IF ALREADY EXISTS THEN ONLY UPDATE!
     if (_id) {
@@ -151,19 +131,10 @@ export const newMonthlyBudgetCategorySettings = async (req, res) => {
   }
 }
 
+// TO CREATE A NEW MONTHLY BUDGET!: POST!
 export const currentMonthBudget = async (req, res) => {
   try {
     const { userId, year, month } = req.query
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // CHECK FOR THIS MONTH BUDGET!
     const monthBudget = await budgetModel.find({
@@ -183,18 +154,6 @@ export const currentMonthBudget = async (req, res) => {
 export const deleteBudget = async (req, res) => {
   try {
     const { userId, budgetId, month, year } = req.query
-
-    console.log(req.query)
-
-    // CHECK USER IN THE DATABASE!
-    const user = await userModel.findById(userId)
-
-    if (!user?.email || !user?.name) {
-      // RETURN THAT USER IS NOT AUTHORIZED TO DO THIS TASK!
-      return res
-        .status(401)
-        .json({ error: true, message: 'Invalid Authorization!' })
-    }
 
     // DELETE BUDGET!
     await budgetModel.findByIdAndDelete(budgetId)
